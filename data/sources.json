@@ -1,0 +1,75 @@
+{
+  "collected_at": "2026-06-28T05:37:13.681Z",
+  "sources": [
+    {
+      "id": "dalseo-notices",
+      "name": "달서구 고시공고",
+      "url": "https://dalseo.daegu.kr/index.do?menu_id=10000104",
+      "status": 200,
+      "raw_file": "data/raw/dalseo-notices.html",
+      "title": "고시/공고",
+      "text_preview": "고시/공고 | 대구광역시 달서구 본문 바로가기 달서구청 의회 보건소 동행정복지센터 문화관광 학습플랫폼 달서 결혼출산 정보 다이어리 QR코드(모바일) --> 이용안내 LANGUAGE ENGLISH 中文 日文 Vietnamese --> 검색 34 ℃ 미세먼지 10 μg/㎥( 좋음 ) 오존(ozone) 0.006 ppm ( 보통 ) 상수도수질(탁도) 0.07 NTU ( 정상 ) --> | 초미세먼지 24 μg/㎥ ( 보통 ) | 미",
+      "collected_at": "2026-06-28T05:37:13.681Z"
+    },
+    {
+      "id": "dalseo-urban-plan",
+      "name": "달서구 도시관리계획 공고",
+      "url": "https://eminwon.dalseo.daegu.kr/emwp/gov/mogaha/ntis/web/ofr/action/OfrAction.do?not_ancmt_mgt_no=22294&method=selectOfrNotAncmtRegst",
+      "status": 400,
+      "raw_file": "data/raw/dalseo-urban-plan.html",
+      "title": "400 Bad Request",
+      "text_preview": "400 Bad Request 400 Bad Request The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing). If you have any questions, pl",
+      "collected_at": "2026-06-28T05:37:13.681Z"
+    },
+    {
+      "id": "dalseo-council",
+      "name": "달서구의회 영상회의록",
+      "url": "http://tv.dalseocouncil.daegu.kr/",
+      "status": 200,
+      "raw_file": "data/raw/dalseo-council.html",
+      "title": "달서구의회 영상회의록",
+      "text_preview": "",
+      "collected_at": "2026-06-28T05:37:13.681Z"
+    },
+    {
+      "id": "daegu-traffic",
+      "name": "대구교통종합정보",
+      "url": "https://car.daegu.go.kr/",
+      "status": 200,
+      "raw_file": "data/raw/daegu-traffic.html",
+      "title": "대구광역시 교통종합정보",
+      "text_preview": "--> --> 대구교통종합정보 홍보영상 보러가기 본문 바로가기 주메뉴 배너보기 --> 주메뉴 돌발/사고정보 돌발/사고 정보 교통정보 속도정보 교통량정보 교통조사자료 알림마당 센터 소개 사이트 이용안내 공지사항 관련사이트 홍보영상 --> 배너보기 --> 전체메뉴 모바일 전체메뉴 닫기 돌발/사고정보 돌발/사고정보 교통정보 속도정보 교통량정보 교통조사자료 알림마당 센터 소개 사이트 이용안내 공지사항 관련사이트 홍보영상 메인 컨텐츠 ",
+      "collected_at": "2026-06-28T05:37:13.681Z"
+    },
+    {
+      "id": "public-data-traffic",
+      "name": "공공데이터포털·대구 교통통제/교통소통 정보",
+      "url": "https://www.data.go.kr/",
+      "status": 200,
+      "raw_file": null,
+      "title": "대구광역시 교통통제·교통소통 공개데이터",
+      "text_preview": "도로공사, 행사, 사고, 통제 위치·시간, 교통 흐름을 생활영향 데이터로 정규화",
+      "collected_at": "2026-06-28T05:37:13.681Z"
+    },
+    {
+      "id": "public-data-parking",
+      "name": "대구 주차정보·공영주차장 공개정보",
+      "url": "https://dgparking.daegu.go.kr/",
+      "status": 200,
+      "raw_file": null,
+      "title": "대구광역시 주차정보",
+      "text_preview": "공영주차장 위치와 생활권 주차 수요를 지도 표시용 데이터로 정규화",
+      "collected_at": "2026-06-28T05:37:13.681Z"
+    },
+    {
+      "id": "public-data-safety",
+      "name": "생활안전지도·달서구 공공시설 공개정보",
+      "url": "https://www.safemap.go.kr/",
+      "status": 200,
+      "raw_file": null,
+      "title": "생활안전지도 및 공공시설 정보",
+      "text_preview": "보행안전, 통학, 무더위쉼터, 복지시설 접근성을 생활영향 데이터로 정규화",
+      "collected_at": "2026-06-28T05:37:13.681Z"
+    }
+  ]
+}

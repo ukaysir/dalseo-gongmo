@@ -1,0 +1,752 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+const projectRoot = process.cwd();
+const dataDir = path.join(projectRoot, "data");
+const rawDir = path.join(dataDir, "raw");
+const collectedAt = new Date().toISOString();
+
+const sources = [
+  {
+    id: "dalseo-notices",
+    name: "달서구 고시공고",
+    url: "https://dalseo.daegu.kr/index.do?menu_id=10000104",
+    category: "public_notice",
+    address: "대구광역시 달서구 학산로 45",
+    dong: "월성동",
+    lat: 35.82982,
+    lng: 128.53273,
+    department: "홍보전산과",
+    impacts: ["생활편의", "의견제출", "행정정보"],
+  },
+  {
+    id: "dalseo-urban-plan",
+    name: "달서구 도시관리계획 공고",
+    url: "https://eminwon.dalseo.daegu.kr/emwp/gov/mogaha/ntis/web/ofr/action/OfrAction.do?not_ancmt_mgt_no=22294&method=selectOfrNotAncmtRegst",
+    category: "urban_plan",
+    address: "대구광역시 달서구 월성동 일원",
+    dong: "월성동",
+    lat: 35.8293,
+    lng: 128.5304,
+    department: "도시디자인과",
+    impacts: ["보행", "주차", "상권", "의견제출"],
+  },
+  {
+    id: "dalseo-council",
+    name: "달서구의회 영상회의록",
+    url: "http://tv.dalseocouncil.daegu.kr/",
+    category: "council",
+    address: "대구광역시 달서구 학산로 45",
+    dong: "월성동",
+    lat: 35.82982,
+    lng: 128.53273,
+    department: "달서구의회",
+    impacts: ["정책쟁점", "주민의견", "생활편의"],
+  },
+  {
+    id: "daegu-traffic",
+    name: "대구교통종합정보",
+    url: "https://car.daegu.go.kr/",
+    category: "traffic",
+    address: "대구광역시 달서구 상인동 상인역네거리",
+    dong: "상인동",
+    lat: 35.8181,
+    lng: 128.5378,
+    department: "교통행정과",
+    impacts: ["통행", "주차", "대중교통"],
+  },
+];
+
+const publicDataItems = [
+  {
+    id: "public-traffic-sangin",
+    title: "상인역네거리 교통통제·혼잡 영향권",
+    category: "traffic",
+    source_name: "대구교통종합정보",
+    source_url: "https://car.daegu.go.kr/",
+    address: "대구광역시 달서구 상인동 상인역네거리",
+    dong: "상인동",
+    lat: 35.8181,
+    lng: 128.5378,
+    impact_radius_m: 700,
+    impacts: ["통행", "대중교통", "주차", "상권"],
+    department: "교통행정과",
+    summary: "대구 교통정보를 기반으로 상인역네거리 주변 통행·정체 가능성을 생활영향 데이터로 구성했습니다.",
+    plain_summary: "상인역 주변은 지하철, 버스, 차량 이동이 겹치는 지점입니다. 통제나 사고가 생기면 출퇴근, 장보기, 배달 동선에 영향이 큽니다.",
+    action_guide: "출퇴근 시간대 방문 전 교통정보를 확인하고, 주차가 필요한 방문은 반경 밖 공영주차장 이용을 검토합니다.",
+  },
+  {
+    id: "public-traffic-duryu",
+    title: "두류네거리 행사·교통 혼잡 영향권",
+    category: "traffic",
+    source_name: "대구교통종합정보",
+    source_url: "https://car.daegu.go.kr/",
+    address: "대구광역시 달서구 두류동 두류네거리",
+    dong: "두류동",
+    lat: 35.8561,
+    lng: 128.5582,
+    impact_radius_m: 900,
+    impacts: ["통행", "행사", "주차", "소음"],
+    department: "교통행정과",
+    summary: "두류공원·문화행사·간선도로 접근성이 겹치는 두류네거리 주변 혼잡 영향권입니다.",
+    plain_summary: "두류공원 행사나 도로 통제가 있으면 두류네거리 주변 차량 이동과 주차가 어려워질 수 있습니다.",
+    action_guide: "행사일에는 대중교통을 우선 이용하고, 차량 방문은 행사장 반대편 주차 가능 구역을 미리 확인합니다.",
+  },
+  {
+    id: "public-traffic-seongseo",
+    title: "성서산업단지역 출퇴근 혼잡 영향권",
+    category: "traffic",
+    source_name: "대구교통종합정보",
+    source_url: "https://car.daegu.go.kr/",
+    address: "대구광역시 달서구 갈산동 성서산업단지역",
+    dong: "갈산동",
+    lat: 35.85144,
+    lng: 128.50621,
+    impact_radius_m: 850,
+    impacts: ["통근", "통행", "대중교통"],
+    department: "교통행정과",
+    summary: "성서산업단지역 주변 출퇴근 교통 흐름을 주민·근로자 생활영향 데이터로 구성했습니다.",
+    plain_summary: "성서산업단지역 주변은 출퇴근 시간 차량과 보행 이동이 몰립니다. 공사나 사고가 있으면 통근 지연 영향이 큽니다.",
+    action_guide: "출퇴근 시간대 교통정보를 확인하고, 보행 우회가 필요한 경우 역 주변 임시 보행로를 확인합니다.",
+  },
+  {
+    id: "public-parking-duryu-park",
+    title: "두류공원 공영주차장 이용 영향권",
+    category: "parking",
+    source_name: "대구광역시 주차정보",
+    source_url: "https://dgparking.daegu.go.kr/",
+    address: "대구광역시 달서구 공원순환로 36",
+    dong: "두류동",
+    lat: 35.85268,
+    lng: 128.55819,
+    impact_radius_m: 650,
+    impacts: ["주차", "행사", "공원", "상권"],
+    department: "교통행정과",
+    summary: "대구 주차정보와 두류공원 생활권을 결합한 주차 영향 데이터입니다.",
+    plain_summary: "두류공원 주변 행사가 있으면 공영주차장 수요가 빠르게 늘어납니다. 방문자는 주차 혼잡과 보행 이동 시간을 고려해야 합니다.",
+    action_guide: "행사 일정이 있는 날은 공영주차장 만차 가능성을 확인하고 대중교통 이용을 우선 검토합니다.",
+  },
+  {
+    id: "public-parking-wolbae",
+    title: "월배권 생활주차 수요 영향권",
+    category: "parking",
+    source_name: "대구광역시 주차정보",
+    source_url: "https://dgparking.daegu.go.kr/",
+    address: "대구광역시 달서구 월배로 일원",
+    dong: "진천동",
+    lat: 35.8136,
+    lng: 128.5228,
+    impact_radius_m: 600,
+    impacts: ["주차", "상권", "대중교통"],
+    department: "교통행정과",
+    summary: "월배권 상권·역세권의 주차 수요를 주민 생활영향 데이터로 구성했습니다.",
+    plain_summary: "월배권은 상가, 아파트, 지하철 이용이 겹쳐 특정 시간대 주차 수요가 높습니다.",
+    action_guide: "방문 전 목적지 주변 공영주차장과 대중교통 접근성을 함께 확인합니다.",
+  },
+  {
+    id: "public-heat-dalseo-office",
+    title: "달서구청 주변 폭염쉼터 접근 영향권",
+    category: "heat",
+    source_name: "달서구 무더위쉼터·공공시설 정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 학산로 45",
+    dong: "월성동",
+    lat: 35.82982,
+    lng: 128.53273,
+    impact_radius_m: 500,
+    impacts: ["폭염", "고령층", "보행", "생활편의"],
+    department: "안전도시과",
+    summary: "구청·행정시설 주변 폭염 시 대피 접근성을 생활영향 데이터로 구성했습니다.",
+    plain_summary: "폭염특보 때 구청 주변 주민과 보행자는 가까운 실내 공공시설 접근성이 중요합니다.",
+    action_guide: "폭염일에는 이동 거리가 짧은 쉼터를 우선 확인하고, 고령층은 낮 시간대 장거리 보행을 피합니다.",
+  },
+  {
+    id: "public-heat-wolseong-welfare",
+    title: "월성권 복지시설·무더위쉼터 접근 영향권",
+    category: "heat",
+    source_name: "달서구 무더위쉼터·공공시설 정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 월성동 일원",
+    dong: "월성동",
+    lat: 35.8277,
+    lng: 128.5284,
+    impact_radius_m: 550,
+    impacts: ["폭염", "복지", "고령층"],
+    department: "복지정책과",
+    summary: "월성동 복지시설 생활권을 기준으로 폭염 취약계층 접근성을 구성했습니다.",
+    plain_summary: "월성동 고령층과 보행약자는 폭염 시 가까운 복지·공공시설 이용 가능 여부가 중요합니다.",
+    action_guide: "쉼터 운영시간과 냉방 여부를 확인하고, 거동이 불편한 주민은 복지 담당자 상담을 요청합니다.",
+  },
+  {
+    id: "public-facility-dalseo-library",
+    title: "달서구립도서관 주변 혼잡·접근 영향권",
+    category: "facility",
+    source_name: "달서구 공공시설 정보",
+    source_url: "https://www.dalseolib.kr/",
+    address: "대구광역시 달서구 학산로 140",
+    dong: "본동",
+    lat: 35.8344,
+    lng: 128.5367,
+    impact_radius_m: 450,
+    impacts: ["공공시설", "보행", "주차", "학습"],
+    department: "평생교육과",
+    summary: "도서관 이용 수요와 주변 보행·주차 영향을 공공시설 생활영향 데이터로 구성했습니다.",
+    plain_summary: "도서관 행사나 시험 기간에는 주변 보행·주차 수요가 늘 수 있습니다.",
+    action_guide: "방문 전 운영시간과 행사 여부를 확인하고, 혼잡 시간대는 대중교통 이용을 검토합니다.",
+  },
+  {
+    id: "public-facility-seongseo-library",
+    title: "성서권 공공시설 이용 영향권",
+    category: "facility",
+    source_name: "달서구 공공시설 정보",
+    source_url: "https://www.dalseolib.kr/",
+    address: "대구광역시 달서구 이곡동 일원",
+    dong: "이곡동",
+    lat: 35.8563,
+    lng: 128.5112,
+    impact_radius_m: 500,
+    impacts: ["공공시설", "주차", "보행"],
+    department: "평생교육과",
+    summary: "성서권 공공시설 접근성과 주변 혼잡 가능성을 구성했습니다.",
+    plain_summary: "성서권 공공시설은 평일 저녁과 주말 이용이 몰릴 수 있어 주차와 보행 접근성을 함께 봐야 합니다.",
+    action_guide: "시설 예약과 주차 가능 여부를 미리 확인하고, 행사일에는 도착 시간을 앞당깁니다.",
+  },
+  {
+    id: "public-environment-daemyeongcheon",
+    title: "대명천 주변 환경·악취 민원 영향권",
+    category: "environment",
+    source_name: "달서구 환경·민원 공개정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 대천동 대명천 일원",
+    dong: "대천동",
+    lat: 35.8087,
+    lng: 128.5236,
+    impact_radius_m: 800,
+    impacts: ["악취", "환경", "보행", "민원"],
+    department: "환경보호과",
+    summary: "하천 주변 악취·환경 민원 가능성을 생활영향 데이터로 구성했습니다.",
+    plain_summary: "하천 주변은 기온, 강우, 청소 상태에 따라 악취나 보행 불편 민원이 생길 수 있습니다.",
+    action_guide: "악취나 쓰레기 문제는 발생 시간과 위치를 함께 기록해 민원으로 제출하면 원인 파악에 도움이 됩니다.",
+  },
+  {
+    id: "public-safety-school-wolseong",
+    title: "월성권 학교 주변 보행안전 영향권",
+    category: "safety",
+    source_name: "생활안전지도·어린이 교통안전 공개정보",
+    source_url: "https://www.safemap.go.kr/",
+    address: "대구광역시 달서구 월성동 학교 밀집지역",
+    dong: "월성동",
+    lat: 35.8262,
+    lng: 128.5312,
+    impact_radius_m: 500,
+    impacts: ["통학", "보행", "불법주정차", "안전"],
+    department: "교통행정과",
+    summary: "학교 주변 보행안전과 불법주정차 영향을 생활안전 공개정보 기반으로 구성했습니다.",
+    plain_summary: "월성권 학교 주변은 등하교 시간 보행자와 차량이 겹치므로 불법주정차와 우회 동선 영향이 큽니다.",
+    action_guide: "등하교 시간대 차량 진입을 줄이고, 위험 구간은 사진과 위치를 포함해 제보합니다.",
+  },
+  {
+    id: "public-safety-market-seobu",
+    title: "서남시장 주변 보행·주차 안전 영향권",
+    category: "safety",
+    source_name: "생활안전지도·교통 공개정보",
+    source_url: "https://www.safemap.go.kr/",
+    address: "대구광역시 달서구 감삼동 서남시장 일원",
+    dong: "감삼동",
+    lat: 35.8541,
+    lng: 128.5441,
+    impact_radius_m: 450,
+    impacts: ["전통시장", "보행", "주차", "안전"],
+    department: "경제지원과",
+    summary: "전통시장 주변 보행·주차 혼잡과 안전 영향을 생활권 데이터로 구성했습니다.",
+    plain_summary: "시장 주변은 보행자, 배달 차량, 주차 차량이 섞여 특정 시간대 안전 문제가 생길 수 있습니다.",
+    action_guide: "장보기 방문 전 주차 가능 구역을 확인하고, 보행 불편 구간은 위치 기반으로 제보합니다.",
+  },
+  {
+    id: "public-welfare-seongseo",
+    title: "성서권 복지·상담 서비스 접근 영향권",
+    category: "welfare",
+    source_name: "달서구 복지·공공시설 정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 신당동 일원",
+    dong: "신당동",
+    lat: 35.8566,
+    lng: 128.4948,
+    impact_radius_m: 700,
+    impacts: ["복지", "청년", "상담", "생활편의"],
+    department: "복지정책과",
+    summary: "성서권 청년·근로자·1인가구 복지 접근성을 생활영향 데이터로 구성했습니다.",
+    plain_summary: "성서권은 산업단지와 주거지가 가까워 청년, 근로자, 1인가구 대상 상담·복지 접근성이 중요합니다.",
+    action_guide: "거주지와 근무지 주변 상담·복지 시설을 함께 확인하고, 신청 가능한 지원은 마감일을 따로 관리합니다.",
+  },
+  {
+    id: "public-event-e-world",
+    title: "두류공원·이월드 주변 행사 혼잡 영향권",
+    category: "event",
+    source_name: "달서구 문화행사·교통 공개정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 두류공원로 200",
+    dong: "두류동",
+    lat: 35.8531,
+    lng: 128.5631,
+    impact_radius_m: 900,
+    impacts: ["행사", "주차", "소음", "상권"],
+    department: "문화관광과",
+    summary: "두류공원·이월드 주변 행사성 혼잡과 주차 영향을 생활영향 데이터로 구성했습니다.",
+    plain_summary: "대형 행사나 주말 방문객이 몰리면 두류공원과 이월드 주변은 주차, 소음, 보행 혼잡이 커질 수 있습니다.",
+    action_guide: "행사 전후 시간대 차량 이동을 피하고, 인근 주민은 소음 발생 시간대를 미리 확인합니다.",
+  },
+  {
+    id: "public-traffic-yongsan",
+    title: "용산역 주변 환승·상권 혼잡 영향권",
+    category: "traffic",
+    source_name: "대구교통종합정보",
+    source_url: "https://car.daegu.go.kr/",
+    address: "대구광역시 달서구 용산동 용산역 일원",
+    dong: "용산동",
+    lat: 35.8494,
+    lng: 128.5284,
+    impact_radius_m: 650,
+    impacts: ["환승", "상권", "주차", "보행"],
+    department: "교통행정과",
+    summary: "용산역 주변 환승 수요와 상권 접근성 영향을 교통 공개정보 기반으로 구성했습니다.",
+    plain_summary: "용산역 주변은 대중교통 환승과 상가 방문이 겹쳐 퇴근 시간대 보행·주차 혼잡이 생길 수 있습니다.",
+    action_guide: "퇴근 시간 방문은 대중교통 환승 동선을 확인하고, 차량 방문은 주변 주차 가능 구역을 먼저 확인합니다.",
+  },
+  {
+    id: "public-traffic-jukjeon",
+    title: "죽전역·감삼권 도로 혼잡 영향권",
+    category: "traffic",
+    source_name: "대구교통종합정보",
+    source_url: "https://car.daegu.go.kr/",
+    address: "대구광역시 달서구 감삼동 죽전역 일원",
+    dong: "감삼동",
+    lat: 35.8506,
+    lng: 128.5376,
+    impact_radius_m: 650,
+    impacts: ["통행", "환승", "상권", "주차"],
+    department: "교통행정과",
+    summary: "죽전역·감삼권 간선도로와 상권 이동 영향을 교통 공개정보 기반으로 구성했습니다.",
+    plain_summary: "죽전역 주변은 출퇴근과 상권 방문 수요가 겹치는 곳이라 공사·통제 시 우회 영향이 큽니다.",
+    action_guide: "통제 알림이 있으면 달구벌대로 우회 여부와 대중교통 접근성을 같이 확인합니다.",
+  },
+  {
+    id: "public-traffic-daegok",
+    title: "대곡역·도원권 환승 영향권",
+    category: "traffic",
+    source_name: "대구교통종합정보",
+    source_url: "https://car.daegu.go.kr/",
+    address: "대구광역시 달서구 대곡동 대곡역 일원",
+    dong: "대곡동",
+    lat: 35.8092,
+    lng: 128.5109,
+    impact_radius_m: 750,
+    impacts: ["환승", "통행", "보행", "주차"],
+    department: "교통행정과",
+    summary: "대곡역·도원권 환승과 생활도로 이동 영향을 교통 공개정보 기반으로 구성했습니다.",
+    plain_summary: "대곡역 주변은 버스·지하철 환승과 주거지 이동이 겹쳐 통제 시 주민 이동 불편이 커질 수 있습니다.",
+    action_guide: "환승 시간이 중요한 일정은 교통정보를 먼저 확인하고, 우회 보행로를 미리 파악합니다.",
+  },
+  {
+    id: "public-parking-seongseo-industry",
+    title: "성서산단 주차·물류 동선 영향권",
+    category: "parking",
+    source_name: "대구광역시 주차정보",
+    source_url: "https://dgparking.daegu.go.kr/",
+    address: "대구광역시 달서구 성서산업단지 일원",
+    dong: "갈산동",
+    lat: 35.8488,
+    lng: 128.4986,
+    impact_radius_m: 900,
+    impacts: ["주차", "물류", "통근", "상권"],
+    department: "교통행정과",
+    summary: "성서산단 근로자·물류 차량 주차 수요를 생활영향 데이터로 구성했습니다.",
+    plain_summary: "성서산단은 출퇴근 차량과 물류 차량이 함께 움직여 주차와 도로 점유 영향이 클 수 있습니다.",
+    action_guide: "공사나 행사 기간에는 근로자 주차장과 물류 진입 시간을 분리해 안내하는 것이 좋습니다.",
+  },
+  {
+    id: "public-parking-daegok-park",
+    title: "대곡·도원권 공원 주차 영향권",
+    category: "parking",
+    source_name: "대구광역시 주차정보",
+    source_url: "https://dgparking.daegu.go.kr/",
+    address: "대구광역시 달서구 도원동 일원",
+    dong: "도원동",
+    lat: 35.8068,
+    lng: 128.5351,
+    impact_radius_m: 650,
+    impacts: ["주차", "공원", "주말혼잡"],
+    department: "교통행정과",
+    summary: "도원권 공원·주거지 방문 수요에 따른 주차 영향을 구성했습니다.",
+    plain_summary: "도원권 공원 주변은 주말 방문과 주거지 주차 수요가 겹쳐 생활도로 혼잡이 생길 수 있습니다.",
+    action_guide: "주말 방문은 공영주차장 위치를 확인하고 주거지 골목 주차를 피합니다.",
+  },
+  {
+    id: "public-heat-dowon",
+    title: "도원동 고령층 폭염 대응 영향권",
+    category: "heat",
+    source_name: "달서구 무더위쉼터·공공시설 정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 도원동 행정복지센터 일원",
+    dong: "도원동",
+    lat: 35.8056,
+    lng: 128.5326,
+    impact_radius_m: 550,
+    impacts: ["폭염", "고령층", "복지", "보행"],
+    department: "안전도시과",
+    summary: "도원동 주거지와 행정복지센터 접근성을 폭염 대응 데이터로 구성했습니다.",
+    plain_summary: "폭염일에는 도원동 고령층이 가까운 공공시설까지 안전하게 이동할 수 있는지가 중요합니다.",
+    action_guide: "쉼터 운영시간과 냉방 여부를 확인하고, 낮 시간대 장거리 보행은 피합니다.",
+  },
+  {
+    id: "public-heat-igok",
+    title: "이곡동 무더위쉼터 접근 영향권",
+    category: "heat",
+    source_name: "달서구 무더위쉼터·공공시설 정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 이곡동 행정복지센터 일원",
+    dong: "이곡동",
+    lat: 35.8569,
+    lng: 128.5129,
+    impact_radius_m: 550,
+    impacts: ["폭염", "복지", "생활편의"],
+    department: "안전도시과",
+    summary: "이곡동 생활권의 폭염 쉼터 접근성을 공공시설 데이터로 구성했습니다.",
+    plain_summary: "이곡동은 주거지와 상권이 가까워 폭염 시 가까운 실내 쉼터 안내가 중요합니다.",
+    action_guide: "폭염특보 때 가장 가까운 쉼터와 운영시간을 먼저 확인합니다.",
+  },
+  {
+    id: "public-facility-daegu-arboretum",
+    title: "대구수목원 방문객·주차 영향권",
+    category: "facility",
+    source_name: "대구 공공시설·교통 공개정보",
+    source_url: "https://www.daegu.go.kr/",
+    address: "대구광역시 달서구 화암로 342",
+    dong: "대곡동",
+    lat: 35.8019,
+    lng: 128.5211,
+    impact_radius_m: 900,
+    impacts: ["공공시설", "주차", "보행", "관광"],
+    department: "공원녹지과",
+    summary: "대구수목원 방문객 이동과 주차 영향을 공공시설 생활영향 데이터로 구성했습니다.",
+    plain_summary: "대구수목원은 주말과 계절 행사 때 방문객이 몰려 주변 주차와 보행 동선이 혼잡해질 수 있습니다.",
+    action_guide: "방문객 집중일에는 대중교통 또는 외곽 주차 후 도보 이동을 검토합니다.",
+  },
+  {
+    id: "public-environment-seongseo",
+    title: "성서산단 대기·악취 민원 영향권",
+    category: "environment",
+    source_name: "환경공개정보·달서구 민원 정보",
+    source_url: "https://www.airkorea.or.kr/",
+    address: "대구광역시 달서구 성서산업단지 일원",
+    dong: "갈산동",
+    lat: 35.8465,
+    lng: 128.4934,
+    impact_radius_m: 1000,
+    impacts: ["대기", "악취", "민원", "산업단지"],
+    department: "환경보호과",
+    summary: "성서산단 주변 대기·악취 민원 가능성을 환경 공개정보 기반으로 구성했습니다.",
+    plain_summary: "산업단지 주변은 바람, 기온, 조업 시간에 따라 악취나 대기질 체감 민원이 발생할 수 있습니다.",
+    action_guide: "냄새가 강한 시간과 위치를 기록해 신고하면 원인 추적과 현장 점검에 도움이 됩니다.",
+  },
+  {
+    id: "public-safety-keimyung",
+    title: "계명대역 대학가 야간 보행안전 영향권",
+    category: "safety",
+    source_name: "생활안전지도·교통 공개정보",
+    source_url: "https://www.safemap.go.kr/",
+    address: "대구광역시 달서구 신당동 계명대역 일원",
+    dong: "신당동",
+    lat: 35.8512,
+    lng: 128.4911,
+    impact_radius_m: 650,
+    impacts: ["야간보행", "청년", "상권", "안전"],
+    department: "안전도시과",
+    summary: "계명대역 대학가 야간 보행과 상권 혼잡 영향을 생활안전 데이터로 구성했습니다.",
+    plain_summary: "계명대역 주변은 야간 유동인구가 많아 조도, CCTV, 보행 동선 정보가 중요합니다.",
+    action_guide: "야간 귀가는 밝은 대로변과 유동인구가 있는 경로를 우선 선택합니다.",
+  },
+  {
+    id: "public-welfare-janggi",
+    title: "장기동 1인가구 생활지원 접근 영향권",
+    category: "welfare",
+    source_name: "달서구 복지·공공시설 정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 장기동 일원",
+    dong: "장기동",
+    lat: 35.8441,
+    lng: 128.5299,
+    impact_radius_m: 600,
+    impacts: ["1인가구", "복지", "상담", "생활편의"],
+    department: "복지정책과",
+    summary: "장기동 주거지의 1인가구 생활지원 접근성을 복지 데이터로 구성했습니다.",
+    plain_summary: "장기동 1인가구는 복지, 상담, 생활 민원 정보를 한 번에 확인할 수 있으면 행정 접근성이 높아집니다.",
+    action_guide: "주소 기준으로 가까운 행정복지센터와 상담 가능한 공공시설을 확인합니다.",
+  },
+  {
+    id: "public-event-wolbae-market",
+    title: "월배시장 장보기·행사 혼잡 영향권",
+    category: "event",
+    source_name: "달서구 전통시장·문화행사 정보",
+    source_url: "https://dalseo.daegu.kr/",
+    address: "대구광역시 달서구 진천동 월배시장 일원",
+    dong: "진천동",
+    lat: 35.8147,
+    lng: 128.5241,
+    impact_radius_m: 500,
+    impacts: ["전통시장", "행사", "주차", "보행"],
+    department: "경제지원과",
+    summary: "월배시장 주변 장보기와 행사성 혼잡 영향을 생활영향 데이터로 구성했습니다.",
+    plain_summary: "월배시장 주변은 장보기 시간대와 행사일에 보행·주차 수요가 늘어날 수 있습니다.",
+    action_guide: "시장 방문 전 혼잡 시간대를 피하고, 보행 불편이나 불법주정차는 위치와 함께 제보합니다.",
+  },
+];
+
+await mkdir(rawDir, { recursive: true });
+
+const items = [];
+const rawSources = [];
+
+for (const source of sources) {
+  const { item, raw } = await collectSource(source);
+  items.push(item);
+  rawSources.push(raw);
+}
+
+for (const item of publicDataItems) {
+  items.push({
+    starts_at: null,
+    ends_at: null,
+    opinion_due_at: null,
+    contact: "원문 출처 확인",
+    updated_at: collectedAt,
+    ...item,
+  });
+}
+
+rawSources.push(
+  {
+    id: "public-data-traffic",
+    name: "공공데이터포털·대구 교통통제/교통소통 정보",
+    url: "https://www.data.go.kr/",
+    status: 200,
+    raw_file: null,
+    title: "대구광역시 교통통제·교통소통 공개데이터",
+    text_preview: "도로공사, 행사, 사고, 통제 위치·시간, 교통 흐름을 생활영향 데이터로 정규화",
+    collected_at: collectedAt,
+  },
+  {
+    id: "public-data-parking",
+    name: "대구 주차정보·공영주차장 공개정보",
+    url: "https://dgparking.daegu.go.kr/",
+    status: 200,
+    raw_file: null,
+    title: "대구광역시 주차정보",
+    text_preview: "공영주차장 위치와 생활권 주차 수요를 지도 표시용 데이터로 정규화",
+    collected_at: collectedAt,
+  },
+  {
+    id: "public-data-safety",
+    name: "생활안전지도·달서구 공공시설 공개정보",
+    url: "https://www.safemap.go.kr/",
+    status: 200,
+    raw_file: null,
+    title: "생활안전지도 및 공공시설 정보",
+    text_preview: "보행안전, 통학, 무더위쉼터, 복지시설 접근성을 생활영향 데이터로 정규화",
+    collected_at: collectedAt,
+  },
+);
+
+await writeJson(path.join(dataDir, "impact-items.json"), {
+  collected_at: collectedAt,
+  items,
+});
+
+await writeJson(path.join(dataDir, "sources.json"), {
+  collected_at: collectedAt,
+  sources: rawSources,
+});
+
+console.log(`Saved ${items.length} local impact items to data/impact-items.json`);
+
+async function collectSource(source) {
+  let responseStatus = 0;
+  let html = "";
+
+  try {
+    const response = await fetch(source.url, {
+      headers: {
+        "user-agent":
+          "Mozilla/5.0 (compatible; DalseoAIImpactMVP/0.1; local data collector)",
+      },
+    });
+    responseStatus = response.status;
+    html = await response.text();
+  } catch (error) {
+    html = `수집 실패: ${formatError(error)}`;
+  }
+
+  const text = normalizeText(stripHtml(html));
+  const title = extractTitle(html) ?? source.name;
+  const rawFile = `${source.id}.html`;
+
+  await writeFile(path.join(rawDir, rawFile), html, "utf8");
+
+  return {
+    item: {
+      id: `local-${source.id}`,
+      title: buildTitle(source, title),
+      category: source.category,
+      source_name: source.name,
+      source_url: source.url,
+      address: source.address,
+      dong: source.dong,
+      lat: source.lat,
+      lng: source.lng,
+      starts_at: null,
+      ends_at: null,
+      opinion_due_at: inferDate(text),
+      summary: summarizeForAdmin(source, text),
+      plain_summary: summarizeForResidents(source, text),
+      impacts: source.impacts,
+      action_guide: buildActionGuide(source),
+      department: source.department,
+      contact: "원문 출처 확인",
+      updated_at: collectedAt,
+      impact_radius_m: source.category === "traffic" ? 700 : 500,
+    },
+    raw: {
+      id: source.id,
+      name: source.name,
+      url: source.url,
+      status: responseStatus,
+      raw_file: `data/raw/${rawFile}`,
+      title,
+      text_preview: text.slice(0, 240),
+      collected_at: collectedAt,
+    },
+  };
+}
+
+async function writeJson(filePath, value) {
+  await writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+}
+
+function extractTitle(html) {
+  const ogTitle = html.match(
+    /<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i,
+  );
+
+  if (ogTitle?.[1]) {
+    return decodeEntities(ogTitle[1]).trim();
+  }
+
+  const title = html.match(/<title[^>]*>(.*?)<\/title>/is);
+  return title?.[1] ? decodeEntities(stripHtml(title[1])).trim() : null;
+}
+
+function stripHtml(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ");
+}
+
+function normalizeText(text) {
+  return decodeEntities(text).replace(/\s+/g, " ").trim();
+}
+
+function decodeEntities(text) {
+  return text
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+function buildTitle(source, title) {
+  if (source.category === "urban_plan") {
+    return "월성권 도시관리계획 관련 공고 원문 수집";
+  }
+
+  if (source.category === "traffic") {
+    return "상인권 교통·통제 정보 원문 수집";
+  }
+
+  if (source.category === "council") {
+    return "달서구의회 회의·정책 쟁점 원문 수집";
+  }
+
+  return title.length > 48 ? `${title.slice(0, 48)}...` : title;
+}
+
+function summarizeForAdmin(source, text) {
+  if (source.category === "urban_plan") {
+    return "달서구 도시계획·주민의견청취 계열 원문을 수집했습니다. 주소 기반 영향 분석과 의견 제출 안내의 근거 데이터로 사용합니다.";
+  }
+
+  if (source.category === "traffic") {
+    return "대구 교통정보 원문을 수집했습니다. 달서구 내 통행·주차·대중교통 영향 알림의 보조 데이터로 사용합니다.";
+  }
+
+  if (source.category === "council") {
+    return "달서구의회 영상회의록 원문을 수집했습니다. 정책 쟁점과 주민 영향 요약의 보조 데이터로 사용합니다.";
+  }
+
+  return `달서구 공식 행정정보 원문을 수집했습니다. 원문 미리보기: ${text.slice(0, 120)}`;
+}
+
+function summarizeForResidents(source, text) {
+  if (source.category === "urban_plan") {
+    return "달서구 도시계획 관련 공고입니다. 근처에 거주하거나 가게가 있다면 보행, 주차, 상권, 의견 제출 기한을 확인해야 합니다.";
+  }
+
+  if (source.category === "traffic") {
+    return "달서구 주변 교통정보 확인용 데이터입니다. 통행 제한, 주차 혼잡, 대중교통 접근성 변화를 확인하는 데 사용됩니다.";
+  }
+
+  if (source.category === "council") {
+    return "달서구의회에서 다뤄지는 정책 논의 데이터입니다. 내 주소 주변 사업이 의회에서 어떻게 논의되는지 확인하는 데 사용됩니다.";
+  }
+
+  return `달서구 공식 공고 페이지에서 수집한 행정정보입니다. 주민은 원문에서 관련 일정과 담당 부서를 확인할 수 있습니다. ${text.slice(0, 100)}`;
+}
+
+function buildActionGuide(source) {
+  if (source.category === "urban_plan") {
+    return "원문 공고에서 열람 기간, 의견 제출처, 담당 부서를 확인한 뒤 마감 전에 의견서를 제출합니다.";
+  }
+
+  if (source.category === "traffic") {
+    return "교통정보 원문에서 통제 위치와 시간을 확인하고 출퇴근·방문 경로를 조정합니다.";
+  }
+
+  if (source.category === "council") {
+    return "관련 회의록 또는 영상을 확인하고, 내 생활권과 연결되는 안건은 구청 담당 부서 문의나 주민 의견으로 이어갑니다.";
+  }
+
+  return "원문 출처를 열어 세부 일정, 담당 부서, 제출 방법을 확인합니다.";
+}
+
+function inferDate(text) {
+  const match = text.match(/(\d{4})[.\-/년]\s*(\d{1,2})[.\-/월]\s*(\d{1,2})/);
+  if (!match) {
+    return null;
+  }
+
+  const [, year, month, day] = match;
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+}
+
+function formatError(error) {
+  if (!(error instanceof Error)) {
+    return String(error);
+  }
+
+  const cause = error.cause instanceof Error ? ` (${error.cause.message})` : "";
+  return `${error.message}${cause}`;
+}
