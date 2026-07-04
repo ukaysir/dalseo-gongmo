@@ -2,7 +2,7 @@
 
 달서구 고시공고, 도시계획, 구의회 회의록, 교통통제, 주차, 안전, 복지, 환경 데이터를 주민 주소 기준으로 요약하는 공공서비스 MVP입니다.
 
-현재 구현은 생성형 AI API를 호출하지 않습니다. 서비스명에는 `AI`가 포함되어 있지만, MVP 런타임은 공식·공공 데이터 수집본과 규칙 기반 거리/긴급도/출처 점수로 생활영향 요약을 생성합니다. 실제 AI 원문 요약은 API 키, 원문 파서, 검수 흐름이 준비된 뒤 붙이는 다음 단계입니다.
+현재 구현은 생성형 AI API를 호출하지 않습니다. 서비스명에는 `AI`가 포함되어 있지만, MVP 런타임은 Supabase/로컬 수집 데이터와 대구 공공 API를 합친 뒤 규칙 기반 거리/긴급도/출처 점수로 생활영향 요약을 생성합니다. OpenAI 기반 채팅과 리포트는 API 키, 원문 파서, 검수 흐름이 준비된 뒤 붙이는 다음 단계입니다.
 
 ## 기술 스택
 
@@ -38,7 +38,7 @@ node scripts/sync-supabase-data.mjs
 - `data/collection-report.json`: 수집 결과와 검증 요약
 - `data/SOURCE_NOTES.md`: 활용 출처와 데이터 한계
 
-`/api/impacts` 응답의 `source` 값이 `supabase`이면 DB, `local_file`이면 로컬 수집 데이터를 읽고 있는 상태입니다. `data/impact-items.json`이 없으면 앱은 MVP 시연용 샘플 데이터로 동작합니다.
+`/api/impacts` 응답의 `source` 값이 `supabase+public_api`이면 DB와 실시간 공공 API가 함께 반영된 상태입니다. `supabase`는 DB만, `local_file`은 로컬 수집 데이터, `sample`은 MVP 시연용 샘플 데이터를 의미합니다.
 
 추적 가능한 장시간 수집 인벤토리는 별도 명령으로 생성합니다.
 
@@ -83,7 +83,7 @@ npm run collect:deep -- --minutes=20
   - Endpoint: `https://apis.data.go.kr/6270000/service/rest1/linkspeed`
   - 앱 반영: 달서구 주요 지명과 매칭되는 서행 구간만 `/api/impacts` 결과에 병합
 
-다음 우선순위:
+승인/키 상태 확인 후 연결할 API:
 
 - 달서구 교통 데이터 API
   - Base Endpoint: `https://apis.data.go.kr/3470000/dalseoTransport`
@@ -95,6 +95,7 @@ npm run collect:deep -- --minutes=20
   - 민영주차장 운영 현황: `/viewPrivateParkList`
   - 노인장애인보호구역 현황: `/viewElderyDisabledProtectedAreaList`
   - 사용 방식: 주차/보호구역/불법주정차 생활 영향 정기 동기화
+  - 현재 상태: 제공된 키로 호출 시 접근 제한이 확인되어 런타임 병합 대상에서는 제외
 
 ## 지도 기능
 
@@ -121,7 +122,7 @@ curl "https://dalseo-ai-impact.vercel.app/api/impacts?address=달서구청&radiu
 
 ```json
 {
-  "source": "supabase",
+  "source": "supabase+public_api",
   "radius_m": 1000,
   "items": []
 }

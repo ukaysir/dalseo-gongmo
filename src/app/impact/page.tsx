@@ -255,8 +255,8 @@ export default function ImpactPage() {
       <AppHeader />
 
       <div className="w-full px-4 py-4 sm:px-6 lg:px-8">
-        <section className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(420px,0.65fr)]">
-          <section className="surface overflow-visible p-5">
+        <section className="grid items-stretch gap-4 xl:grid-cols-2">
+          <section className="surface min-w-0 overflow-visible p-5">
             <div className="max-w-2xl">
               <p className="flex items-center gap-2 text-sm font-bold text-dalseo-accent">
                 <LocateFixed aria-hidden="true" className="size-4" />
@@ -457,31 +457,31 @@ function CoachPanel({
   profileLabel: string;
 }) {
   return (
-    <section className="surface overflow-hidden">
+    <section className="surface min-w-0 overflow-hidden">
       <div className="border-b border-dalseo-border bg-dalseo-soft p-5">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="flex items-center gap-2 text-lg font-extrabold">
+            <h2 className="flex items-center gap-2 text-xl font-extrabold">
               <ShieldCheck aria-hidden="true" className="size-5 text-dalseo-accent" />
               생활영향 코치
             </h2>
-            <p className="mt-1 text-sm leading-6 text-dalseo-muted">{profileLabel} 기준 추천</p>
+            <p className="mt-1 text-base leading-7 text-dalseo-muted">{profileLabel} 기준 추천</p>
           </div>
           <span className="meta-badge">기본 분석</span>
         </div>
-        <p className="mt-3 text-base font-extrabold leading-7 text-pretty">{coach.headline}</p>
-        <p className="mt-2 text-sm leading-6 text-dalseo-muted">{coach.priority}</p>
+        <p className="mt-4 text-lg font-extrabold leading-8 text-pretty">{coach.headline}</p>
+        <p className="mt-2 text-base leading-7 text-dalseo-muted">{coach.priority}</p>
       </div>
 
-      <div className="space-y-4 p-5">
+      <div className="space-y-5 p-5">
         <section>
-          <h3 className="text-sm font-extrabold">왜 이렇게 보나요</h3>
-          <p className="mt-2 text-sm leading-6 text-dalseo-muted">{coach.reason}</p>
+          <h3 className="text-base font-extrabold">왜 이렇게 보나요</h3>
+          <p className="mt-2 text-base leading-7 text-dalseo-muted">{coach.reason}</p>
         </section>
 
         <section>
-          <h3 className="text-sm font-extrabold">추천 행동</h3>
-          <ul className="mt-2 space-y-2 text-sm leading-6 text-dalseo-muted">
+          <h3 className="text-base font-extrabold">추천 행동</h3>
+          <ul className="mt-2 space-y-2 text-base leading-7 text-dalseo-muted">
             {coach.actions.map((action) => (
               <li key={action} className="flex gap-2">
                 <span className="mt-2 size-1.5 shrink-0 rounded-full bg-dalseo-accent" />
@@ -492,8 +492,8 @@ function CoachPanel({
         </section>
 
         <section className="rounded-dalseo bg-white p-3">
-          <h3 className="text-sm font-extrabold">주의</h3>
-          <ul className="mt-2 space-y-2 text-xs leading-5 text-dalseo-muted">
+          <h3 className="text-base font-extrabold">주의</h3>
+          <ul className="mt-2 space-y-2 text-sm leading-6 text-dalseo-muted">
             {coach.watchouts.map((watchout) => (
               <li key={watchout}>{watchout}</li>
             ))}

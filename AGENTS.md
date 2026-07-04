@@ -217,7 +217,7 @@ Do not add this to the MVP without also addressing privacy and data retention.
 
 ## Current Architecture
 
-The app reads Supabase first and falls back to local JSON data.
+The app reads Supabase first, falls back to local JSON data, and merges selected live public API records when credentials are available.
 
 Runtime data flow:
 
@@ -226,9 +226,10 @@ Runtime data flow:
 3. The API reads Supabase through `src/lib/data-source.ts`.
 4. If Supabase is unavailable or empty, the API reads `data/impact-items.json`.
 5. If local data is missing, the API falls back to sample data.
-6. Distance and relevance are calculated in `src/lib/geo.ts`.
-7. Search insight text is generated in `src/lib/insight.ts`.
-8. The dashboard renders summary, map, issue list, and detail panel.
+6. `src/lib/live-impact-data.ts` adds compatible public API items such as Daegu incident traffic data and slow traffic segments.
+7. Distance and relevance are calculated in `src/lib/geo.ts`.
+8. Search insight text is generated in `src/lib/insight.ts`.
+9. The dashboard renders summary, map, issue list, detail panel, and lifestyle coach.
 
 Important files:
 
@@ -242,6 +243,7 @@ Important files:
 - `src/lib/insight.ts`: resident-facing result summary.
 - `src/lib/local-data.ts`: local JSON reader.
 - `src/lib/data-source.ts`: Supabase-first data access with local fallback.
+- `src/lib/live-impact-data.ts`: public API integration and normalization.
 - `src/lib/supabase.ts`: server Supabase client.
 - `src/lib/sample-data.ts`: fallback sample data and known address candidates.
 - `data/impact-items.json`: normalized local MVP data.
@@ -302,6 +304,13 @@ Rules:
 
 Supabase is used at runtime when configured. Keep the fallback path intact so demos work without remote credentials.
 
+Live public API credentials use `DATA_GO_KR_SERVICE_KEY`. The currently connected runtime endpoints are:
+
+- `https://apis.data.go.kr/6270000/service/rest/dgincident`
+- `https://apis.data.go.kr/6270000/service/rest1/linkspeed`
+
+The Dalseo transport endpoint `https://apis.data.go.kr/3470000/dalseoTransport` is documented as a next integration target, but keep it out of runtime merges until the service key returns successful responses for the requested operations.
+
 ## UX And Design Direction
 
 The UI should feel like a real Korean local-government pilot service:
@@ -328,10 +337,8 @@ Do not prioritize these unless explicitly requested:
 - Saved user profiles.
 - Notification delivery.
 - Admin dashboard.
-- Real-time traffic refresh.
 - Large-scale crawler architecture.
 - Vector database or RAG pipeline.
-- Full Supabase migration.
 - Opinion draft generation.
 
 These are valid future features, but they should not distract from making the current address-impact dashboard reliable and demo-ready.

@@ -1,6 +1,6 @@
 # Local Data Source Notes
 
-이 MVP는 로컬 파일로 데이터를 수집·정규화한 뒤 Supabase에 동기화한다. 런타임은 Supabase를 먼저 읽고, 설정이 없으면 로컬 JSON으로 fallback한다.
+이 MVP는 로컬 파일로 데이터를 수집·정규화한 뒤 Supabase에 동기화한다. 런타임은 Supabase를 먼저 읽고, 설정이 없으면 로컬 JSON으로 fallback하며, 사용 가능한 공공 API 결과를 검색 응답에 추가 병합한다.
 
 ## 수집 파일
 
@@ -10,6 +10,18 @@
 - `data/impact-items.json`: 앱 API가 읽는 정규화 생활영향 데이터
 
 재생성 가능한 원문 HTML과 심화 수집 산출물은 Git에 커밋하지 않는다.
+
+## 런타임 연결 API
+
+- 대구광역시_돌발 교통정보 조회 서비스(신)
+  - Endpoint: `https://apis.data.go.kr/6270000/service/rest/dgincident`
+  - 사용: 사고, 공사, 행사, 기상 등 돌발 교통 상황을 `openapi_live` 생활영향 항목으로 변환
+- 대구광역시_교통소통정보(신)
+  - Endpoint: `https://apis.data.go.kr/6270000/service/rest1/linkspeed`
+  - 사용: 달서구 주요 장소와 매칭되는 서행 구간만 교통 영향 항목으로 변환
+- 대구광역시 달서구 교통 데이터 API
+  - Base Endpoint: `https://apis.data.go.kr/3470000/dalseoTransport`
+  - 상태: 어린이보호구역, 주차장, 불법주정차, 노인장애인보호구역 데이터를 정기 동기화 후보로 관리한다. 제공된 키로 접근 제한이 확인되어 현재 런타임 병합에는 포함하지 않는다.
 
 ## 활용 출처
 

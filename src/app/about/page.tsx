@@ -1,4 +1,4 @@
-import { ArrowRight, Database, MapPin, ShieldCheck } from "lucide-react";
+import { ArrowRight, Database, MapPin, Radio, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { AppHeader } from "@/components/AppHeader";
 
@@ -23,8 +23,8 @@ export default async function AboutPage() {
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-dalseo-muted">
                 달서 AI 내 주소 영향 요약은 달서구 주민이 주소를 입력하면 반경 내 행정,
-                교통, 안전, 복지, 환경 이슈를 지도에서 확인하고, 쉬운말 요약과 행동 가이드로
-                다음 판단을 돕는 서비스입니다.
+                교통, 안전, 복지, 환경 이슈를 지도에서 확인하고, 쉬운말 요약과 생활유형별
+                행동 가이드로 다음 판단을 돕는 서비스입니다.
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">
@@ -46,8 +46,13 @@ export default async function AboutPage() {
               />
               <HeroPoint
                 icon={<Database className="size-5" />}
-                title="출처 공개"
-                body="공식 웹, 공공데이터, 원문 링크를 함께 보여줍니다."
+                title="Supabase 우선"
+                body="DB 데이터가 없으면 로컬 검증 데이터로 자동 전환합니다."
+              />
+              <HeroPoint
+                icon={<Radio className="size-5" />}
+                title="실시간 보강"
+                body="대구 돌발 교통정보와 구간소통정보를 결과에 함께 병합합니다."
               />
               <HeroPoint
                 icon={<ShieldCheck className="size-5" />}
@@ -63,31 +68,35 @@ export default async function AboutPage() {
             <h2 className="text-lg font-semibold">이렇게 사용하세요</h2>
             <ol className="mt-4 space-y-3 text-sm leading-6 text-dalseo-muted">
               <li>1. 주소를 입력하거나 지도에서 위치를 누릅니다.</li>
-              <li>2. 가까운 항목부터 확인합니다.</li>
-              <li>3. 필요한 항목만 원문과 담당 부서를 확인합니다.</li>
+              <li>2. 지도 위 반경과 생활 유형을 바꿔 우선순위를 조정합니다.</li>
+              <li>3. 생활영향 코치의 추천 행동을 본 뒤 원문과 담당 부서를 확인합니다.</li>
             </ol>
           </div>
 
           <div className="surface p-5">
-            <h2 className="text-lg font-semibold">명확한 한계</h2>
+            <h2 className="text-lg font-semibold">현재 연결된 데이터</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-dalseo-muted">
-              <li>실주소 지오코딩은 아직 제한적이며, 등록된 주요 장소를 우선 사용합니다.</li>
-              <li>공공데이터 원자료는 인증키나 파일 다운로드 절차가 필요한 경우가 있습니다.</li>
-              <li>요약은 참고 정보이며 최종 판단은 원문과 담당 부서 확인이 필요합니다.</li>
+              <li>Supabase `impact_items`, `sources` 테이블을 우선 조회합니다.</li>
+              <li>대구광역시 돌발 교통정보와 구간소통정보 API를 실시간 보강 데이터로 사용합니다.</li>
+              <li>달서구 교통 데이터 API는 승인 상태가 맞으면 정기 동기화 대상으로 확장합니다.</li>
             </ul>
           </div>
         </section>
 
         <section className="mt-4 surface p-5">
-          <h2 className="text-lg font-semibold">사용 흐름</h2>
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
+          <h2 className="text-lg font-semibold">서비스 범위와 한계</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
             <Reason
-              title="주소 영향"
-              body="주소 검색, 지도, 이슈 상세를 한 화면에서 처리하는 핵심 작업 공간입니다."
+              title="생성형 AI"
+              body="현재 화면의 코치는 규칙 기반 분석입니다. OpenAI API 연동 후 채팅과 리포트로 확장합니다."
             />
             <Reason
-              title="서비스 설명"
-              body="서비스가 어떤 정보를 보여주고 어떤 한계가 있는지만 짧게 확인합니다."
+              title="주소 정확도"
+              body="전체 도로명주소 지오코딩 전까지는 등록된 주요 장소와 지도 선택 위치를 우선 사용합니다."
+            />
+            <Reason
+              title="최종 근거"
+              body="요약은 참고 정보이며 실제 일정, 위치, 제출 방법은 원문과 담당 부서 확인이 필요합니다."
             />
           </div>
         </section>
