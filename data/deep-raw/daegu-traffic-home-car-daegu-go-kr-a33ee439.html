@@ -1,0 +1,50 @@
+$(function(){
+	responsiveTab();
+	$(window).on('load',function(){
+		responsiveTab();
+	});
+	
+	$(window).resize(function(){
+		responsiveTab();
+	});
+	
+	function responsiveTab(){
+		if( device_state == "pc" ){
+			//tab : 내부 모바일(select)
+            $(".tab_inner_area > li > a").removeAttr("style");
+            $(".tab_inner_area > li > .inner_tab").on("click",tabInnerAreaPc);
+		}else if( device_state == "tablet" ){
+			// tab : 내부
+			$(".tab_inner_area > li > .inner_tab").on("click",tabInnerAreaMo);
+		}else if( device_state == "mobile" ){
+			// tab : 내부
+			$(".tab_inner_area > li > .inner_tab").on("click",tabInnerAreaMo);
+		}
+	}
+	
+	// 탭 모바일(select)
+	$(".tab_wrap > button").click(function(){
+		$(this).next().slideToggle();
+	});
+
+	
+	// tab : 내부 모바일(select)
+	$(".tab_inner_wrap > button").click(function(){
+		$(".tab_inner_area > li > a").slideToggle(0);
+	});
+	
+	
+})
+
+function tabInnerAreaPc (){
+		$(this).addClass("on").parent().siblings().find(".inner_tab").removeClass("on");
+		$(".inner_tab").removeAttr("style");
+		return false;
+}
+
+function tabInnerAreaMo (){
+	$(this).addClass("on").parent().siblings().find(".inner_tab").removeClass("on");
+	$(".inner_tab").hide();
+	$(".m_tab_btn .text").text($(this).text());
+}
+

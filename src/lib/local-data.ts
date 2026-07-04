@@ -1,8 +1,20 @@
 import { promises as fs } from "fs";
 import path from "path";
-import type { ImpactItem } from "@/lib/types";
+import type {
+  CollectionReport,
+  DeepCollectionReport,
+  ImpactItem,
+  SourceRecord,
+} from "@/lib/types";
 
 const localDataPath = path.join(process.cwd(), "data", "impact-items.json");
+const localSourcesPath = path.join(process.cwd(), "data", "sources.json");
+const localCollectionReportPath = path.join(process.cwd(), "data", "collection-report.json");
+const localDeepCollectionReportPath = path.join(
+  process.cwd(),
+  "data",
+  "deep-collection-report.json",
+);
 
 export async function readLocalImpactItems() {
   try {
@@ -21,6 +33,54 @@ export async function readLocalImpactItems() {
 
     console.error("Failed to read local impact data", error);
     return [];
+  }
+}
+
+export async function readLocalSources() {
+  try {
+    const content = await fs.readFile(localSourcesPath, "utf8");
+    const parsed = JSON.parse(content) as { sources?: SourceRecord[] } | SourceRecord[];
+
+    if (Array.isArray(parsed)) {
+      return parsed;
+    }
+
+    return parsed.sources ?? [];
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return [];
+    }
+
+    console.error("Failed to read local source data", error);
+    return [];
+  }
+}
+
+export async function readLocalCollectionReport() {
+  try {
+    const content = await fs.readFile(localCollectionReportPath, "utf8");
+    return JSON.parse(content) as CollectionReport;
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return null;
+    }
+
+    console.error("Failed to read local collection report", error);
+    return null;
+  }
+}
+
+export async function readLocalDeepCollectionReport() {
+  try {
+    const content = await fs.readFile(localDeepCollectionReportPath, "utf8");
+    return JSON.parse(content) as DeepCollectionReport;
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return null;
+    }
+
+    console.error("Failed to read local deep collection report", error);
+    return null;
   }
 }
 

@@ -1,0 +1,857 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+
+
+
+
+
+
+
+
+<head>
+	<title>대구광역시 통합주차정보시스템</title>
+	<link type="image/x-icon" rel="icon" href="/resources/images/common/favicon02.png"  />
+	
+	<script src="/resources/jquery/jquery-3.2.1.min.js"></script>
+	
+	<script src="/resources/js/Pagination.js"></script>
+	<script src="/resources/js/CommonFunction.js"></script>
+	<script src="/resources/js/map.js"></script>
+	<link href="/resources/css/font/nanumgothic.css" rel="stylesheet">
+	<link href="/resources/css/reset.css" rel="stylesheet">
+	<link href="/resources/css/layout.css" rel="stylesheet">
+	
+	<link href="/resources/css/map.css" rel="stylesheet">
+		
+	<link href="https://uicdn.toast.com/grid/latest/tui-grid.css" rel="stylesheet"/> 
+	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+	<!-- our project just needs Font Awesome Solid + Brands -->
+	<link href="/resources/fontawesome-free-6.4.0-web/css/fontawesome.css" rel="stylesheet">
+	<link href="/resources/fontawesome-free-6.4.0-web/css/brands.css" rel="stylesheet">
+	<link href="/resources/fontawesome-free-6.4.0-web/css/solid.css" rel="stylesheet">
+	
+	<!-- SNS 로그인 -->
+	<script type="text/javascript" src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/resources/js/didLogin.js"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+</head>
+
+
+<style>
+
+#wrap {height: 100vh;}
+
+/* Mobile - Landscape */
+@media (min-width: 350px) and (max-width: 767px) {
+	.content {width: 100%; margin: 0 auto;}
+	.leftMenu {width: 100%;}
+	
+	.menuTitle {padding: 20px 0; background: rgb(5,5,45);background: linear-gradient(241deg, rgba(5,5,45,1) 25%, rgba(35,61,187,1) 81%);}
+	.menuTitle .text {width: 100%; text-align: center; color: white; font-size: 20px; font-weight: bold;}
+	
+	.currentMenu {display: flex; justify-content: space-between; padding: 15px; color: white; font-size: 15px; font-weight: bold; background: #005cc4;}
+	.currentMenu .arrow .fa-arrow-up {display: none;}
+	
+	.subMenu {display: none;}
+	.subMenu li {padding: 10px 15px; border: 1px solid #999; font-weight: bold; font-size: 14px; margin-bottom: 3px;}
+	.subMenu li i {color: #999;}
+	.subMenu li.on {display: block; border: 2px solid #094093; color: #094093; background: #F8F9FD;}
+	.subMenu li.on i {color: #094093;}
+	
+	
+	#mainCont {padding: 15px; margin-bottom: 20px;}
+	#mainCont .h_title {padding: 15px 0; margin: 0 0 20px; border-bottom: 1px solid #999;}
+	#mainCont .h_title h1 {font-size: 20px; font-weight: 900;}
+	
+	/* 정책 : 소제목 */
+	h2 {font-size: 15px; font-weight: bold; color: #005cc4; margin-bottom: 10px;}
+	h2 i {margin-right: 7px;}
+	
+	/* 정책 : 상단 여백 */
+	.marT20 {margin-top: 20px;}
+	.marT40 {margin-top: 40px;}
+	
+	/* 정책 : 텍스트 강조 */
+	strong {font-weight: bold;}
+	h3 {font-size: 17px; color: #0052C2; font-weight: bold; padding: 10px 0 5px;}
+	
+	/* 정책 : ul 리스트 */
+	.dotType {padding-left: 15px;}
+	.dotType li{font-size: 13px; position: relative; line-height: 28px; padding-left: 15px;}
+	.dotType li::before {content: ""; position: absolute; top: 12px; left: 4px; display: inline-block; width: 4px; height: 4px; background-color: #0a3086; border-radius: 50%; vertical-align: middle;}
+	
+	/* 정책 : ul 순서도 */
+	.flowChart ul {display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap;}
+	.flowChart ul li {position: relative; text-align: center;}
+	.flowChart ul li {margin-bottom: 5px;}
+	.flowChart ul li .box {
+		width: 140px; height: 140px;
+		display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border: 1px solid #7CABE2; border-radius: 50%; background-color: #F8F9FD; font-size: 13px;
+	}
+	.flowChart ul li .box p {letter-spacing: -1.5px;}
+	.flowChart ul li .box img {width: 40px; margin-top: 25px;}
+	
+	
+	/* 수평,수직 테이블 */
+	table {border-collapse: collapse;}
+	table caption {line-height: 35px; font-weight: bold; color: #094093;}
+	
+	/* 수평  */
+	.horizontal-table {border-top: 2px solid #23458F;}
+	.horizontal-table tr {border-bottom: 1px solid #ccc;}
+	.horizontal-table th {background: #F8F9FD; vertical-align: middle; font-weight: bold; font-size: 13px; border-right: 1px solid #ccc;}
+	.horizontal-table th:last-child {border-right: 0;}	
+	.horizontal-table td {height: 30px; padding: 10px; text-align: center; vertical-align: middle; border-right: 1px solid #ccc; line-height: 25px; font-size: 13px;}
+	.horizontal-table td:last-child {border-right: 0; border-left: 1px solid #ccc;}
+	
+	
+	/* 수직 */
+	.vertical-table {border-top: 2px solid #23458F;}
+	.vertical-table tbody {overflow: auto;}
+	.vertical-table tr {border-bottom: 1px solid #ccc;}
+	.vertical-table th {min-width: 40px;
+		padding: 10px; text-align: center; background: #F8F9FD; vertical-align: middle; 
+		font-weight: bold; font-size: 13px; 
+		border-right: 1px solid #ccc;
+	}
+	.vertical-table th:last-child {border-right: 0;}
+	.vertical-table td {padding: 10px; text-align: center; vertical-align: middle; border-right: 1px solid #ccc; font-size: 13px; }
+	.vertical-table td:last-child {border-right: 0; border-left: 1px solid #ccc;}
+	
+	
+	.btnArea {display: flex; align-items: center; justify-content: center;}
+	.btnApply {padding: 15px 30px; color: #fff; background-color: #064c9b; border: 0; border-radius: 15px; font-size: 15px; font-weight: bold; cursor: pointer;}
+	
+	/* 개방공유 주차장 목록 */
+	#openPrkList {height: 600px; overflow-y: auto; borer-bottom: 1px solid grey;}	
+	#openPrkList thead th {min-width: 50px; padding: 5px 10px; word-wrap:break-word;}
+	#openPrkList tbody td {font-size: 12px;}
+	#openPrkList tbody .txt_left {text-align: left;}
+}
+
+/* Mobile - Portrait */
+@media (max-width: 575px) {
+	.content {width: 100%; margin: 0 auto;}
+	.leftMenu {width: 100%;}
+	
+	.menuTitle {padding: 20px 0; background: rgb(5,5,45);background: linear-gradient(241deg, rgba(5,5,45,1) 25%, rgba(35,61,187,1) 81%);}
+	.menuTitle .text {width: 100%; text-align: center; color: white; font-size: 20px; font-weight: bold;}
+	
+	.currentMenu {display: flex; justify-content: space-between; padding: 15px; color: white; font-size: 15px; font-weight: bold; background: #005cc4;}
+	.currentMenu .arrow .fa-arrow-up {display: none;}
+	
+	.subMenu {display: none;}
+	.subMenu li {padding: 10px 15px; border: 1px solid #999; font-weight: bold; font-size: 14px; margin-bottom: 3px;}
+	.subMenu li i {color: #999;}
+	.subMenu li.on {display: block; border: 2px solid #094093; color: #094093; background: #F8F9FD;}
+	.subMenu li.on i {color: #094093;}
+	
+	
+	#mainCont {padding: 15px; margin-bottom: 20px;}
+	#mainCont .h_title {padding: 15px 0; margin: 0 0 20px; border-bottom: 1px solid #999;}
+	#mainCont .h_title h1 {font-size: 20px; font-weight: 900;}
+	
+	/* 정책 : 소제목 */
+	h2 {font-size: 15px; font-weight: bold; color: #005cc4; margin-bottom: 10px;}
+	h2 i {margin-right: 7px;}
+	
+	/* 정책 : 상단 여백 */
+	.marT20 {margin-top: 20px;}
+	.marT40 {margin-top: 40px;}
+	
+	/* 정책 : 텍스트 강조 */
+	strong {font-weight: bold;}
+	h3 {font-size: 17px; color: #0052C2; font-weight: bold; padding: 10px 0 5px;}
+	
+	/* 정책 : ul 리스트 */
+	.dotType {padding-left: 15px;}
+	.dotType li{font-size: 13px; position: relative; line-height: 28px; padding-left: 15px;}
+	.dotType li::before {content: ""; position: absolute; top: 12px; left: 4px; display: inline-block; width: 4px; height: 4px; background-color: #0a3086; border-radius: 50%; vertical-align: middle;}
+	
+	/* 정책 : ul 순서도 */
+	.flowChart ul {display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap;}
+	.flowChart ul li {position: relative; text-align: center;}
+	.flowChart ul li{margin-bottom: 5px;}
+	.flowChart ul li .box {
+		width: 140px; height: 140px;
+		display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border: 1px solid #7CABE2; border-radius: 50%; background-color: #F8F9FD; font-size: 13px;
+	}
+	.flowChart ul li .box p {letter-spacing: -1.5px;}
+	.flowChart ul li .box img {width: 40px; margin-top: 25px;}
+	
+	
+	/* 수평,수직 테이블 */
+	table {border-collapse: collapse;}
+	table caption {line-height: 35px; font-weight: bold; color: #094093;}
+	
+	/* 수평  */
+	.horizontal-table {border-top: 2px solid #23458F;}
+	.horizontal-table tr {border-bottom: 1px solid #ccc;}
+	.horizontal-table th {background: #F8F9FD; vertical-align: middle; font-weight: bold; font-size: 13px; border-right: 1px solid #ccc;}
+	.horizontal-table th:last-child {border-right: 0;}	
+	.horizontal-table td {height: 30px; padding: 10px; text-align: center; vertical-align: middle; border-right: 1px solid #ccc; line-height: 25px; font-size: 13px;}
+	.horizontal-table td:last-child {border-right: 0; border-left: 1px solid #ccc;}
+	
+	
+	/* 수직 */
+	.vertical-table {border-top: 2px solid #23458F;}
+	.vertical-table tbody {overflow: auto;}
+	.vertical-table tr {border-bottom: 1px solid #ccc;}
+	.vertical-table th {min-width: 40px;
+		padding: 10px; text-align: center; background: #F8F9FD; vertical-align: middle; 
+		font-weight: bold; font-size: 13px; 
+		border-right: 1px solid #ccc;
+	}
+	.vertical-table th:last-child {border-right: 0;}
+	.vertical-table td {padding: 10px; text-align: center; vertical-align: middle; border-right: 1px solid #ccc; font-size: 13px; }
+	.vertical-table td:last-child {border-right: 0; border-left: 1px solid #ccc;}
+	
+	
+	.btnArea {display: flex; align-items: center; justify-content: center;}
+	.btnApply {padding: 15px 30px; color: #fff; background-color: #064c9b; border: 0; border-radius: 15px; font-size: 15px; font-weight: bold; cursor: pointer;}
+	
+	/* 개방공유 주차장 목록 */
+	#openPrkList {height: 600px; overflow-y: auto; borer-bottom: 1px solid grey;}	
+	#openPrkList thead th {min-width: 50px; padding: 5px 10px; word-wrap:break-word;}
+	#openPrkList tbody td {font-size: 12px;}
+	#openPrkList tbody .txt_left {text-align: left;}
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+	.content {width: 100%; margin: 0 auto;}
+	.leftMenu {width: 100%;}
+	
+	.menuTitle {padding: 20px 0; background: rgb(5,5,45);background: linear-gradient(241deg, rgba(5,5,45,1) 25%, rgba(35,61,187,1) 81%);}
+	.menuTitle .text {width: 100%; text-align: center; color: white; font-size: 20px; font-weight: bold;}
+	
+	.currentMenu {display: flex; justify-content: space-between; padding: 15px; color: white; font-size: 15px; font-weight: bold; background: #005cc4;}
+	.currentMenu .arrow .fa-arrow-up {display: none;}
+	
+	.subMenu {display: none;}
+	.subMenu li {padding: 10px 15px; border: 1px solid #999; font-weight: bold; font-size: 14px; margin-bottom: 3px;}
+	.subMenu li i {color: #999;}
+	.subMenu li.on {display: block; border: 2px solid #094093; color: #094093; background: #F8F9FD;}
+	.subMenu li.on i {color: #094093;}
+	
+	
+	#mainCont {padding: 15px; margin-bottom: 20px;}
+	#mainCont .h_title {padding: 15px 0; margin: 0 0 20px; border-bottom: 1px solid #999;}
+	#mainCont .h_title h1 {font-size: 20px; font-weight: 900;}
+	
+	/* 정책 : 소제목 */
+	h2 {font-size: 15px; font-weight: bold; color: #005cc4; margin-bottom: 10px;}
+	h2 i {margin-right: 7px;}
+	
+	/* 정책 : 상단 여백 */
+	.marT20 {margin-top: 20px;}
+	.marT40 {margin-top: 40px;}
+	
+	/* 정책 : 텍스트 강조 */
+	strong {font-weight: bold;}
+	h3 {font-size: 17px; color: #0052C2; font-weight: bold; padding: 10px 0 5px;}
+	
+	/* 정책 : ul 리스트 */
+	.dotType {padding-left: 15px;}
+	.dotType li{font-size: 13px; position: relative; line-height: 28px; padding-left: 15px;}
+	.dotType li::before {content: ""; position: absolute; top: 12px; left: 4px; display: inline-block; width: 4px; height: 4px; background-color: #0a3086; border-radius: 50%; vertical-align: middle;}
+	
+	/* 정책 : ul 순서도 */
+	.flowChart ul {display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap;}
+	.flowChart ul li {position: relative; text-align: center;}
+	.flowChart ul li:first-child {margin-bottom: 5px;}
+	.flowChart ul li:nth-child(3) {margin-bottom: 5px;}
+	.flowChart ul li .box {
+		width: 140px; height: 140px;
+		display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border: 1px solid #7CABE2; border-radius: 50%; background-color: #F8F9FD; font-size: 13px;
+	}
+	.flowChart ul li .box p {letter-spacing: -1.5px;}
+	.flowChart ul li .box img {width: 40px; margin-top: 25px;}
+	
+	
+	/* 수평,수직 테이블 */
+	table {border-collapse: collapse;}
+	table caption {line-height: 35px; font-weight: bold; color: #094093;}
+	
+	.horizontal-table {border-top: 2px solid #23458F;}
+	.horizontal-table tr {border-bottom: 1px solid #ccc;}
+	.horizontal-table th {background: #F8F9FD; vertical-align: middle; font-weight: bold; font-size: 13px; border-right: 1px solid #ccc;}
+	.horizontal-table th:last-child {border-right: 0;}	
+	.horizontal-table td {height: 30px; padding: 10px; text-align: center; vertical-align: middle; border-right: 1px solid #ccc; line-height: 25px; font-size: 13px;}
+	.horizontal-table td:last-child {border-right: 0; border-left: 1px solid #ccc;}
+	
+	.vertical-table {border-top: 2px solid #23458F;}
+	.vertical-table tr {border-bottom: 1px solid #ccc;}
+	.vertical-table th {height: 30px; padding: 10px; text-align: center; background: #F8F9FD; vertical-align: middle; font-weight: bold; border-right: 1px solid #ccc;}
+	.vertical-table th:last-child {border-right: 0;}
+	.vertical-table td {height: 30px; padding: 10px; text-align: center; vertical-align: middle; border-right: 1px solid #ccc; line-height: 25px;}
+	.vertical-table td:last-child {border-right: 0; border-left: 1px solid #ccc;}
+}
+
+
+/* Desktop (Large) */
+@media (min-width: 992px) {
+	.content {width: 100%; display: flex; justify-content: space-between; width: 1300px; margin: 0 auto;}
+	
+	.leftMenu {width: 250px; margin-top: 50px;}
+	
+	.menuTitle {
+		padding: 30px 15px 50px; border-radius: 0 30px 0 30px;
+		background: rgb(5,5,45); background: linear-gradient(241deg, rgba(5,5,45,1) 25%, rgba(35,61,187,1) 81%);
+		margin-bottom: 30px; box-shadow: 5px 5px 7px grey;
+	}
+	.menuTitle .text {width: 95%; text-align: right; color: white; font-size: 22px; font-weight: bold;}
+	
+	.currentMenu {display: none;}
+	
+	.subMenu li {padding: 15px; border: 1px solid #999; border-radius: 5px; margin-bottom: 5px; font-weight: bold;}
+	.subMenu li i {color: #999;}
+	.subMenu li.on {border: 2px solid #094093; color: #094093; background: #F8F9FD;}
+	.subMenu li.on i {color: #094093;}
+	
+	#mainCont {width: calc(100% - 315px); margin-bottom: 40px;}
+	#mainCont .h_title {padding: 15px 0; margin: 20px 0; border-bottom: 1px solid #999;}
+	#mainCont .h_title h1 {font-size: 24px; font-weight: 900;}
+	
+	
+	/* 정책 : 소제목 */
+	h2 {font-size: 20px; font-weight: bold; color: #005cc4; margin-bottom: 10px;}
+	h2 i {margin-right: 7px;}
+	
+	
+	/* 정책 : 상단 여백 */
+	.marT20 {margin-top: 20px;}
+	.marT40 {margin-top: 40px;}
+	
+	/* 정책 : 텍스트 강조 */
+	strong {font-weight: bold;}
+	h3 {font-size: 17px; color: #0052C2; font-weight: bold; padding: 10px 0 5px;}
+	
+	/* 정책 : ul 리스트 */
+	.dotType {padding-left: 15px;}
+	.dotType li{position: relative; line-height: 28px; padding-left: 15px;}
+	.dotType li::before {content: ""; position: absolute; top: 12px; left: 4px; display: inline-block; width: 4px; height: 4px; background-color: #0a3086; border-radius: 50%; vertical-align: middle;}
+	
+	/* 정책 : ul 순서도 */
+	.flowChart ul {display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap;}
+	.flowChart ul li {position: relative; text-align: center; margin-bottom: 15px;}
+	.flowChart ul li .box {
+		width: 140px; height: 140px;
+		display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border: 1px solid #7CABE2; border-radius: 50%; background-color: #F8F9FD; font-size: 13px;
+	}
+	.flowChart ul li .box p {letter-spacing: -1.5px;}
+	.flowChart ul li .box img {width: 40px; margin-top: 25px;}
+	.flowChart ul li i {margin: 0 15px;}
+	
+	
+	/* 수평,수직 테이블 */
+	table {border-collapse: collapse;}
+	table caption {line-height: 35px; font-weight: bold; color: #094093;}
+	
+	.horizontal-table {border-top: 2px solid #23458F;}
+	.horizontal-table tr {border-bottom: 1px solid #ccc;}
+	.horizontal-table th {background: #F8F9FD; vertical-align: middle; font-weight: bold; border-right: 1px solid #ccc;}
+	.horizontal-table th:last-child {border-right: 0;}
+		
+	.horizontal-table td {height: 30px; line-height: 25px; padding: 10px; text-align: center; vertical-align: middle; border-right: 1px solid #ccc; font-size: 14px;}
+	.horizontal-table td:last-child {border-right: 0; border-left: 1px solid #ccc;}
+	
+	.vertical-table {border-top: 2px solid #23458F;}
+	.vertical-table tr {border-bottom: 1px solid #ccc;}
+	.vertical-table th {height: 30px; padding: 10px; text-align: center; background: #F8F9FD; vertical-align: middle; font-weight: bold; border-right: 1px solid #ccc;}
+	.vertical-table th:last-child {border-right: 0;}
+	.vertical-table td {height: 30px; padding: 10px; text-align: center; vertical-align: middle; border-right: 1px solid #ccc; line-height: 25px;}
+	.vertical-table td:last-child {border-right: 0; border-left: 1px solid #ccc;}
+	
+	
+	.btnArea {display: flex; align-items: center; justify-content: center;}
+	.btnApply {width: 200px; height: 60px; color: #fff; background-color: #064c9b; border: 0; border-radius: 30px; font-size: 20px; font-weight: bold; cursor: pointer;}
+	
+	
+	#openPrkList thead th {padding: 10px;}
+	#openPrkList tbody td {font-size: 14px;}
+	#openPrkList tbody .txt_left {text-align: left;}
+}
+
+
+#priority_stat  td,
+#priority_stat  th {font-size: 14px;}
+#priority_stat .merge td {font-weight: bold;}
+
+#priority_stat .total td,
+#priority_stat .subtotal td {font-weight: bold;}
+</style>
+
+<body>
+	<div class="wrap">
+	
+		
+
+
+
+
+
+<style>
+	#header .logo .line {height: 25px; border: 0.5px solid #e5e5e5; margin: 0 15px;}
+	#header .logo .title_wrap {display: inline-block;}
+	
+	.mb_bar_menu {display: none; position: absolute; top: 50px; left: 0; width: 100%; height: calc(100% - 50px); background: white; z-index: 99999;}
+	.mb_bar_menu .login_btn {background: #1E54A2; font-size: 20px; font-weight: 900; padding: 20px;}
+	.mb_bar_menu .login_btn a {color: white;}
+	.mb_bar_menu .menu_item {font-size: 20px; font-weight: 900; padding: 20px;}
+</style>
+
+<div id="header">
+	<div class="logo">
+		<a href="/"><img alt="대구광역시 로고" src="/resources/images/main_footer_logo.png" /></a>
+		<div class="line"></div>
+		
+		<a href="/">
+		<div class="title_wrap">
+			<p style="color: black; font-size: 12px; font-weight: 400; margin-bottom: 5px;">대구광역시</p>
+			<span style="font-size: 18px; font-weight: 900; color: #23529F;">통합주차정보시스템</span>
+		</div>
+		</a>
+	</div>
+			
+	<ul class="menu flex_sb_center">
+	
+				
+			<li class="menu_item"><a href="/pdpgIntro/">소 개</a></li>			
+				
+			<li class="menu_item"><a href="/main/">주차장 현황</a></li>			
+				
+			<li class="menu_item"><a href="/serviceLink/">주차 서비스</a></li>			
+				
+			<li class="menu_item"><a href="/policy/">주차정책</a></li>			
+				
+			<li class="menu_item"><a href="/opendata/">정보공개</a></li>			
+				
+			<li class="menu_item"><a href="/community/">정보마당</a></li>			
+		
+		
+		<li class="menu_item">
+			<div class="user_box">
+				
+				
+				<!-- 로그인 시에 표출될 버튼 -->
+				<div class="userInfo_wrap" style="align-items: center; justify-content: space-between; gap: 20px; display: none;">
+					<div class="btn mypage_btn">
+						<a href="/mypage" style="color: unset;"><i class="fa-solid fa-user-circle"></i>마이페이지</a>
+					</div>
+					<div class="btn logout_btn"><i class="fa-solid fa-power-off"></i>로그아웃</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	
+	<div class="mb_bar_button"><i id="moTopMenu" class="fa-solid fa-bars"></i></div>
+</div>
+
+<div class="mb_bar_menu">
+	<div>
+		<!-- 로그인 버튼 -->
+
+		
+		<!-- 로그인 시에 표출될 버튼 -->
+		<div class="userInfo_wrap" style="padding: 20px; background: #1E54A2; display: flex; align-items: center; justify-content: space-between; display: none;">
+			<div class="btn mypage_btn">
+				<a style="color: white; font-size: 20px;" href="/mypage">
+					<i class="fa-solid fa-user-circle" style="margin-right: 10px;"></i><span>마이페이지</span>
+				</a>
+			</div>
+			<div class="btn logout_btn" style="color: white;  font-size: 20px; cursor: pointer;">
+				<i class="fa-solid fa-right-from-bracket" style="margin-right: 10px;"></i><span>로그아웃</span>
+			</div>
+		</div>
+	</div>
+	
+	<ul>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/pdpgIntro/">소 개</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/main/">주차장 현황</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/serviceLink/">주차 서비스</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/policy/">주차정책</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/opendata/">정보공개</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/community/">정보마당</a>
+				
+				
+		</li>
+		
+	</ul>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+	    var username = sessionStorage.getItem("username");
+	    
+	    if(username != null){
+	    	$(".login_btn").hide();
+	    	$(".userInfo_wrap").show();
+	    	$(".userInfo_wrap").css('display', 'flex');	    	
+	    }else{
+	    	$(".login_btn").show();
+	    	$(".userInfo_wrap").hide();
+	    }
+	    
+	    $(".logout_btn").on("click", function(){
+	    	sessionStorage.removeItem('username');
+	    	sessionStorage.removeItem('ci');
+	    	
+	    	alert("로그아웃 되었습니다.");
+	    	
+	    	// 메인 화면으로 redirct
+	    	location.href = "/";
+	    });
+	    
+	    //모바일 메뉴 버튼
+	    $("#moTopMenu").on("click", function(){
+	    	if($(".mb_bar_menu").is(':visible')){
+	    		$(".mb_bar_menu").hide();
+	    		$(".section_btn").show();
+	    	}else{
+	    		$(".mb_bar_menu").show();
+	    		$(".section_btn").hide();
+	    	}
+	    });
+	    
+	});	
+</script>
+		
+		<!-- 컨텐츠영역 -->
+		<div class="content">
+			<!-- 왼쪽 메뉴 -->
+			<div class="leftMenu">
+				<div class="menuTitle"><div class="text">정보마당</div></div>
+				<div class="currentMenu">
+					<div class="text"></div>
+					<div class="arrow"><i class="fa-solid fa-arrow-up"></i><i class="fa-solid fa-arrow-down"></i></div>
+				</div>
+				
+				<div class="subMenu">
+					<!-- 메뉴 리스트 생성 -->
+					<ul>
+						
+						
+						
+							
+							
+								<a href="/community/notice">
+								
+						
+						
+						<li class="NOTICE">
+							<span>공지사항</span><i class="fa-solid fa-circle-check" style="float: right;"></i>
+						</li>
+						</a>
+						
+						
+						
+							
+							
+								<a href="/community/faq">
+								
+						
+						
+						<li class="FAQ">
+							<span>FAQ</span><i class="fa-solid fa-circle-check" style="float: right;"></i>
+						</li>
+						</a>
+						
+						
+						
+							
+							
+								<a href="/community/law">
+								
+						
+						
+						<li class="LAW">
+							<span>관련 법령</span><i class="fa-solid fa-circle-check" style="float: right;"></i>
+						</li>
+						</a>
+						
+						
+						
+							
+								<a href="https://dudeuriso.daegu.go.kr/" target="_blank">
+							
+								
+						
+						
+						<li class="DUDEURISO">
+							<span>불편신고</span><i class="fa-solid fa-circle-check" style="float: right;"></i>
+						</li>
+						</a>
+						
+					</ul>
+				</div>
+			</div>
+						
+			<!-- 컨텐츠 -->
+			<div class="mainCont" id="mainCont">
+				<!-- 타이틀 -->
+				<div class="h_title">
+					<h1>타이틀 입니다.</h1>
+				</div>
+				
+				<!-- 컨텐츠영역 교체 -->
+				
+					
+						
+
+ 
+
+
+<div class="list_box" id="board">
+	<form id="frm" name="frm" method="post" onsubmit="return false;">
+		<div class="bbs_search" >
+			<div class="totalcnt"></div>
+			
+			<div class="btn_wrap">
+				<select name="searchCnd" id="bbs_search_select" title="검색조건" autofocus="autofocus">
+					<option value="TITLE">제목</option>
+					<option value="WRITERNAME">작성자</option>
+				</select>
+				<label for="search_txt"></label>
+				<input type="text" id="search_txt" name="searchWrd" placeholder="검색어를 입력해주세요." />
+				<button type="button" class="search_btn" onclick="movePage(1);">
+					<i class="fa-solid fa-magnifying-glass"></i><span>검색</span>
+				</button>
+			</div>
+		</div>	
+	</form>
+	
+	<div class="bbs_list_default">
+		<table class="bbs_list_table">
+			<caption><span>번호, 제목, 등록자, 등록일, 조회수로 구성된 게시물 목록을 나타내며 제목 클릭시 해당 내용으로 이동 합니다.</span></caption>
+			<thead>
+				<tr>
+					<th scope="col" class="num">번호</th>
+					<th scope="col" class="subject">제목</th>
+					<th scope="col" class="writer">작성자</th>
+					<th scope="col" class="date">작성일자</th>
+					<th scope="col" class="hits">조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<!-- 페이징 -->
+	<div class="paging"></div>
+	
+</div>
+
+<script type="text/javascript">
+	var board_type = "notice"
+	var onClickUrl = "/community/"+board_type+"/";
+	
+	$(function(){
+		
+		movePage(1);		
+		
+		//window 리사이즈 이벤트
+		$(window).on("resize", function(){
+			movePage(1);
+		});		
+		
+		//검색어 엔터
+		$(document).on("keyup", "#search_txt", function(e){
+			
+			if(e.keyCode == 13){
+				movePage(1);	
+			}
+		})
+	});
+	
+	//파라미터 생성
+	function makeParams(){
+		var params = {};
+		var bbs_search_select = $("#bbs_search_select").val();
+		var search_txt = $("#search_txt").val();
+		
+		if(bbs_search_select == "TITLE"){ //제목 검색
+			params.srch_ttl = search_txt;
+		}else if(bbs_search_select == "WRITERNAME"){ //작성자 검색
+			params.srch_wrtr_nm = search_txt;
+		}
+		
+		return params;
+	}
+	
+	function movePage(page){
+		var pageNum = page;
+		
+		var url = "/community/ajax/notice/getBoardList";
+		var type = "post";
+		var params = makeParams();
+		
+		params.srch_bbs_sn = "1";
+		params.currentPageNo = page;
+		
+		commonAjaxSendJson(url, "post", params, setBoardList);
+	}
+	
+	function setBoardList(data){
+		var result = data.result;
+		var paginationInfo = data.paginationInfo;
+		var totalRecordCount = paginationInfo.totalRecordCount;
+		var totalcntHtml = `총 <span class="cnt">${paginationInfo.totalRecordCount}</span>건, <span>`
+			+`(${paginationInfo.currentPageNo}/${paginationInfo.totalPageCount} 페이지)</span>`;
+		
+		$(".bbs_search .totalcnt").empty().append(totalcntHtml);
+		
+		$(".bbs_list_table tbody").empty();
+		if(result.length > 0){
+			$.each(result, function(idx, obj){
+				var fileStr = "";
+				if(obj.fileYn == 'Y' && obj.viewYn == 'N'){
+					fileStr += "<span class='file_ico'>첨부파일</span>";
+				}
+				$('.bbs_list_table tbody').append(
+					"<tr onclick=\"location.href='"+onClickUrl+obj.bbsDsctnSn+"'\" style='cursor:pointer;'>"+
+						"<td class='num'>"+obj.no+"</td>"+
+						"<td class='subject'>"+obj.ttl+"</td>"+
+						"<td class='writer'>"+obj.wrtrNm+"</td>"+
+						"<td class='data'>"+obj.regDt+"</td>"+
+						"<td class='hits'>"+obj.rdcnt+"</td>"+
+					"</tr>"
+				);
+			});
+		}else{
+			//show 중인 th 카운팅
+			var visCnt = $(".bbs_list_table thead th:visible").length;
+			
+			$('.bbs_list_table tbody').append("<tr><td colspan='"+visCnt+"'>등록된 게시글이 없습니다.</td></tr>");
+		}
+		//페이징 처리
+		var pageHtml = makePaginationHtml(paginationInfo, "movePage");
+		$('.list_box .paging').empty().append(pageHtml);
+		
+	}	
+</script>
+
+
+					
+					
+				
+			</div>
+		</div>
+				
+		
+
+
+
+
+<div id="footer">
+	<div class="logo">
+		<img alt="대구광역시 주차정보안내" src="/resources/images/footer_logo.png">
+		<div class="text_wrap">
+			<p class="adress">대구광역시 북구 연암로40(대구시청별관) TEL: 053)803-4761~5 사업자번호: 501-83-00016</p>
+			<p class="copy">© Copyright by 대구광역시 주차정보안내  All RIGHTS RESERVED.</p>
+		</div>
+	</div>
+	
+	<div class="footer_nav">
+		<a href="http://www.daegu.go.kr/index.do?menu_id=00050250" target="_blank" title="새창열림">
+			<i class="fa-solid fa-circle-info" style="margin-right: 5px;"></i><span>개인정보처리방침</span>
+		</a> 
+		<!-- <a href="http://www.daegu.go.kr/index.do?menu_id=00050251" target="_blank" title="새창열림" class="last">저작권정책</a> -->
+	</div>
+</div>
+		
+	</div>
+	
+	<script type="text/javascript">
+		var pageOn = "NOTICE";
+		var winh = $(window).height();
+		
+		document.querySelector(".content").style.minHeight = (winh - 141);
+		
+		// document ready
+		$(function(){
+			//height 계산 후 셋팅
+			$(".content").css("min-height", (winh - 141));			
+			$(".subMenu ."+pageOn).addClass("on");			
+			
+			var title = $(".subMenu li.on").find("span").text();
+			
+			$(".h_title h1").text(title);
+			
+			
+			//currentMenu text 셋팅
+			$(".currentMenu .text").text(title);
+			
+			//event bind
+			$(".currentMenu").on("click", function(){
+				$(".currentMenu .fa-arrow-up, .currentMenu .fa-arrow-down").hide();
+				
+				//submenu가 open 되어 있을경우
+				if($(".subMenu").is(':visible')){					
+					$(".subMenu").hide();
+					$(".currentMenu .fa-arrow-down").show();
+				}else{
+					$(".subMenu").show();
+					$(".currentMenu .fa-arrow-up").show();
+				}
+				
+			});
+		});
+		
+	</script>
+</body>
+</html>
+

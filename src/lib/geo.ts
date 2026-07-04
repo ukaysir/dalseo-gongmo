@@ -49,8 +49,14 @@ export function withDistanceAndScore(
     .map((item) => {
       const distance_m = distanceMeters(center, item);
       const distanceScore = Math.max(0, 100 - Math.round((distance_m / radiusM) * 60));
-      const dueScore = item.opinion_due_at ? 20 : 0;
-      const relevance_score = Math.min(100, distanceScore + dueScore);
+      const dueScore = item.opinion_due_at ? 18 : 0;
+      const urgencyScore = urgencyWeight(item.urgency);
+      const categoryScore = categoryWeight(item.category);
+      const sourceScore = item.source_status === "collected" ? 5 : 0;
+      const relevance_score = Math.min(
+        100,
+        distanceScore + dueScore + urgencyScore + categoryScore + sourceScore,
+      );
 
       return {
         ...item,
@@ -60,6 +66,11 @@ export function withDistanceAndScore(
     })
     .filter((item) => item.distance_m <= radiusM)
     .sort((a, b) => {
+      const urgencyDelta = urgencyWeight(b.urgency) - urgencyWeight(a.urgency);
+      if (urgencyDelta !== 0) {
+        return urgencyDelta;
+      }
+
       if ((b.relevance_score ?? 0) !== (a.relevance_score ?? 0)) {
         return (b.relevance_score ?? 0) - (a.relevance_score ?? 0);
       }
@@ -70,4 +81,40 @@ export function withDistanceAndScore(
 
 function toRad(value: number) {
   return (value * Math.PI) / 180;
+}
+
+function urgencyWeight(urgency?: string) {
+  if (urgency === "마감 임박") {
+    return 25;
+  }
+
+  if (urgency === "긴급") {
+    return 22;
+  }
+
+  if (urgency === "확인 필요") {
+    return 14;
+  }
+
+  if (urgency === "계절 확인") {
+    return 8;
+  }
+
+  return 0;
+}
+
+function categoryWeight(category: ImpactItem["category"]) {
+  if (category === "traffic" || category === "safety") {
+    return 8;
+  }
+
+  if (category === "urban_plan" || category === "construction") {
+    return 5;
+  }
+
+  if (category === "heat" || category === "welfare") {
+    return 3;
+  }
+
+  return 0;
 }

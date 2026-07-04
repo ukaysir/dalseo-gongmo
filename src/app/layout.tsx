@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "달서 AI 내 주소 영향 요약",
-  description: "달서구 행정정보를 주소 기준 생활영향으로 요약하는 MVP",
+  description: "달서구 행정정보를 주소 기준 생활영향으로 확인하는 서비스",
 };
 
 export default function RootLayout({

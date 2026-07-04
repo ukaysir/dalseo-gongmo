@@ -1,0 +1,96 @@
+
+/**
+ * 페이징 UI를 그려주는 함수입니다.
+ */
+ function makePaginationHtml(paginationInfo, funcNm){	//페이징정보, 페이지이동함수명
+	
+	var currentPageNo = paginationInfo.currentPageNo //현재페이지번호
+	var firstPageNo = paginationInfo.firstPageNo //첫번째페이지번호
+	var firstPageNoOnPageList = paginationInfo.firstPageNoOnPageList //현재페이지리스트의 첫번째번호
+	var firstRecordIndex = paginationInfo.firstRecordIndex // 페이징 SQL의 조건문의 시작 rownum
+	var lastPageNo = paginationInfo.lastPageNo //마지막페이지번호
+	var lastPageNoOnPageList = paginationInfo.lastPageNoOnPageList //현재페이지리스트의 마지막번호
+	var lastRecordIndex = paginationInfo.lastRecordIndex //페이징 SQL의 조건문 마지막 rownum
+	var pageSize = paginationInfo.pageSize //페이지리스트에 게시되는 페이지 건수
+	var recordCountPerPage = paginationInfo.recordCountPerPage //한 페이지에 게시되는 row 개수
+	var totalPageCount = paginationInfo.totalPageCount //전체 페이지 개수
+	var totalRecordCount = paginationInfo.totalRecordCount //전체 row 개수
+	var prevNo = firstPageNoOnPageList == 1 ? 1 : firstPageNoOnPageList - 1; //현재 페이지리스트 다음페이지 마지막페이지번호
+	var nextNo = lastPageNoOnPageList == lastPageNo ? lastPageNo : lastPageNoOnPageList + 1 ; //현재 페이지리스트 다음페이지 첫번째페이지번호
+	
+	var pagingHtml = "";
+	
+	//전체 건수 확인
+	//pagingHtml += "<div class='totalcnt'><span>총 검색 결과: "+totalRecordCount+" 건</span>/<span>총: "+totalPageCount+" 페이지</span></div>";
+	
+	//pagingHtml += "<ul><li class='first'><a href='#' onclick='"+funcNm+"(" + firstPageNo + "); return false;'></a></li>";
+	//pagingHtml += "<li class='prev'><a href='#' onclick='"+funcNm+"(" + prevNo + "); return false;'></a></li>";
+	
+	pagingHtml += "<ul><li class='first'><a href='#' onclick='"+funcNm+"(" + prevNo + "); return false;'></a></li>";
+	pagingHtml += "<li class='prev'><a href='#' onclick='"+funcNm+"(" + parseInt(currentPageNo == 1 ? 1 : currentPageNo-1) + "); return false;'></a></li>";
+	
+	for(var page = firstPageNoOnPageList; page <= lastPageNoOnPageList; page++) {
+		// 현재 페이지 여부에 따라 css 클래스 및 onclick function 다르게
+		var pagingText = "";
+		
+		if (page === currentPageNo) {
+			pagingHtml += "<li class='num on'><a href='#'>" + page + "</a></li>";
+		}else{
+			pagingHtml += "<li class='num'><a href='#' onclick='"+funcNm+"(" + page + "); return false;'>" + page + "</a></li>";
+		}
+		
+		pagingHtml += pagingText;
+	}
+	
+	//pagingHtml += "<li class='next'><a href='#' onclick='"+funcNm+"(" + nextNo + "); return false;'></a></li>";
+	//pagingHtml += "<li class='last'><a href='#' onclick='"+funcNm+"(" + lastPageNo + "); return false;'></a></li></ul>";
+	
+	pagingHtml += "<li class='next'><a href='#' onclick='"+funcNm+"(" + parseInt(currentPageNo == lastPageNo ? lastPageNo : currentPageNo+1) + "); return false;'></a></li>";
+	pagingHtml += "<li class='last'><a href='#' onclick='"+funcNm+"(" + nextNo + "); return false;'></a></li></ul>";
+	
+	return pagingHtml;
+}
+ 
+ 
+/*function makePaginationHtml(paginationInfo, funcNm){	//페이징정보, 페이지이동함수명
+			    	
+	var currentPageNo = paginationInfo.currentPageNo //현재페이지번호
+	var firstPageNo = paginationInfo.firstPageNo //첫번째페이지번호
+	var firstPageNoOnPageList = paginationInfo.firstPageNoOnPageList //현재페이지리스트의 첫번째번호
+	var firstRecordIndex = paginationInfo.firstRecordIndex // 페이징 SQL의 조건문의 시작 rownum
+	var lastPageNo = paginationInfo.lastPageNo //마지막페이지번호
+	var lastPageNoOnPageList = paginationInfo.lastPageNoOnPageList //현재페이지리스트의 마지막번호
+	var lastRecordIndex = paginationInfo.lastRecordIndex //페이징 SQL의 조건문 마지막 rownum
+	var pageSize = paginationInfo.pageSize //페이지리스트에 게시되는 페이지 건수
+	var recordCountPerPage = paginationInfo.recordCountPerPage //한 페이지에 게시되는 row 개수
+	var totalPageCount = paginationInfo.totalPageCount //전체 페이지 개수
+	var totalRecordCount = paginationInfo.totalRecordCount //전체 row 개수
+	var prevNo = firstPageNoOnPageList == 1 ? 1 : firstPageNoOnPageList - 1; //현재 페이지리스트 다음페이지 마지막페이지번호
+	var nextNo = lastPageNoOnPageList == lastPageNo ? lastPageNo : lastPageNoOnPageList + 1 ; //현재 페이지리스트 다음페이지 첫번째페이지번호
+	
+	var pagingHtml = "";
+	
+	//전체 건수 확인
+	pagingHtml += "<div class='totalcnt'><span>총 검색 결과: "+totalRecordCount+" 건</span>/<span>총: "+totalPageCount+" 페이지</span></div>";
+	
+	pagingHtml += "<ul><li class='first'><a href='#' onclick='"+funcNm+"(" + firstPageNo + "); return false;'></a></li>";
+	pagingHtml += "<li class='prev'><a href='#' onclick='"+funcNm+"(" + prevNo + "); return false;'></a></li>";
+	
+	for(var page = firstPageNoOnPageList; page <= lastPageNoOnPageList; page++) {
+		// 현재 페이지 여부에 따라 css 클래스 및 onclick function 다르게
+		var pagingText = "";
+		
+		if (page === currentPageNo) {
+			pagingHtml += "<li class='num on'><a href='#'>" + page + "</a></li>";
+		}else{
+			pagingHtml += "<li class='num'><a href='#' onclick='"+funcNm+"(" + page + "); return false;'>" + page + "</a></li>";
+		}
+		
+		pagingHtml += pagingText;
+	}
+	
+	pagingHtml += "<li class='next'><a href='#' onclick='"+funcNm+"(" + nextNo + "); return false;'></a></li>";
+	pagingHtml += "<li class='last'><a href='#' onclick='"+funcNm+"(" + lastPageNo + "); return false;'></a></li></ul>";
+	
+	return pagingHtml;
+}*/

@@ -1,24 +1,294 @@
 @import "tailwindcss";
+@import "pretendard/dist/web/static/pretendard.css";
 
 :root {
-  --background: #f7f8f4;
-  --foreground: #1d241f;
+  --background: oklch(0.972 0.012 235);
+  --foreground: oklch(0.205 0.035 255);
+  --panel: oklch(0.998 0.002 255);
+  --soft: oklch(0.94 0.022 235);
+  --border: oklch(0.84 0.027 238);
+  --muted: oklch(0.41 0.038 250);
+  --accent: oklch(0.53 0.17 255);
+  --accent-strong: oklch(0.41 0.16 258);
+  --accent-soft: oklch(0.9 0.052 248);
+  --warning: oklch(0.58 0.15 68);
+  --danger: oklch(0.53 0.19 28);
+  --success: oklch(0.48 0.13 170);
+  --ring: oklch(0.76 0.09 252);
+  --shadow: 0 14px 40px oklch(0.28 0.05 255 / 0.08);
+  --radius: 10px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: "Courier New", monospace;
+  --color-dalseo-bg: var(--background);
+  --color-dalseo-ink: var(--foreground);
+  --color-dalseo-panel: var(--panel);
+  --color-dalseo-soft: var(--soft);
+  --color-dalseo-border: var(--border);
+  --color-dalseo-muted: var(--muted);
+  --color-dalseo-accent: var(--accent);
+  --color-dalseo-accent-strong: var(--accent-strong);
+  --color-dalseo-accent-soft: var(--accent-soft);
+  --color-dalseo-ring: var(--ring);
+  --radius-dalseo: var(--radius);
+  --font-sans: "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Pretendard", ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "kern";
+  text-rendering: optimizeLegibility;
 }
 
 button,
 input {
-  border-radius: 0;
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+.surface {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.nav-link {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: white;
+  padding: 0.45rem 0.75rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
+}
+
+.nav-link:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+.nav-link:active {
+  transform: translateY(1px);
+}
+
+.nav-link-active {
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
+  color: white;
+}
+
+.primary-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius);
+  background: var(--accent-strong);
+  padding: 0.65rem 1rem;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 120ms ease;
+  box-shadow: 0 10px 24px oklch(0.41 0.16 258 / 0.22);
+}
+
+.primary-button:hover {
+  background: var(--accent);
+  box-shadow: 0 12px 28px oklch(0.53 0.17 255 / 0.24);
+}
+
+.primary-button:active {
+  transform: translateY(1px);
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: white;
+  color: var(--foreground);
+  font-weight: 600;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 120ms ease;
+}
+
+.secondary-button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.secondary-button:active {
+  transform: translateY(1px);
+}
+
+.control-button {
+  min-height: 40px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: white;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
+}
+
+.control-button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+.control-button:active {
+  transform: translateY(1px);
+}
+
+.control-button-active {
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
+  color: white;
+}
+
+.filter-chip {
+  min-height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: white;
+  padding: 0.35rem 0.75rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
+}
+
+.filter-chip:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+.filter-chip:active {
+  transform: translateY(1px);
+}
+
+.filter-chip-active {
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
+  color: white;
+}
+
+.issue-row {
+  display: block;
+  width: 100%;
+  background: white;
+  padding: 1rem;
+  text-align: left;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.issue-row:hover {
+  background: var(--accent-soft);
+}
+
+.issue-row-active {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.category-badge,
+.meta-badge,
+.impact-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.category-badge {
+  background: var(--accent-soft);
+  padding: 0.25rem 0.5rem;
+  color: var(--accent-strong);
+}
+
+.meta-badge {
+  background: var(--soft);
+  padding: 0.25rem 0.5rem;
+  color: var(--muted);
+}
+
+.impact-tag {
+  border: 1px solid var(--border);
+  background: white;
+  padding: 0.25rem 0.5rem;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

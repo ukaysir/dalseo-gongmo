@@ -1,0 +1,620 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+
+
+
+
+
+
+
+
+<head>
+	<title>대구광역시 통합주차정보시스템</title>
+	<link type="image/x-icon" rel="icon" href="/resources/images/common/favicon02.png"  />
+	
+	<script src="/resources/jquery/jquery-3.2.1.min.js"></script>
+	
+	<script src="/resources/js/Pagination.js"></script>
+	<script src="/resources/js/CommonFunction.js"></script>
+	<script src="/resources/js/map.js"></script>
+	<link href="/resources/css/font/nanumgothic.css" rel="stylesheet">
+	<link href="/resources/css/reset.css" rel="stylesheet">
+	<link href="/resources/css/layout.css" rel="stylesheet">
+	
+	<link href="/resources/css/map.css" rel="stylesheet">
+		
+	<link href="https://uicdn.toast.com/grid/latest/tui-grid.css" rel="stylesheet"/> 
+	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+	<!-- our project just needs Font Awesome Solid + Brands -->
+	<link href="/resources/fontawesome-free-6.4.0-web/css/fontawesome.css" rel="stylesheet">
+	<link href="/resources/fontawesome-free-6.4.0-web/css/brands.css" rel="stylesheet">
+	<link href="/resources/fontawesome-free-6.4.0-web/css/solid.css" rel="stylesheet">
+	
+	<!-- SNS 로그인 -->
+	<script type="text/javascript" src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/resources/js/didLogin.js"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+</head>
+
+
+<link href="/resources/css/mypage.css" rel="stylesheet">
+
+<body>
+	<div id="wrap">
+		
+
+
+
+
+
+<style>
+	#header .logo .line {height: 25px; border: 0.5px solid #e5e5e5; margin: 0 15px;}
+	#header .logo .title_wrap {display: inline-block;}
+	
+	.mb_bar_menu {display: none; position: absolute; top: 50px; left: 0; width: 100%; height: calc(100% - 50px); background: white; z-index: 99999;}
+	.mb_bar_menu .login_btn {background: #1E54A2; font-size: 20px; font-weight: 900; padding: 20px;}
+	.mb_bar_menu .login_btn a {color: white;}
+	.mb_bar_menu .menu_item {font-size: 20px; font-weight: 900; padding: 20px;}
+</style>
+
+<div id="header">
+	<div class="logo">
+		<a href="/"><img alt="대구광역시 로고" src="/resources/images/main_footer_logo.png" /></a>
+		<div class="line"></div>
+		
+		<a href="/">
+		<div class="title_wrap">
+			<p style="color: black; font-size: 12px; font-weight: 400; margin-bottom: 5px;">대구광역시</p>
+			<span style="font-size: 18px; font-weight: 900; color: #23529F;">통합주차정보시스템</span>
+		</div>
+		</a>
+	</div>
+			
+	<ul class="menu flex_sb_center">
+	
+				
+			<li class="menu_item"><a href="/pdpgIntro/">소 개</a></li>			
+				
+			<li class="menu_item"><a href="/main/">주차장 현황</a></li>			
+				
+			<li class="menu_item"><a href="/serviceLink/">주차 서비스</a></li>			
+				
+			<li class="menu_item"><a href="/policy/">주차정책</a></li>			
+				
+			<li class="menu_item"><a href="/opendata/">정보공개</a></li>			
+				
+			<li class="menu_item"><a href="/community/">정보마당</a></li>			
+		
+		
+		<li class="menu_item">
+			<div class="user_box">
+				
+				
+				<!-- 로그인 시에 표출될 버튼 -->
+				<div class="userInfo_wrap" style="align-items: center; justify-content: space-between; gap: 20px; display: none;">
+					<div class="btn mypage_btn">
+						<a href="/mypage" style="color: unset;"><i class="fa-solid fa-user-circle"></i>마이페이지</a>
+					</div>
+					<div class="btn logout_btn"><i class="fa-solid fa-power-off"></i>로그아웃</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	
+	<div class="mb_bar_button"><i id="moTopMenu" class="fa-solid fa-bars"></i></div>
+</div>
+
+<div class="mb_bar_menu">
+	<div>
+		<!-- 로그인 버튼 -->
+
+		
+		<!-- 로그인 시에 표출될 버튼 -->
+		<div class="userInfo_wrap" style="padding: 20px; background: #1E54A2; display: flex; align-items: center; justify-content: space-between; display: none;">
+			<div class="btn mypage_btn">
+				<a style="color: white; font-size: 20px;" href="/mypage">
+					<i class="fa-solid fa-user-circle" style="margin-right: 10px;"></i><span>마이페이지</span>
+				</a>
+			</div>
+			<div class="btn logout_btn" style="color: white;  font-size: 20px; cursor: pointer;">
+				<i class="fa-solid fa-right-from-bracket" style="margin-right: 10px;"></i><span>로그아웃</span>
+			</div>
+		</div>
+	</div>
+	
+	<ul>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/pdpgIntro/">소 개</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/main/">주차장 현황</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/serviceLink/">주차 서비스</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/policy/">주차정책</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/opendata/">정보공개</a>
+				
+				
+		</li>
+		
+		<li class="menu_item">
+		
+			
+							
+				<a href="/community/">정보마당</a>
+				
+				
+		</li>
+		
+	</ul>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+	    var username = sessionStorage.getItem("username");
+	    
+	    if(username != null){
+	    	$(".login_btn").hide();
+	    	$(".userInfo_wrap").show();
+	    	$(".userInfo_wrap").css('display', 'flex');	    	
+	    }else{
+	    	$(".login_btn").show();
+	    	$(".userInfo_wrap").hide();
+	    }
+	    
+	    $(".logout_btn").on("click", function(){
+	    	sessionStorage.removeItem('username');
+	    	sessionStorage.removeItem('ci');
+	    	
+	    	alert("로그아웃 되었습니다.");
+	    	
+	    	// 메인 화면으로 redirct
+	    	location.href = "/";
+	    });
+	    
+	    //모바일 메뉴 버튼
+	    $("#moTopMenu").on("click", function(){
+	    	if($(".mb_bar_menu").is(':visible')){
+	    		$(".mb_bar_menu").hide();
+	    		$(".section_btn").show();
+	    	}else{
+	    		$(".mb_bar_menu").show();
+	    		$(".section_btn").hide();
+	    	}
+	    });
+	    
+	});	
+</script>
+  
+		<div class="inner">
+			<div class=" sub_wrapper">	      
+				<div class="container">
+					<div class="page_tit"><h2 style="color: black;">마이페이지</h2></div>
+					
+					<div class="area-box">
+						<div class="tit_wrap">내정보</div>
+						<!-- s : 검색영역 -->
+						<div class="area-edit">
+							<div class="tbl-edit">								
+								<div class="row col_2">
+									<div class="box" style="display: flex; justify-content: space-between; align-items: center;">
+										<div class="title"><label for="user_sns_se">SNS 구분</label></div>										
+										<div class="td">											
+											<input id="user_sns_se" type="text" readonly>
+										</div>
+									</div>									
+									<div class="box" style="display: flex; justify-content: space-between; align-items: center;">
+										<div class="title"><label for="user_email">이메일</label></div>
+										<div class="td">
+											<input id="user_email" type="text" readonly>											
+											<button id="email_save" type="button" style="padding: 3px 10px; display: none;">저장</button>
+										</div>
+									</div>
+								</div>
+								<div class="row col_2">
+									<div class="box" style="display: flex; justify-content: space-between; align-items: center;">
+										<div class="title"><label for="user_name_inp">이름</label></div>										
+										<div class="td">											
+											<input id="user_name_inp" type="text" readonly>
+											
+										</div>
+									</div>
+									<div class="box" style="display: flex; justify-content: space-between; align-items: center;">
+										<span id="email_msg" style="display:none; color: red; font-size: 15px; font-weight: 900; float: right;">*다대구로 로그인시에는 이메일을 입력 해 주셔야 합니다 !</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- e : 검색영역 -->
+						
+						<div class="btn-area" style="display: none;">
+							<button>저장</button><button>취소</button>
+						</div>
+					</div>
+	        
+					<div class="area-box">
+					  <div class="user_wrap">
+					    <ul>
+					      <li>
+					        <div class="box_item">
+					          <i class="item-ico type_user"></i>
+					          <span><span id="user_name" class="tit user_name">홍길동</span>님<br>신청 내역입니다.</span>
+					        </div>  
+					      </li>	         
+					      <li>
+					        <div class="box_item">
+					          <i class="item-ico type_api"></i>
+					          <p class="tit">API 신청</p>
+					          <p><span id="api_cnt" class="count">0</span>건</p>
+					        </div>  
+					      </li>
+					      <li>
+					        <div class="box_item">
+					          <i class="item-ico type_park"></i>
+					          <p class="tit">부설 주차장 개방</p>
+					          <p><span id="attach_pklt_cnt" class="count">0</span>건</p>
+					        </div>  
+					      </li>
+					      <li>
+					        <div class="box_item">
+					          <i class="item-ico type_sign"></i>
+					          <p class="tit">민간주차장 개방</p>
+					          <p><span id="prvate_pklt_cnt" class="count">0</span>건</p>
+					        </div>  
+					      </li>
+					    </ul>
+					  </div>
+					</div>
+	        
+					<div class="area-box">
+						<div class="tit_wrap">API 활용 신청 목록</div>			  
+						<div style="width: 100%; overflow-x: auto;">
+							<table class="horizontal-table">
+								<thead>
+									<tr>
+										<th style="width: 230px;">API 구분</th>
+										<th style="">접속 IP</th>
+										<th style="width: 180px;" class="date grid-col-2" scope="col">신청 구분</th>
+										<th style="width: 180px;" class="date grid-col-2" scope="col">신청 일자</th>
+									</tr>
+								</thead>
+								<tbody id="api_req_list_tb">
+									<tr>
+										<td colspan="4" style="border-left: 0;"> API 활용 신청 정보가 없습니다.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+	       
+					<div class="area-box">
+						<div class="tit_wrap">API 인증키 목록</div>
+									  
+						<div style="width: 100%; overflow-x: auto;">
+							<table class="horizontal-table">
+								<thead>
+									<tr>
+										<th style="width: 230px;">API 구분</th>
+										<th style="width: 180px;" class="date grid-col-2" scope="col">발급일자</th>
+										<th style="width: 180px;" class="date grid-col-2" scope="col">만료일자</th>
+										<th style="border-right: 0px; ">인증키</th>
+									</tr>
+								</thead>								
+								<tbody id="api_list_tb">
+									<tr>
+										<td colspan="4" style="border-left: 0;"> API 발급 정보가 없습니다.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+			  
+			<div class="area-box">
+			  <div class="tit_wrap">부설/민간 주차장 신청 목록</div>
+			  <div style="width: 100%; overflow-x: auto;">
+				  <table class="horizontal-table">
+	            	<thead>
+	            	  <tr>
+	            	  	<th style="width: 80px;">No.</th>
+		                <th style="width: 150px;">신청 구분</th>
+		                <th>주차장 이름</th>
+		                <th style="width: 200px;" class="grid-col-2" scope="col">신청일자</th>
+		                <th style="width: 120px;" class="grid-col-2" scope="col">신청상태</th>
+		                <th style="width: 150px;" class="grid-col-2" scope="col">상세보기</th>
+					  </tr>
+	            	</thead>
+					<tbody id="opn_req_list_tb">
+	                  <tr>
+	                    <td colspan="6" style="border-left: 0;">신청 정보가 없습니다.</td>
+	                  </tr>
+					</tbody>
+				  </table>
+			  </div>
+			</div>
+			  
+			</div>
+			
+	      </div>
+	    </div>
+	</div>
+	
+
+
+
+
+
+<div id="footer">
+	<div class="logo">
+		<img alt="대구광역시 주차정보안내" src="/resources/images/footer_logo.png">
+		<div class="text_wrap">
+			<p class="adress">대구광역시 북구 연암로40(대구시청별관) TEL: 053)803-4761~5 사업자번호: 501-83-00016</p>
+			<p class="copy">© Copyright by 대구광역시 주차정보안내  All RIGHTS RESERVED.</p>
+		</div>
+	</div>
+	
+	<div class="footer_nav">
+		<a href="http://www.daegu.go.kr/index.do?menu_id=00050250" target="_blank" title="새창열림">
+			<i class="fa-solid fa-circle-info" style="margin-right: 5px;"></i><span>개인정보처리방침</span>
+		</a> 
+		<!-- <a href="http://www.daegu.go.kr/index.do?menu_id=00050251" target="_blank" title="새창열림" class="last">저작권정책</a> -->
+	</div>
+</div>
+	
+<script type="text/javascript">
+
+	$(function(){
+		//email null 이면.. email 입력 유도.
+		var email = new URLSearchParams(document.location.search).get('email');
+		if(email == "null"){
+			setEmailInputUI();
+		}
+		
+		eventBind();
+		
+		getMyOpenReqList();
+		
+		getMypageInfo();
+	});
+	
+	//input UI 셋팅
+	function setEmailInputUI(){		
+		$("#user_email").prop('readonly', false).focus();
+		$("#email_save, #email_msg").show();		
+	}
+	
+	function updateEmailDid(){
+		var url = "/user/updateEmailDid";
+		var type = "POST";
+		var params = {};
+		params.username = sessionStorage.getItem("username");
+		params.ci = sessionStorage.getItem("ci");
+		params.email = $("#user_email").val();
+		
+		if(!checkEmailVal(params.email)) return false;
+		
+		function checkEmailVal(email){
+			const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;			
+			if(email == null || email == "" || email == undefined){
+				alert("Email 값을 입력 해 주세요. (필수값 입니다.)");
+				$("#user_email").focus();
+				return false;
+			}
+			else if(pattern.test(email) === false) {
+				alert("Email 형식이 틀립니다.");
+				$("#user_email").focus();
+				return false;
+			}
+			else {
+				return true; 
+			}
+		}
+		
+		commonAjaxSendJson(url, type, params, function(data) {
+			if(data.status = "success"){				
+				alert("이메일 정보 저장에 성공했습니다.");
+				
+				window.location.replace("/mypage");	
+			}
+		});		
+	} 
+	
+	function eventBind(){
+		
+		$(document).on("click", "#email_save", function(){
+			updateEmailDid();
+		});
+		
+		$(document).on("click", ".show_opn_req_result", function(){
+			//신청 목록 데이터 표출
+			var $parent = $(this).parent();
+			var opn_aply_sn = $parent.find(".opn_aply_sn").val();
+			var pklt_se_nm = $parent.find(".opn_req_nm").val();
+			
+			location.href = "/mypage/prkReqDetail?opn_aply_sn="+opn_aply_sn+"&pklt_se_nm="+pklt_se_nm;
+		});
+	}
+	
+	
+	//마이 페이지 데이터 조회
+	function getMypageInfo(){
+		var params = {};
+		params.user_nm = sessionStorage.getItem("username");
+		params.ci = sessionStorage.getItem("ci");
+		
+		$.ajax({
+			url : "/user/getMypageInfo",
+			data : params,
+			type : "POST",
+			dataType : "json",
+			success : function(data) {
+				if(data.status == "success"){
+					setMypageInfo(data);	
+				}
+			},
+			error : function(data) {
+				alert("조회에 실패 했습니다. 새로고침 부탁드립니다.");
+				console.log(data);
+			}
+		});
+		
+		function setMypageInfo(data){
+			
+			var mbrInfo = data.mbrInfo;
+			var mbrApiCnt = data.mbrApiCnt;
+			var apiKeyList = data.apiKeyList;
+			var apiReqList = data.apiReqList;
+			
+			console.log(data);
+			
+			//사용자 정보 셋팅
+			$("#user_name").text(mbrInfo.mbr_nm);
+			$("#user_name_inp").val(mbrInfo.mbr_nm);
+			$("#user_sns_se").val(mbrInfo.sns_se_cd_nm);
+			$("#user_email").val(mbrInfo.mbr_eml);
+			
+			//신청 건수 적용
+			$("#api_cnt").text(mbrApiCnt.api_cnt);
+			$("#attach_pklt_cnt").text(mbrApiCnt.attach_pklt_cnt);
+			$("#prvate_pklt_cnt").text(mbrApiCnt.prvate_pklt_cnt);
+			
+			//API 활용 신청 목록 표출
+			var addReqHtml = "";
+			if(apiReqList.length == 0){
+				addReqHtml = '<tr><td colspan="4" style="border-left: 0;"> API 활용 신청 정보가 없습니다.</td></tr>';
+			}else{
+				
+				for(var i=0; i<apiReqList.length; i++){
+					var item = apiReqList[i];
+					
+					addReqHtml += ` <tr>
+						<td>${item.api_nm}</td>
+						<td>${item.api_acs_ip}</td>
+						<td>${item.aply_se_cd_nm}</td>
+						<td class="date">${item.aply_dt}</td>
+					</tr>`;
+				}
+			}
+			$("#api_req_list_tb").empty().append(addReqHtml);
+			
+			
+			//API KEY 리스트 적용
+			var addHtml = "";
+			if(apiKeyList.length == 0){
+				addHtml = '<tr><td colspan="4" style="border-left: 0;"> API 발급 정보가 없습니다.</td></tr>';
+			}else{
+				
+				for(var i=0; i<apiKeyList.length; i++){
+					var item = apiKeyList[i];
+					var apiNameDisplay = item.api_nm;
+					
+				    // (민간주차장)으로 시작하면 특정 텍스트 추가
+				    if (apiNameDisplay.startsWith("(민간주차장)")) {
+				        apiNameDisplay += ", 주차장정보 조회";
+				    }
+				    
+					addHtml += ` <tr>
+						<td>${apiNameDisplay}</td><td class="date">${item.reg_dt}</td>
+						<td class="date">${item.expry_dt}</td><td>${item.api_cert_key}</td>		
+					</tr>`;
+				}
+			}			
+			$("#api_list_tb").empty().append(addHtml);
+		}
+	}
+	
+	
+	//나의 신청 목록
+	function getMyOpenReqList(){
+		var params = {};
+		params.user_nm = sessionStorage.getItem("username");
+		params.ci = sessionStorage.getItem("ci");
+		
+		$.ajax({
+			url : "/user/getMyOpenReqList",
+			data : params,
+			type : "POST",
+			dataType : "json",
+			success : function(data) {
+				if(data.status == "success"){
+					setMyOpenReqList(data);
+				}
+			},
+			error : function(data) {
+				alert("조회에 실패 했습니다. 새로고침 부탁드립니다.");
+				console.log(data);
+			}
+		});
+		
+		function setMyOpenReqList(data){
+			var list = data.openReqList;
+			
+			var addHtml = "";
+			if(list.length == 0){
+				addHtml = '<tr><td colspan="6" style="border-left: 0;"> 신청 정보가 없습니다.</td></tr>';
+			}else{
+				//부설은 5, 민간은 4
+				
+				for(var i=0; i<list.length; i++){
+					var item = list[i];
+					
+					addHtml += `
+						<tr><td>${i+1}</td><td>${item.opn_req_nm}</td><td>${item.pklt_nm}</td><td class="date">${item.dmnd_dt}</td>
+							<td>${item.rvw_se_cd_nm}</td>
+							<td><button type="button" class="show_opn_req_result">결과 보기</button>
+								<input type="hidden" class="opn_aply_sn" value="${item.opn_aply_sn}" />
+								<input type="hidden" class="opn_req_nm" value="${item.opn_req_nm}" />
+							</td>
+						</tr>`;
+					
+				}
+			}
+			
+			$("#opn_req_list_tb").empty().append(addHtml);
+		}
+		
+	}
+		 
+</script>
+
+</body>
+</html>

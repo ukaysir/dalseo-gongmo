@@ -1,0 +1,2083 @@
+
+
+ 
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"> 
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="대구교통종합정보">
+	<meta property="og:description" content="센터소개, 실시간교통정보, 생활교통정보, 대중/광역교통, 종합교통지표, 알림마당, 교통DB 정보 제공">
+	<meta property="og:image" content="/resources/images/header_logo.jpg">
+	<meta property="og:url" content="http://car.daegu.go.kr/">
+	<link href="/resources/images/common/favicon02.png" rel="icon" type="image/x-icon" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<link type="text/css" rel="stylesheet" href="/resources/css/common.css" />
+	
+	<title>대구교통종합정보</title>
+	<meta name="description" content="센터소개, 실시간교통정보, 생활교통정보, 대중/광역교통, 종합교통지표, 알림마당, 교통DB 정보 제공">
+	<script>
+		$(function(){
+			var loc1 = $('h2.snb_tit').text();
+			var loc2 = $('ul.snb_list .snb_dep1_item.on span').text();
+			var loc3 = $('ul.snb_list .snb_dep2_list a.on').text();
+			
+			
+			$('#contents > .inner > .sub_tit > .location > .loc1').text(loc1);
+			$('#contents > .inner > .sub_tit > .location > .loc2').text(loc2);
+			if(loc3 == null || loc3 == ""){
+				$('title').text('대구교통종합정보 | '+loc1 +" > " + loc2);
+				$('#contents > .inner > .sub_tit > h3').text(loc2);
+			}else{
+				$('title').text('대구교통종합정보 | '+loc1 +" > " + loc2 + " > " + loc3);
+				$('#contents > .inner > .sub_tit > h3').text(loc2 + " > " + loc3);
+				$('.sub_tit > .location').append("<span class='loc3 arrow'>"+loc3+"</span>")
+			}
+			
+			
+			
+		});
+	</script>
+</head>
+<body>
+<div id="wrap">
+	
+
+
+<!-- skipNav -->
+<div id="skipNav">	
+	
+		
+		
+			<a href="#contents">본문 바로가기</a>
+		
+	
+	<a href="#gnb">주메뉴</a>
+</div>
+<!-- //skipNav -->
+
+<!-- header -->
+<div id="header">
+	<div class="util_box">
+		<div class="inner">
+			<h1 class="logo">
+				<a href="/"> 
+					<img style="width: 180px; height: auto;" src="/resources/images/common/logo.png" alt="대구광역시 교통종합정보" class="pc_ver" />
+				</a>
+			</h1>
+			<div id="xio" class="m_ver" style="width:300px; height:100%; position: absolute; top: 0px; left: 0px;" >				
+				<div style="width:188px; height:100%; float:left; text-align: center; align-content: center;">
+					<a href="/"> 
+						<img style="width: 180px; height: auto;" src="/resources/images/common/logo.png" alt="대구광역시 교통종합정보" class="pc_ver" />
+					</a>
+				</div>
+				<!--
+				<div style="width:108px; height:100%; float:left; cursor:pointer; text-align: center;" onclick="$('#da_banner').show();" >
+					<span style="line-height: 74px; font-weight: bold; font-size: 16px; color: #a70e1f;">배너보기</span>
+				</div>
+				-->
+			</div>
+			<div class="m_gnb_btn_wrap">
+				<a href="/" onclick="return false;"
+					class="m_gnb_btn"><img
+					src="/resources/images/common/m_gnb_btn.png"
+					alt="모바일 전체메뉴 아이콘" /></a>
+			</div>
+		</div>
+	</div>
+	<div id="gnb">
+		<h2 class="hide">주메뉴</h2>
+		<div class="inner">
+			<ul class="gnb_list">
+				
+				
+				
+				<li class="dep1"><a href="/metro/outbreak"
+					class="dep1_tit">돌발/사고정보</a>
+					<ul class="dep2">
+						<li><a href="/metro/outbreak">돌발/사고 정보</a></li>
+					</ul></li>
+				<li class="dep1"><a href="/board/speedStat"
+					class="dep1_tit">교통정보</a>
+					<ul class="dep2">
+						
+						
+												
+						<li><a href="/board/speedStat">속도정보</a></li>
+						<li><a href="/board/speedStat2">교통량정보</a></li>
+						<li><a href="/board/trafficData">교통조사자료</a></li>
+
+						
+						
+						
+					</ul>
+				</li>
+				<li class="dep1"><a href="/center/atms"
+					class="dep1_tit">알림마당</a>
+					<ul class="dep2">
+						<li><a href="/center/atms">센터 소개</a></li>
+						<li><a href="/center/intro">사이트 이용안내</a></li>
+						<li><a href="/center/notice">공지사항</a></li>
+						<li><a href="/center/site">관련사이트</a></li>
+						<li><a href="/center/promoVideo">홍보영상</a></li>
+					</ul>
+				</li>
+				<!--  
+				<li id="header_logo_2" class="dep1" style="margin-left: 5px; width: 140px; float: right; margin-top: 15px;">
+					
+				</li>
+				-->
+				
+			</ul>
+		</div>
+		<!--
+		<div id="header_logo_new" style="width:300px; height:100%; /* background-color:black; */ float: right;" >
+			<div style="width:188px; height:100%; float:left; background-color:#dc1229; text-align: center; align-content: center;">
+				<img alt="대구경북통합" style="width: 150px; height: auto;" src="/resources/images/tmpimg/da_title.png" />
+			</div>
+			<div style="width:108px; height:100%; float:left; cursor:pointer; align-content: center; text-align: center;" onclick="$('#da_banner').show();" >
+				<span style="font-weight: bold; font-size: 16px; color: #a70e1f;">배너보기</span>
+			</div>
+		</div>
+		-->
+		<div class="gnb_bg" style="display: none;">
+			<div class="ico"></div>
+		</div>
+	</div>
+
+</div>
+<!-- //header -->
+
+<!-- m_gnb -->
+<div id="m_gnb">
+	<div class="m_gnb_top">
+		<p class="m_gnb_tit">전체메뉴</p>
+		<p class="m_gnb_logo">
+			<img src="/resources/images/common/m_logo.png"
+				alt="대구광약시 교통종합정보" />
+		</p>
+		<button type="button" class="m_gnb_close_btn">모바일 전체메뉴 닫기</button>
+	</div>
+	<div class="m_gnb_wrap">
+		<ul>
+			<li><button type="button" class="ico05">돌발/사고정보</button>
+				<ul class="sub sub01">
+					<li><a href="/metro/outbreak">돌발/사고정보</a></li>
+				</ul></li>
+			<li><button type="button" class="ico04">교통정보</button>
+				<ul class="sub sub01">
+					<li>
+						<a href="/board/speedStat">속도정보</a>
+					</li>
+					
+					<li>	
+						<a href="/board/speedStat2">교통량정보</a>
+					</li>
+				
+					<li>	
+						<a href="/board/trafficData">교통조사자료</a>
+					</li>
+				</ul>
+			</li>
+			<li><button type="button" class="ico06">알림마당</button>
+				<ul class="sub sub01">
+					<li><a href="/center/atms">센터 소개</a></li>
+					<li><a href="/center/intro">사이트 이용안내</a></li>
+					<li><a href="/center/notice">공지사항</a></li>
+					<li><a href="/center/site">관련사이트</a></li>
+					<li><a href="/center/promoVideo">홍보영상</a></li>
+				</ul></li>
+		</ul>
+	</div>
+</div>
+<div class="m_gnb_bg"></div>
+<!-- //m_gnb -->
+
+<script type="text/javascript">
+	var device_state;
+
+	//방문자수 ajax
+	function getVisiterCountMonth(){
+		$.ajax({
+			url : "/ajax/getVisiterCountMonth/",
+			type : "POST",
+			dataType : "json",
+			success: function(data) {
+				if(data != null && data.result != null){					
+					result = data.result;														
+					$('#visitMonth').text(result.cnt);
+					$('#visitMonth_header').text(result.cnt);
+				}
+			},
+			error : function(data){
+				//alert("리스트 조회에 실패하였습니다."); 요구사항
+				console.log("리스트 조회에 실패하였습니다.");
+			}
+		});	
+	}
+	
+	//방문자수 ajax
+	function getVisiterCountToday(){
+		$.ajax({
+			url : "/ajax/getVisiterCountToday/",
+			type : "POST",
+			dataType : "json",
+			success: function(data) {
+				if(data != null && data.result != null){					
+					result = data.result;					
+					$('#visitToday').append(result.cnt);
+					$('#visitToday_header').append(result.cnt);
+				}
+			},
+			error : function(data){
+				//alert("리스트 조회에 실패하였습니다."); 요구사항
+				console.log("리스트 조회에 실패하였습니다.");
+			}
+		});	
+	}
+	
+	$(function() {
+		//getVisiterCountMonth(); //미사용
+		//getVisiterCountToday(); //미사용
+		
+		responsiveFn();
+		var minState = false;
+		$(window).on('load', function() {
+			responsiveFn();
+		});
+
+		$(window).resize(function() {
+			responsiveFn();
+		});
+
+		function responsiveFn() {
+			var window_w = $(window).width() + 17;
+
+			if (window_w >= 1024) {
+
+				if (device_state != "pc") {
+
+					device_state = "pc";
+					//모바일 메뉴
+					$("#m_gnb, .m_gnb_bg").removeAttr("style");
+
+				}
+
+			} else if ((window_w < 1024) && (window_w >= 769)) {
+
+				if (device_state != "tablet") {
+					device_state = "tablet";
+
+				}
+
+			} else if (window_w < 769) {
+
+				if (device_state != "mobile") {
+					device_state = "mobile";
+
+				}
+
+			}
+		}
+
+		//** 241216 상단헤더 애니메이션 강화
+		
+		$("#gnb").on("mouseenter focusin", ".dep1", function() {
+		    $(this).find(".dep2").css("background-color", "#f2f8ff");
+		}).on("mouseleave blur", ".dep1", function() {
+		    $(this).find(".dep2").css("background-color", "");
+		});
+		
+		
+		//** 241216 애니메이션 강화 끝
+		// 변수 추가: 애니메이션 실행 중인지 확인
+		let isAnimating = false;
+		
+		$("#gnb").on("mouseleave", function() {
+		    if (isAnimating) return;  // 애니메이션 중이면 실행 안 함
+		    isAnimating = true;
+		    $(this).find(".dep2").stop(true, true).slideUp(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		    $(".gnb_bg").stop(true, true).slideUp(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		});
+		
+		// gnb
+		$("#gnb").on("mouseenter focusin", ".gnb_list", function() {
+		    if (isAnimating) return;  // 애니메이션 중이면 실행 안 함
+		    isAnimating = true;
+		    $(this).find(".dep2").stop(true, true).slideDown(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		    $(".gnb_bg").stop(true, true).slideDown(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		});
+
+		
+
+		$("#gnb").on("focusout",
+				".gnb_list > li:last-child > .dep2 > li:last-child > a",
+				function() {
+					$("#gnb").find(".dep2").hide();
+					$(".gnb_bg").hide();
+				});
+
+		//바로가기에 대한 메뉴 활성화 비활성화 처리
+		$("#skipNav a").on("focusin",
+				function() {
+					$("#gnb").find(".dep2").hide();
+					$(".gnb_bg").hide();
+				});
+		
+		
+		
+		//모바일 메뉴
+		var m_scroll_pos;
+
+		$(".m_gnb_btn").click(function() {
+			m_scroll_pos = $(window).scrollTop();
+			$("body").addClass("fixed");
+			$(".m_gnb_bg").fadeIn(400);
+			$(".m_nav_close_btn").css("display", "block");
+			$("#m_gnb").show().animate({
+				right : 0 + "px"
+			}, 400, function() {
+				//callback
+			});
+			return false;
+		});
+		$(".m_gnb_bg, #m_gnb .m_gnb_close_btn").click(function() {
+			$("body").removeClass("fixed");
+			$(window).scrollTop(m_scroll_pos);
+			$(".m_gnb_bg").fadeOut(400);
+			$("#m_gnb").animate({
+				right : -100 + "%"
+			}, 400, function() {
+				$(this).hide();
+			});
+			return false;
+		});
+
+		//모바일 gnb 2dep
+		$("#m_gnb ul li").on(
+				"click",
+				"button",
+				function() {
+					if ($("#m_gnb ul li .sub").is(":animated"))
+						return false;
+					if ($(this).next().hasClass("sub")) {
+						$(this).parent().toggleClass("on").siblings()
+								.removeClass("on");
+						$(this).next().slideToggle().parent().siblings()
+								.children(".sub").slideUp();
+						return false;
+					}
+				});
+
+	});
+</script>
+	
+	<div id="container" class="sub">
+		
+	
+		<div class="inner">
+			
+
+ 
+<div id="snb">
+	
+		
+		
+
+		
+			
+		
+			<h2 class="snb_tit"><span class="ico ico07"></span>교통정보</h2>
+			<ul class="snb_list">
+								
+				<li class="snb_dep1"><a href="/board/speedStat" class="snb_dep1_item on" ><span>속도정보</span></a></li>
+				<li class="snb_dep1"><a href="/board/speedStat2" class="snb_dep1_item" ><span>교통량정보</span></a></li>
+				<li class="snb_dep1"><a href="/board/trafficData" class="snb_dep1_item" ><span>교통조사자료</span></a></li>
+				
+				
+			</ul>
+		
+		
+		
+	
+</div>
+<script type="text/javascript">
+	$(function(){
+		
+		//snb : 서브 왼쪽메뉴
+		$("#snb .snb_list .snb_dep1").on("mouseenter focusin", ".list_item", function(){
+			if( $(this).hasClass("on") && $(this).next().is(":visible") ) return;
+			$(this).next().stop().slideDown();
+		});
+
+		$("#snb .snb_list").on("mouseleave", ".snb_dep1", function(){
+			if( $(">a", this).hasClass("on") && $(this).next().is(":visible") ) return;
+			if( $(">a", this).hasClass("on") && $(this).prev().is(":visible") ) return;
+			$(this).find(".snb_dep2_list").stop().slideUp();
+		});
+		
+		$("#snb .snb_dep2_list li:last-child a").on("focusout", function(){
+			if( $(this).closest(".snb_dep2_list").prev().hasClass("on") && $(this).closest(".snb_dep2_list").is(":visible") ) return;
+			$(this).closest(".snb_dep2_list").slideUp();
+		});
+		
+	})
+</script>
+			<!-- contents -->
+			<div id="contents">
+				<div class="inner">
+					<!-- sub_tit 화면 위치 표시 -->
+					<div class="sub_tit">
+						<h3>-</h3>
+						<div class="location">
+							<span class="home"><img src="/resources/images/sub/loc_home.png" alt="홈 아이콘" /></span>
+							<span class="loc1 arrow">-</span>
+							<span class="loc2 arrow">-</span>
+						</div>
+					</div>
+					<!-- //sub_tit -->
+					
+					
+						
+							
+
+ 
+<script type="text/javascript" src="/resources/js/witra/tab.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/devextreme/css/dx.common.css" />
+<link rel="stylesheet" type="text/css" href="/resources/devextreme/css/dx.light.css" />
+<script type="text/javascript" src="/resources/devextreme/js/jszip.min.js"></script>
+
+<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/19.1.5/js/dx.all.js"></script>
+
+<link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" charset="UTF-8">
+<script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/resources/jquery-ui/datepicker-ko.js" charset="UTF-8"></script>
+
+<link rel="stylesheet" type="text/css" href="/resources/js/select2/select2.min.css" />
+<script type="text/javascript" src="/resources/js/select2/select2.full.min.js"></script>
+
+
+
+
+<style>
+.dx-datagrid table tr.dx-header-row td{
+	background: #d7d7d7;
+	color:black !important;
+}
+.dx-datagrid-rowsview .dx-row {
+    border-bottom: 1px solid #ddd !important;
+}
+
+</style>
+
+<style>
+.loading-wrapper .loading {
+    min-height: 800px;
+    align-content: center;
+    z-index: 99;
+    background: rgba(66, 71, 74, 0.7);
+    height: 5%;
+    padding: 10px;
+    color: #fff;
+    width: 100%;
+    position: absolute;
+}
+</style>
+
+
+<div class="loading-wrapper alignC" style="display:none;">
+	<div class="loading">
+		<img src="/resources/images/sub/loading_new.gif" alt="로딩중" />
+		<p>데이터를 조회하는 중입니다. 잠시만 기다려 주세요.</p>
+	</div>
+</div>
+<div class="tab_inner_wrap">
+	<!-- <button type="button" class="m_tab_btn"><span class="text">시계열 분석</span><span class="ico">메뉴 여닫기</span></button> -->
+	<ul class="tab_inner_area tab_inner2" style="padding-top:0px;">
+		<li>
+			
+			<div class="tab">
+				<div class="brdList_wrap">
+					<table class="brdList">
+						<caption><span class="">속도 검색</span></caption>
+						<tbody>
+							<tr>
+								<th class="noLLine" style="white-space: nowrap;" scope="col">분류선택</th>
+								<td colspan="5" style="text-align: left; padding-left: 40px;">
+									<select id="win_sel" onchange="winselect()" class="inspection_typ_cd" style="width:160px" title="분류 선택">
+								
+										<option value="1" selected>시간대별 속도정보</option>			
+										<option value="2">요일별 속도정보</option>		
+										<option value="3">월별 속도정보</option>		
+										<!-- <option value="4">월별 속도정보</option>	 -->			                        
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th class="noLLine" scope="col"><span style="white-space: nowrap;">가로명</span> <span style="white-space: nowrap;">선택</span></th>
+								<td colspan="5" style="text-align: left; padding-left: 40px;">
+									<select id="road_fac_sn" class="inspection_typ_cd" style="" title="가로명 선택">
+										<option value="" selected>전체</option>	
+										<option value="1">공항로팔공로</option>										
+										<option value="2">구마로대명로</option>										
+										<option value="3">국채보상로</option>										
+										<option value="4">노원로동북로</option>										
+										<option value="5">달구벌대로</option>										
+										<option value="8">두류공원로서대구로</option>										
+										<option value="9">명덕로</option>										
+										<option value="10">무열로황금로</option>										
+										<option value="11">범안로</option>										
+										<option value="12">봉덕로</option>										
+										<option value="13">북비산로태평로</option>										
+										<option value="14">북비산로태평로동부로</option>										
+										<option value="15">상화로앞산순환로</option>										
+										<option value="16">서대구로</option>										
+										<option value="17">수성로</option>										
+										<option value="18">신암로아양로</option>										
+										<option value="19">신천대로</option>										
+										<option value="20">신천동로</option>										
+										<option value="21">아양로공항로</option>										
+										<option value="22">안심로</option>										
+										<option value="23">와룡로</option>										
+										<option value="24">월배로성당로</option>										
+										<option value="25">중동로</option>										
+										<option value="26">중앙대로</option>										
+										<option value="27">지산로동대구로</option>										
+										<option value="28">태평로</option>										
+										<option value="30">팔달로칠곡로</option>										
+										<option value="32">호국로</option>										
+										<option value="33">화랑로</option>										
+										<option value="34">달서로</option>										
+										<option value="35">팔달로</option>										
+										<option value="100">매천로</option>										
+										<option value="101">달성로</option>										
+										<option value="103">서성로 침산로</option>										
+										<option value="104">공평로 이천로</option>										
+										<option value="105">달서대로</option>										
+										<option value="106">평리로선원로</option>										
+										<option value="107">진천로</option>										
+										<option value="108">월곡로</option>										
+										<option value="109">현충로</option>										
+										<option value="110">무학로</option>										
+										<option value="111">앞산터널로</option>										
+										<option value="112">성북로</option>										
+										<option value="113">연암로</option>										
+										<option value="114">대학로</option>										
+										<option value="115">동원로</option>										
+										<option value="116">학정로</option>										
+										<option value="117">구암로</option>									
+										<option value="118">동화천로</option>										
+										<option value="119">성서공단남로</option>										
+										<option value="120">서변남로</option>										
+										<option value="121">성서로</option>										
+										<option value="122">용학로</option>										
+										<option value="123">경안로</option>										
+										<option value="124">남산로</option>										
+										<option value="125">테크노폴리스로</option>										
+										<option value="126">현풍로테크노북로</option>										
+										<option value="127">테크노대로</option>										
+										<option value="128">테크노순환로</option>										
+										<option value="129">비슬로</option>			                        
+									</select>
+								</td>
+							</tr>
+							<tr id="f1d">
+								<th class="noLLine" scope="col"><span style="white-space: nowrap;">구간별</span> <span style="white-space: nowrap;">상세보기</span></th>
+								<td colspan="5" style="text-align: left;">
+									<label style="margin-left: 30px;">
+							            <input type="radio" name="dsrcyn" value=""> 상세보기
+							        </label>
+									<label style="margin-left: 8px;">
+							            <input type="radio" name="dsrcyn" value="Y" checked> 미표시
+							        </label>
+								</td>		
+							</tr>
+							<!-- 
+							<tr>
+								<th class="noLLine" scope="col">도로유형 선택</th>
+								<td colspan="3" style="padding-left: 41px; text-align:left;">
+									<label>
+							            <input type="checkbox" checked name="road_type" value="고속국도"> 고속국도
+							        </label>							
+							        <label>
+							            <input type="checkbox" checked name="road_type" value="도시고속국도"> 도시고속국도
+							        </label>							
+							        <label>
+							            <input type="checkbox" checked name="road_type" value="일반국도"> 일반국도
+							        </label>							
+							        <label>
+							            <input type="checkbox" checked name="road_type" value="특별광역시도"> 특별,광역시도
+							        </label>							
+							        <label>
+							            <input type="checkbox" checked name="road_type" value="국가지원지방도"> 국가지원지방도
+							        </label>							
+							        <label>
+							            <input type="checkbox" checked name="road_type" value="지방도"> 지방도
+							        </label>							
+							        <label>
+							            <input type="checkbox" checked name="road_type" value="시군도"> 시,군도
+							        </label>
+								</td>								
+							</tr>
+							 -->
+							<tr>
+								<th class="noLLine" scope="col"  style="white-space: nowrap;">방향선택</th>
+								<td colspan="5" style="text-align: left;">
+									<label style="margin-left: 30px;">
+							            <input type="radio" name="direction" value="" checked> 양방향
+							        </label>
+									<label style="margin-left: 8px;">
+							            <input type="radio" name="direction" value="1"> 정방향
+							        </label>
+							        <label style="margin-left: 8px;">
+							            <input type="radio" name="direction" value="2"> 역방향
+							        </label>
+								</td>			
+							</tr>							
+							<tr id="tag12">
+								<th class="noLLine" scope="col" style="white-space: nowrap;">기간선택</th>
+								<td colspan="4" style="text-align: left; padding-left: 40px;">									
+									<input style="text-align: center; width: 110px;" type="text" name="searchFromDate" id="searchFromDate" value="2025-01-10" title="검색시작일자" />
+									~
+									<input style="text-align: center; width: 110px;" type="text" name="searchToDate" id="searchToDate" value="2025-01-10" title="검색종료일자"/>
+									<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">(*기간제한 : 1개월)</span>
+									<button class="btns big" style="white-space: nowrap; height: 32px; line-height: 30px;" onclick="preset1()"><span class="ico">1주일</span></button>
+									<button class="btns big" style="white-space: nowrap; height: 32px; line-height: 30px;" onclick="preset2()"><span class="ico">1개월</span></button>
+								</td> 								
+								<td class="noLLine alignR">
+									<button class="btns big search" style="height: 32px; line-height: 30px;" onclick="searchGet()"><span class="ico">조회</span></button>
+								</td>
+							</tr>
+							<tr id="tag3" style="display:none;">
+								<th class="noLLine" scope="col">기간선택</th>
+								<td colspan="4" style="text-align: left; padding-left: 40px;">									
+									<input type="month" style="text-align: center; width: 120px;" type="text" name="searchFromDate" id="searchFromDateM" value="2025-01" title="검색시작일자" />
+									~
+									<input type="month" style="text-align: center; width: 120px;" type="text" name="searchToDate" id="searchToDateM" value="2025-01" title="검색종료일자"/>
+									<span style="  white-space: nowrap;  overflow: hidden;  text-overflow: ellipsis;">(*기간제한 : 1개월)</span>											<button class="btns big" style="height: 32px; line-height: 30px;white-space: nowrap;" onclick="preset1x()"><span class="ico">1개월</span></button>
+									<!-- <button class="btns big" style="height: 32px; white-space: nowrap; line-height: 30px;" onclick="preset2x()"><span class="ico">3개월</span></button>	 -->						
+								</td> 
+								
+								<td class="noLLine alignR">
+									<button class="btns big search" style="height: 32px; line-height: 30px;" onclick="searchGet()"><span class="ico">조회</span></button>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+				<!-- 1번통계 -->
+				<div id="win_1">
+				
+					<div>
+						
+					<div id="timeSeriesDefault_wrapper" class="stats_wrapper">
+						<div id="timeSeriesDefault" class="statsDefault alignC"><p>검색조건을 선택 후 [조회]버튼을 클릭하면 해당 데이터가 표시됩니다.</p></div>
+					</div>
+					
+					
+					
+					<div id="timeSeriesChart_wrapper" class="graph_wrapper" style="display: none;">
+						<h5 class="bulD1">속도 통계차트</h5>
+						<div id="timeSeriesChart" class="datachart" ></div>
+					</div>
+					
+					<div id="timeSeriesStatsGrid_wrapper" class="stats_wrapper" style="display:none;">
+						<h5 class="bulD1">상세분석정보</h5>
+						<div id="timeSeriesStatsGrid" class="datagrid" ></div>
+					</div>
+					
+					<div id="flowStatsGrid_wrapper" class="stats_wrapper" style="display:none;">
+						<p class="bulD2_R">단위 : km/h</p>
+						<div id="flowStatsGrid" class="datagrid" ></div>
+					</div>
+					<!-- <div id="flowStatsChart_wrapper" class="stats_wrapper" style="display: none;">
+						<div id="flowStatsChart" class="datachart" ></div>
+					</div> -->
+					
+					
+					</div>
+				</div>
+				
+				<!-- 2번통계 -->
+				<div id="win_2" style="display:none;">
+				
+					<div>
+						
+					<div id="timeSeriesDefault_wrapper2" class="stats_wrapper">
+						<div id="timeSeriesDefault2" class="statsDefault alignC"><p>검색조건을 선택 후 [조회]버튼을 클릭하면 해당 데이터가 표시됩니다.</p></div>
+					</div>
+					
+					
+					
+					<div id="timeSeriesChart_wrapper2" class="graph_wrapper" style="display: none;">
+						<h5 class="bulD1">속도 통계차트</h5>
+						<div id="timeSeriesChart2" class="datachart" ></div>
+					</div>
+					
+					<div id="timeSeriesStatsGrid_wrapper2" class="stats_wrapper" style="display:none;">
+						<h5 class="bulD1">상세분석정보</h5>
+						<div id="timeSeriesStatsGrid2" class="datagrid" ></div>
+					</div>
+					
+					<div id="flowStatsGrid_wrapper2" class="stats_wrapper" style="display:none;">
+						<p class="bulD2_R">단위 : km/h</p>
+						<div id="flowStatsGrid2" class="datagrid" ></div>
+					</div>
+					<div id="flowStatsChart_wrapper2" class="stats_wrapper" style="display: none;">
+						<div id="flowStatsChart2" class="datachart" ></div>
+					</div>
+					
+					
+					</div>
+				</div>
+				
+				<!-- 3번통계 -->
+				<div id="win_3" style="display:none;">
+				
+					<div>
+					
+					<div id="timeSeriesDefault_wrapper3" class="stats_wrapper">
+						<div id="timeSeriesDefault3" class="statsDefault alignC"><p>검색조건을 선택 후 [조회]버튼을 클릭하면 해당 데이터가 표시됩니다.</p></div>
+					</div>
+					
+					
+					
+					<div id="timeSeriesChart_wrapper3" class="graph_wrapper" style="display: none;">
+						<h5 class="bulD1">속도 통계차트</h5>
+						<div id="timeSeriesChart3" class="datachart" ></div>
+					</div>
+					
+					<div id="timeSeriesStatsGrid_wrapper3" class="stats_wrapper" style="display:none;">
+						<h5 class="bulD1">상세분석정보</h5>
+						<div id="timeSeriesStatsGrid3" class="datagrid" ></div>
+					</div>
+					
+					<div id="flowStatsGrid_wrapper3" class="stats_wrapper" style="display:none;">
+						<p class="bulD2_R">단위 : km/h</p>
+						<div id="flowStatsGrid3" class="datagrid" ></div>
+					</div>
+					<div id="flowStatsChart_wrapper3" class="stats_wrapper" style="display: none;">
+						<div id="flowStatsChart3" class="datachart" ></div>
+					</div>
+					
+					
+					</div>
+				</div>
+				
+				<!-- 4번통계 -->
+				<div id="win_4" style="display:none;">
+				
+					<div>
+					
+					<div id="timeSeriesDefault_wrapper4" class="stats_wrapper">
+						<div id="timeSeriesDefault4" class="statsDefault alignC"><p>검색조건을 선택 후 [조회]버튼을 클릭하면 해당 데이터가 표시됩니다.</p></div>
+					</div>
+					
+					
+					
+					<div id="timeSeriesChart_wrapper4" class="graph_wrapper" style="display: none;">
+						<h5 class="bulD1">속도 통계차트</h5>
+						<div id="timeSeriesChart4" class="datachart" ></div>
+					</div>
+					
+					<div id="timeSeriesStatsGrid_wrapper4" class="stats_wrapper" style="display:none;">
+						<h5 class="bulD1">상세분석정보</h5>
+						<div id="timeSeriesStatsGrid4" class="datagrid" ></div>
+					</div>
+					
+					<div id="flowStatsGrid_wrapper4" class="stats_wrapper" style="display:none;">
+						<p class="bulD2_R">단위 : km/h</p>
+						<div id="flowStatsGrid4" class="datagrid" ></div>
+					</div>
+					<div id="flowStatsChart_wrapper4" class="stats_wrapper" style="display: none;">
+						<div id="flowStatsChart4" class="datachart" ></div>
+					</div>
+					
+					
+					</div>
+				</div>
+				
+				
+			</div>
+		</li>
+	</ul>
+</div>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 기초 데이터 # -->
+<script>
+	$(function(){
+				
+		// 현재 날짜를 구함
+		var today = new Date();
+		var toDate = new Date(today);
+
+		// 날짜를 YYYY-MM-DD 형식으로 변환하는 함수
+		function formatDate(date) {
+		    var year = date.getFullYear();
+		    var month = (date.getMonth() + 1).toString().padStart(2, '0');  // 월은 0부터 시작하므로 +1
+		    var day = date.getDate().toString().padStart(2, '0');
+		    return year + '-' + month + '-' + day;
+		}
+
+		// 날짜를 설정
+		$("#searchFromDate").val(formatDate(toDate));
+		$("#searchToDate").val(formatDate(toDate));
+
+		var toDateM = today;
+
+		// 날짜를 YYYY-MM 형식으로 변환하는 함수
+		function formatMonth(date) {
+		    var year = date.getFullYear();
+		    var month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1
+		    return year + '-' + month;
+		}
+
+		// 날짜를 설정
+		$("#searchFromDateM").val(formatMonth(toDateM));
+		$("#searchToDateM").val(formatMonth(toDateM));
+		
+		
+		
+		$('#win_sel').select2({
+			  language: {
+				    noResults: function() {
+				      return "검색 결과가 없습니다."; // 'No results found' 메시지 변경
+				    }
+				  }
+				});
+		$('#road_fac_sn').select2({
+			  language: {
+				    noResults: function() {
+				      return "검색 결과가 없습니다."; // 'No results found' 메시지 변경
+				    }
+				  }
+				});
+		 
+		$('.inner_tab').click(function(){
+			if($(this).hasClass('tab01')){
+				$('#tableInfo_wrapper').css('display','none');
+			}else{
+				$('#tableInfo_wrapper').css('display','block');
+			}
+			
+		});
+		
+	})
+
+	$(function(){
+				
+		$("#searchFromDate, #searchToDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			showButtonPanel : true
+		});		
+		
+	})	
+
+	function winselect() {
+	  $("#win_1").hide();
+	  $("#win_2").hide();
+	  $("#win_3").hide();
+	  $("#win_4").hide();
+		
+      if($("#win_sel").val() == "1"){
+    	  $("#win_1").show();
+    	  $("#tag12").show();
+    	  $("#tag3").hide();
+    	  $("#f1d").show();
+      }
+	  if($("#win_sel").val() == "2"){
+		  $("#win_2").show();
+		  $("#tag3").show();
+		  $("#tag12").hide();
+		  $("#f1d").hide();
+	  }
+	  if($("#win_sel").val() == "3"){
+		  $("#win_3").show();
+		  $("#tag3").show();
+		  $("#tag12").hide();
+		  $("#f1d").show();
+	  }
+	  if($("#win_sel").val() == "4"){
+		  $("#win_4").show();
+		  $("#tag3").show();
+		  $("#tag12").hide();
+		  $("#f1d").show();
+	  }
+    }
+	
+	function preset1() {		
+		// #searchToDate에서 값을 가져옴
+		var toDateString = $("#searchToDate").val();
+
+		// #searchToDate 값이 비어 있지 않은지 확인
+		if (toDateString) {
+		    // toDateString을 Date 객체로 변환
+		    var toDate = new Date(toDateString);
+
+		    // 'searchFromDate'는 #searchToDate에서 7일 전
+		    var fromDate = new Date(toDate);
+		    fromDate.setDate(toDate.getDate() - 7);
+
+		    // 날짜를 YYYY-MM-DD 형식으로 변환하는 함수
+		    function formatDate(date) {
+		        var year = date.getFullYear();
+		        var month = (date.getMonth() + 1).toString().padStart(2, '0');  // 월은 0부터 시작하므로 +1
+		        var day = date.getDate().toString().padStart(2, '0');
+		        return year + '-' + month + '-' + day;
+		    }
+
+		    // 날짜를 설정
+		    $("#searchFromDate").val(formatDate(fromDate));
+		} else {
+		    alert("searchToDate의 값이 비어 있습니다.");
+		}
+	}
+	function preset1x() {
+/* 		var today = new Date();
+
+		// 'searchFromDateM'은 오늘 날짜의 1달 전
+		var fromDateM = new Date(today);
+		fromDateM.setMonth(today.getMonth() - 1);
+
+		// 'searchToDateM'은 오늘 달
+		var toDateM = today;
+
+		// 날짜를 YYYY-MM 형식으로 변환하는 함수
+		function formatMonth(date) {
+		    var year = date.getFullYear();
+		    var month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1
+		    return year + '-' + month;
+		}
+
+		// 날짜를 설정
+		$("#searchFromDateM").val(formatMonth(fromDateM));
+		$("#searchToDateM").val(formatMonth(toDateM)); */
+		
+		// searchToDateM에서 값을 가져옴 (예: '2025-01' 형식)
+		var toDateM = $("#searchToDateM").val();
+
+		// toDateM이 비어 있지 않은 경우에만 처리
+		if (toDateM) {
+		    var toDate = new Date(toDateM + '-01'); // YYYY-MM-01 형식으로 Date 객체로 변환
+
+		    // 'searchFromDateM'은 'searchToDateM' 기준으로 1달 전
+		    var fromDateM = new Date(toDate);
+		    fromDateM.setMonth(toDate.getMonth() - 1);
+
+		    // 날짜를 YYYY-MM 형식으로 변환하는 함수
+		    function formatMonth(date) {
+		        var year = date.getFullYear();
+		        var month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1
+		        return year + '-' + month;
+		    }
+
+		    // 날짜를 설정
+		    $("#searchFromDateM").val(formatMonth(fromDateM));
+		}
+
+	}
+	function preset2() {
+		// #searchToDate에서 값을 가져옴
+		var toDateString = $("#searchToDate").val();
+
+		// #searchToDate 값이 비어 있지 않은지 확인
+		if (toDateString) {
+		    // toDateString을 Date 객체로 변환
+		    var toDate = new Date(toDateString);
+
+		    // 'searchFromDate'는 #searchToDate에서 7일 전
+		    var fromDate = new Date(toDate);
+		    fromDate.setDate(toDate.getDate() - 30);
+
+		    // 날짜를 YYYY-MM-DD 형식으로 변환하는 함수
+		    function formatDate(date) {
+		        var year = date.getFullYear();
+		        var month = (date.getMonth() + 1).toString().padStart(2, '0');  // 월은 0부터 시작하므로 +1
+		        var day = date.getDate().toString().padStart(2, '0');
+		        return year + '-' + month + '-' + day;
+		    }
+
+		    // 날짜를 설정
+		    $("#searchFromDate").val(formatDate(fromDate));
+		} else {
+		    alert("searchToDate의 값이 비어 있습니다.");
+		}
+	}
+	function preset2x() {
+		// searchToDateM에서 값을 가져옴 (예: '2025-01' 형식)
+		var toDateM = $("#searchToDateM").val();
+
+		// toDateM이 비어 있지 않은 경우에만 처리
+		if (toDateM) {
+		    var toDate = new Date(toDateM + '-01'); // YYYY-MM-01 형식으로 Date 객체로 변환
+
+		    // 'searchFromDateM'은 'searchToDateM' 기준으로 1달 전
+		    var fromDateM = new Date(toDate);
+		    fromDateM.setMonth(toDate.getMonth() - 3);
+
+		    // 날짜를 YYYY-MM 형식으로 변환하는 함수
+		    function formatMonth(date) {
+		        var year = date.getFullYear();
+		        var month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1
+		        return year + '-' + month;
+		    }
+
+		    // 날짜를 설정
+		    $("#searchFromDateM").val(formatMonth(fromDateM));
+		}
+
+	}
+	
+	function searchGet() {
+
+	  var selectedValue = document.querySelector('input[name="dsrcyn"]:checked').value;
+		
+	  $(".loading-wrapper").show();
+
+	
+	  
+	  if($("#win_sel").val() == "1"){
+		  
+		  if(checkDate() == "1"){
+			  alert("최대 검색 범위는 1개월 입니다.");
+			  $(".loading-wrapper").hide();
+			  return;
+		  }		
+		  
+		if(selectedValue == 'Y'){
+			getYearlyFlowStats1_group();
+		}else{
+			getYearlyFlowStats1();
+		}		
+      }
+	  if($("#win_sel").val() == "2"){
+		  
+		  if(checkDateM() == "1"){
+			  alert("최대 검색 범위는 1개월 입니다.");
+			  $(".loading-wrapper").hide();
+			  return;
+		  }	
+		  
+		getYearlyFlowStats2();
+	  }
+	  if($("#win_sel").val() == "3"){
+		
+		  if(checkDateM() == "1"){
+			  alert("최대 검색 범위는 1개월 입니다.");
+			  $(".loading-wrapper").hide();
+			  return;
+		  }	
+		  
+		if(selectedValue == 'Y'){
+			getYearlyFlowStats3_group();
+		}else{
+			getYearlyFlowStats3();
+		}		
+	  }
+	  if($("#win_sel").val() == "4"){
+		getYearlyFlowStats4();
+	  }		
+	  
+	// 2초 뒤에 .loading-wrapper 요소를 숨김
+	//	setTimeout(function() {
+	//	  $(".loading-wrapper").hide();
+	//	}, 2500);
+	  
+	}
+	
+	
+	
+	
+	
+</script>
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@공통끝 -->
+
+<!-- 시간대별 속도정보 통계 구간표시X -->
+<script>
+
+
+function getYearlyFlowStats1_group() {
+    var srch_year = $("#searchFromDate").val().substring(0, 4);
+
+    // Validation
+    if (!srch_year) {
+        alert("검색 연도를 선택하세요");
+        $('#srch_year').focus();
+        return false;
+    }
+
+    var road_fac_sn = $("#road_fac_sn").val();
+	var selectedValue = document.querySelector('input[name="direction"]:checked').value;
+    var t_start = $("#searchFromDate").val().replaceAll("-",""); //20210101 형식. cctv_no  
+    var t_end = $("#searchToDate").val().replaceAll("-","");  //20210202 형식. module_size
+	 
+	 
+    console.log({ fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end});    
+    
+    $.ajax({
+        url: "/map/ajax/getYearlyFlowStats1",
+        data: { fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end},
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            if (!data || !data.result || data.result.length === 0) {
+                alert("조회된 데이터가 없습니다.");
+                $('#statsDefault_wrapper').css("display", "block");
+                $('#flowStatsGrid_wrapper, #flowStatsChart_wrapper').css("display", "none");
+                return;
+            }
+
+            $('#timeSeriesDefault_wrapper').css("display", "none");
+            $('#flowStatsGrid_wrapper, #flowStatsChart_wrapper').css("display", "block");
+
+            var result = data.result;
+
+            // 데이터 변환: 여러 ROAD_NM과 DIRE_NM 정보를 다룰 준비
+            var gridData = [];
+            for (var i = 0; i < result.length; i++) {
+                var row = result[i];
+                
+                //console.log(row);
+                
+                var direNm = row.DIRE_NM || "기본";
+                var roadNm = row.ROAD_NM || "기본";
+
+                var newRow = {
+                    DIRE_NM: direNm,
+                    ROAD_NM: roadNm
+                };
+
+                for (var key in row) {
+                    if (row.hasOwnProperty(key) && /^\d{2}$/.test(key)) {
+                        newRow[key] = row[key] || 0;
+                    }
+                }
+
+                gridData.push(newRow);
+            }
+
+            // 데이터 표 생성
+            $('#flowStatsGrid').dxDataGrid({
+                dataSource: gridData,
+                columns: (function () {
+                    var columns = [
+                        { caption: "가로명", dataField: "ROAD_NM", width: 180, alignment: 'center' },
+                        { caption: "방향", dataField: "DIRE_NM", width: 90, alignment: 'center' },
+                        { caption: "일평균", dataField: "04", width: 60, alignment: 'center' }
+                    ];
+
+                    Object.keys(gridData[0]).sort().forEach(function (key) {
+                    	//console.log(gridData[0]);
+                    	
+                        if (/^\d{2}$/.test(key)) {
+                            columns.push({
+                                caption: key+"시",
+                                dataField: key,
+                                width: 60,
+                                alignment: 'center'
+                            });
+                        }
+                    });
+
+                    return columns;
+                })(),
+                paging: {
+                    enabled: true,  // 페이징 활성화
+                    pageSize: 10    // 한 페이지에 표시할 데이터 수
+                },
+                columnAutoWidth: true,
+                loadPanel: {
+                    enabled: true,
+                    text: '검색중.. 잠시만 기다려 주세요'
+                },
+                "export": {
+                    enabled: true,
+                    fileName: "소통정보_" + srch_year
+                }
+            });
+
+            // 차트 데이터 생성
+            var chartData = {};
+            for (var i = 0; i < gridData.length; i++) {
+                var row = gridData[i];
+                var uniqueKey = row.ROAD_NM + ' - ' + row.DIRE_NM;
+
+                if (!chartData[uniqueKey]) {
+                    chartData[uniqueKey] = [];
+                }
+
+                for (var hourKey in row) {
+                    if (row.hasOwnProperty(hourKey) && /^\d{2}$/.test(hourKey)) {
+                        chartData[uniqueKey].push({
+                            hour: hourKey,
+                            speed: parseFloat(row[hourKey]) || 0
+                        });
+                    }
+                }
+            }
+
+            var seriesConfig = [];
+            for (var key in chartData) {
+                if (chartData.hasOwnProperty(key)) {
+                    seriesConfig.push({
+                        name: key,
+                        data: chartData[key].map(function (item) {
+                            return item.speed;
+                        })
+                    });
+                }
+            }
+
+            // 차트 생성
+            
+        },
+        error: function () {
+            alert("데이터 조회에 실패했습니다.");
+        },
+        beforeSend: function () {
+            $('#statsDefault_wrapper').css("display", "block");
+            $('#flowStatsGrid_wrapper, #flowStatsChart_wrapper').css("display", "none");
+        },
+        complete: function () {
+        	$(".loading-wrapper").hide();
+        }
+    });
+}
+
+</script>
+
+<!-- 월별 속도정보 통계 구간표시X -->
+<script>
+
+function getYearlyFlowStats3_group() {
+    var srch_year = $("#searchFromDate").val().substring(0, 4);
+
+    // Validation
+    if (!srch_year) {
+        alert("검색 연도를 선택하세요");
+        $('#srch_year').focus();
+        return false;
+    }
+
+    var road_fac_sn = $("#road_fac_sn").val();
+	 var selectedValue = document.querySelector('input[name="direction"]:checked').value;
+	    
+	    var t_start = $("#searchFromDateM").val().replaceAll("-","") + "01"; //20210101 형식. cctv_no  
+	    var t_end = $("#searchToDateM").val().replaceAll("-","") + "30";  //20210202 형식. module_size
+		 
+		 
+	    console.log({ fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end}); 
+	    
+    $.ajax({
+        url: "/map/ajax/getYearlyFlowStats1",
+        data: { fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end},
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            if (!data || !data.result || data.result.length === 0) {
+                alert("조회된 데이터가 없습니다.");
+                $('#statsDefault_wrapper3').css("display", "block");
+                $('#flowStatsGrid_wrapper3, #flowStatsChart_wrapper3').css("display", "none");
+                return;
+            }
+
+            $('#timeSeriesDefault_wrapper3').css("display", "none");
+            $('#flowStatsGrid_wrapper3, #flowStatsChart_wrapper3').css("display", "block");
+
+            var result = data.result;
+
+            // 데이터 변환: 여러 ROAD_NM과 DIRE_NM 정보를 다룰 준비
+            var gridData = [];
+            for (var i = 0; i < result.length; i++) {
+                var row = result[i];
+                
+                //console.log(row);
+                
+                var direNm = row.DIRE_NM || "기본";
+                var roadNm = row.ROAD_NM || "기본";
+
+                var newRow = {
+                    DIRE_NM: direNm,
+                    ROAD_NM: roadNm
+                };
+
+                for (var key in row) {
+                    if (row.hasOwnProperty(key) && /^\d{2}$/.test(key)) {
+                        newRow[key] = row[key] || 0;
+                    }
+                }
+
+                gridData.push(newRow);
+            }
+
+            // 데이터 표 생성
+            $('#flowStatsGrid3').dxDataGrid({
+                dataSource: gridData,
+                columns: (function () {
+                    var columns = [
+                        { caption: "가로명", dataField: "ROAD_NM", width: 180, alignment: 'center' },
+                        { caption: "방향", dataField: "DIRE_NM", width: 90, alignment: 'center' },
+                        { caption: "월평균", dataField: "04", width: 60, alignment: 'center' }
+                    ];
+
+                    Object.keys(gridData[0]).sort().forEach(function (key) {
+                    	//console.log(gridData[0]);
+                    	
+                        if (/^\d{2}$/.test(key)) {
+                            columns.push({
+                                caption: key+"시",
+                                dataField: key,
+                                width: 60,
+                                alignment: 'center'
+                            });
+                        }
+                    });
+
+                    return columns;
+                })(),
+                paging: {
+                    enabled: true,  // 페이징 활성화
+                    pageSize: 10    // 한 페이지에 표시할 데이터 수
+                },
+                columnAutoWidth: true,
+                loadPanel: {
+                    enabled: true,
+                    text: '검색중.. 잠시만 기다려 주세요'
+                },
+                "export": {
+                    enabled: true,
+                    fileName: "소통정보_" + srch_year
+                }
+            });
+
+            // 차트 데이터 생성
+            var chartData = {};
+            for (var i = 0; i < gridData.length; i++) {
+                var row = gridData[i];
+                var uniqueKey = row.ROAD_NM + ' - ' + row.DIRE_NM;
+
+                if (!chartData[uniqueKey]) {
+                    chartData[uniqueKey] = [];
+                }
+
+                for (var hourKey in row) {
+                    if (row.hasOwnProperty(hourKey) && /^\d{2}$/.test(hourKey)) {
+                        chartData[uniqueKey].push({
+                            hour: hourKey,
+                            speed: parseFloat(row[hourKey]) || 0
+                        });
+                    }
+                }
+            }
+
+            var seriesConfig = [];
+            for (var key in chartData) {
+                if (chartData.hasOwnProperty(key)) {
+                    seriesConfig.push({
+                        name: key,
+                        data: chartData[key].map(function (item) {
+                            return item.speed;
+                        })
+                    });
+                }
+            }
+
+            // 차트 생성           
+        },
+        error: function () {
+            alert("데이터 조회에 실패했습니다.");
+        },
+        beforeSend: function () {
+            $('#statsDefault_wrapper3').css("display", "block");
+            $('#flowStatsGrid_wrapper3, #flowStatsChart_wrapper3').css("display", "none");
+        },
+        complete: function () {
+        	$(".loading-wrapper").hide();
+        }
+    });
+}
+
+</script>
+
+
+
+
+
+<!-- ################### 시간대별 속도정보 통계 ################## -->
+<script>
+function getYearlyFlowStats1() {
+    var srch_year = $("#searchFromDate").val().substring(0, 4);
+
+    // Validation
+    if (!srch_year) {
+        alert("검색 연도를 선택하세요");
+        $('#srch_year').focus();
+        return false;
+    }
+
+    var road_fac_sn = $("#road_fac_sn").val();
+
+	 var selectedValue = document.querySelector('input[name="direction"]:checked').value;
+    
+	    
+	    var t_start = $("#searchFromDate").val().replaceAll("-",""); //20210101 형식. cctv_no  
+	    var t_end = $("#searchToDate").val().replaceAll("-","");  //20210202 형식. module_size
+		 
+		 
+	    console.log({ fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end}); 
+    
+    $.ajax({
+        url: "/map/ajax/getYearlyFlowStats3",
+        data: { fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end},
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            console.log("AJAX response data:", data);
+
+            if (!data || !data.result || data.result.length === 0) {
+                alert("조회된 데이터가 없습니다.");
+                $('#statsDefault_wrapper').css("display", "block");
+                $('#flowStatsGrid_wrapper, #flowStatsChart_wrapper').css("display", "none");
+                return;
+            }
+
+            $('#timeSeriesDefault_wrapper').css("display", "none");
+            $('#flowStatsGrid_wrapper, #flowStatsChart_wrapper').css("display", "block");
+
+            var result = data.result;
+
+            // 그룹화: ROAD_NM + DIRE_NM + SECTION_NM을 키로 하고 SPEED(ve)를 매핑
+            var groupedData = {};
+            result.forEach(function (row) {
+                console.log("Processing row:", row);
+                var key = row.ROAD_NM + ' / ' + row.DIRE_NM + ' / ' + row.SECTION_NM;
+                if (!groupedData[key]) {
+                    groupedData[key] = { ve: row.ve || 0, ROAD_NM: row.ROAD_NM, DIRE_NM: row.DIRE_NM, SECTION_NM: row.SECTION_NM };
+                }
+
+                // 월별 데이터 (00~23) 처리
+                for (var month = 0; month <= 23; month++) {
+                    var monthKey = (month < 10 ? '0' : '') + month;
+                    if (row[monthKey]) {
+                        groupedData[key][monthKey] = row[monthKey];
+                    }
+                }
+            });
+
+            // dxDataGrid용 데이터 변환
+            var gridData = [];
+            for (var key in groupedData) {
+                var row = groupedData[key];
+                //console.log(row);
+
+                var newRow = {
+                    ROAD_NM: row.ROAD_NM || '기본',
+                    DIRE_NM: row.DIRE_NM || '기본',
+                    SECTION_NM: row.SECTION_NM || '기본',
+                    ve: row.ve
+                };
+
+                // 월별 데이터를 추가
+                for (var month = 0; month <= 23; month++) {
+                    var monthKey = (month < 10 ? '0' : '') + month;
+                    if (row[monthKey]) {
+                        newRow[monthKey] = row[monthKey];
+                    }
+                }
+
+                gridData.push(newRow);
+            }
+
+            console.log("Grid Data:", gridData);
+
+            // DataGrid 생성
+            $('#flowStatsGrid').dxDataGrid({
+                dataSource: gridData,
+                width: '100%',
+                paging: {
+                    enabled: true,  // 페이징 활성화
+                    pageSize: 10    // 한 페이지에 표시할 데이터 수
+                },
+                columns: (function () {
+                    var columns = [
+                        { caption: "도로명", dataField: "ROAD_NM", minWidth: 180, alignment: 'center' },
+                        { caption: "방향", dataField: "DIRE_NM", minWidth: 60, alignment: 'center' },
+                        { caption: "구간명", dataField: "SECTION_NM", minWidth: 90, alignment: 'center' },
+                        { caption: "일평균", dataField: "ve", width: 60, alignment: 'center' }
+                    ];
+
+                    // 월별 컬럼을 추가
+                    for (var month = 0; month <= 23; month++) {
+                        var monthKey = (month < 10 ? '0' : '') + month;
+                        columns.push({
+                            caption: monthKey+"시",
+                            dataField: monthKey,
+                            width: 60,
+                            alignment: 'center'
+                        });
+                    }
+
+                    return columns;
+                })(),
+                columnAutoWidth: true,
+                loadPanel: {
+                    enabled: true,
+                    text: '검색중.. 잠시만 기다려 주세요'
+                },
+                "export": {
+                    enabled: true,
+                    fileName: "소통정보_" + srch_year
+                }
+            });
+
+            // dxChart를 위한 데이터 준비
+            var chartData = [];
+            for (var routeKey in groupedData) {
+                var routeData = groupedData[routeKey];
+                var monthlyData = [];
+
+                // 월별 데이터를 chartData에 추가
+                for (var month = 0; month <= 23; month++) {
+                    var monthKey = (month < 10 ? '0' : '') + month;
+                    if (routeData[monthKey] !== undefined) {
+                        monthlyData.push({ month: monthKey, ve: routeData[monthKey] });
+                    }
+                }
+
+                chartData.push({
+                    route: routeKey,
+                    monthlyData: monthlyData
+                });
+            }
+
+            console.log("Chart Data:", chartData);
+
+            // dxChart 생성
+            /*
+            $('#flowStatsChart3').dxChart({
+                dataSource: chartData,
+                commonSeriesSettings: {
+                    argumentField: "month",
+                    valueField: "ve",
+                    type: "bar"
+                },
+                series: chartData.map(function (data) {
+                    return { name: data.route, valueField: "ve" };
+                }),
+                title: "경로 및 구간별 속도 데이터",
+                tooltip: {
+                    enabled: true,
+                    customizeTooltip: function (arg) {
+                        return { text: arg.seriesName + ": " + arg.value + " km/h" };
+                    }
+                },
+                legend: {
+                    verticalAlignment: "bottom",
+                    horizontalAlignment: "center"
+                },
+                "export": {
+                    enabled: true,
+                    fileName: "소통정보_" + srch_year
+                }
+            });
+            */
+        },
+        error: function () {
+            alert("데이터 조회에 실패했습니다.");
+        },
+        beforeSend: function () {
+            $('#statsDefault_wrapper3').css("display", "block");
+            $('#flowStatsGrid_wrapper3, #flowStatsChart_wrapper3').css("display", "none");
+        },
+        complete: function () {
+        	$(".loading-wrapper").hide();
+        }
+    });
+}
+</script>
+
+<!-- ################### 2번 통계 ################## -->
+<script>
+function getYearlyFlowStats2() {
+    var srch_year = $("#searchFromDate").val().substring(0, 4);
+
+    // Validation
+    if (!srch_year) {
+        alert("검색 연도를 선택하세요");
+        $('#srch_year').focus();
+        return false;
+    }
+
+    var road_fac_sn = $("#road_fac_sn").val();
+
+    var selectedValue = document.querySelector('input[name="direction"]:checked').value;
+    
+    var t_start = $("#searchFromDateM").val().replaceAll("-","") + "01"; //20210101 형식. cctv_no  
+    var t_end = $("#searchToDateM").val().replaceAll("-","") + "30";  //20210202 형식. module_size
+	 
+	 
+    console.log({ fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end}); 
+    
+    $.ajax({
+        url: "/map/ajax/getYearlyFlowStats2",
+        data: { fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end},
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            console.log("AJAX response data:", data);
+
+            if (!data || !data.result || data.result.length === 0) {
+                alert("조회된 데이터가 없습니다.");
+                $('#statsDefault_wrapper2').css("display", "block");
+                $('#flowStatsGrid_wrapper2, #flowStatsChart_wrapper2').css("display", "none");
+                return;
+            }
+
+            $('#timeSeriesDefault_wrapper2').css("display", "none");
+            $('#flowStatsGrid_wrapper2, #flowStatsChart_wrapper2').css("display", "block");
+
+            var result = data.result;
+
+            // 그룹화: PRGRS_DRC, DIRE_NM, ROAD_NM 각각 나눠 매핑하고 요일별로 SPEED 매핑
+            var groupedData = {};
+
+            result.forEach(function (row) {
+                console.log("Processing row:", row);
+                
+                // Key 생성: PRGRS_DRC, DIRE_NM, ROAD_NM을 각각 저장
+                var key = row.ROAD_NM + ' / ' + row.PRGRS_DRC + ' / ' + row.DIRE_NM;
+
+                if (!groupedData[key]) {
+                    groupedData[key] = {
+                        PRGRS_DRC: row.PRGRS_DRC,
+                        DIRE_NM: row.DIRE_NM,
+                        ROAD_NM: row.ROAD_NM,
+                        월: 0,
+                        화: 0,
+                        수: 0,
+                        목: 0,
+                        금: 0,
+                        토: 0,
+                        일: 0
+                    };
+                }
+
+                var day = row.DAY_OF_WEEK;
+                if (day) {
+                    groupedData[key][day] = row.SPEED || 0;
+                }
+            });
+
+            console.log("Grouped Data:", groupedData);
+
+            // dxDataGrid를 위한 변환
+            var gridData = [];
+            for (var key in groupedData) {
+                var row = groupedData[key];
+                gridData.push({
+                    PRGRS_DRC: row.PRGRS_DRC || '기본',
+                    DIRE_NM: row.DIRE_NM || '기본',
+                    ROAD_NM: row.ROAD_NM || '기본',
+                    월: row["월"] || 0,
+                    화: row["화"] || 0,
+                    수: row["수"] || 0,
+                    목: row["목"] || 0,
+                    금: row["금"] || 0,
+                    토: row["토"] || 0,
+                    일: row["일"] || 0
+                });
+            }
+
+            console.log("Grid Data:", gridData);
+
+            // DataGrid 생성
+            $('#flowStatsGrid2').dxDataGrid({
+                dataSource: gridData,
+                width: '100%',
+                paging: {
+                    enabled: true,  // 페이징 활성화
+                    pageSize: 10    // 한 페이지에 표시할 데이터 수
+                },
+                columns: [
+                	{ caption: "가로명", dataField: "ROAD_NM", minWidth: 150, alignment: 'center' },
+                    /* { caption: "구간명", dataField: "PRGRS_DRC", minWidth: 120, alignment: 'center' }, */
+                    { caption: "방향", dataField: "DIRE_NM", minWidth: 80, alignment: 'center' },
+                    { caption: "월", dataField: "월", width: 60, alignment: 'center' },
+                    { caption: "화", dataField: "화", width: 60, alignment: 'center' },
+                    { caption: "수", dataField: "수", width: 60, alignment: 'center' },
+                    { caption: "목", dataField: "목", width: 60, alignment: 'center' },
+                    { caption: "금", dataField: "금", width: 60, alignment: 'center' },
+                    { caption: "토", dataField: "토", width: 60, alignment: 'center' },
+                    { caption: "일", dataField: "일", width: 60, alignment: 'center' }
+                ],
+                columnAutoWidth: true,
+                loadPanel: {
+                    enabled: true,
+                    text: '검색중.. 잠시만 기다려 주세요'
+                },
+                "export": {
+                    enabled: true,
+                    fileName: "소통정보_" + srch_year
+                }
+            });
+
+            // dxChart를 위한 데이터 준비
+            var chartData = [];
+            for (var key in groupedData) {
+                chartData.push({
+                    PRGRS_DRC: groupedData[key].PRGRS_DRC || '기본',
+                    DIRE_NM: groupedData[key].DIRE_NM || '기본',
+                    ROAD_NM: groupedData[key].ROAD_NM || '기본',
+                    월: groupedData[key]["월"] || 0,
+                    화: groupedData[key]["화"] || 0,
+                    수: groupedData[key]["수"] || 0,
+                    목: groupedData[key]["목"] || 0,
+                    금: groupedData[key]["금"] || 0,
+                    토: groupedData[key]["토"] || 0,
+                    일: groupedData[key]["일"] || 0
+                });
+            }
+
+            console.log("Chart Data:", chartData);
+
+            // dxChart 생성
+            /*
+            $('#flowStatsChart2').dxChart({
+                dataSource: chartData,
+                commonSeriesSettings: {
+                    argumentField: "ROAD_NM",
+                    type: "line"
+                },
+                series: [
+                    { valueField: "월", name: "월" },
+                    { valueField: "화", name: "화" },
+                    { valueField: "수", name: "수" },
+                    { valueField: "목", name: "목" },
+                    { valueField: "금", name: "금" },
+                    { valueField: "토", name: "토" },
+                    { valueField: "일", name: "일" }
+                ],
+                title: "요일별 속도 데이터",
+                tooltip: {
+                    enabled: true,
+                    customizeTooltip: function (arg) {
+                        return { text: arg.seriesName + ": " + arg.value + " km/h" };
+                    }
+                },
+                legend: {
+                    visible: true
+                },
+                "export": {
+                    enabled: true,
+                    fileName: "소통정보_" + srch_year
+                }
+            });
+            */
+        },
+        error: function () {
+            alert("데이터 조회에 실패했습니다.");
+        },
+        beforeSend: function () {
+            $('#statsDefault_wrapper2').css("display", "block");
+            $('#flowStatsGrid_wrapper2, #flowStatsChart_wrapper2').css("display", "none");
+        },
+        complete: function () {
+        	$(".loading-wrapper").hide();
+        }
+    });
+}
+
+</script>
+
+<!-- ################### 3번 통계 ################## -->
+<script>
+function getYearlyFlowStats3() {
+    var srch_year = $("#searchFromDate").val().substring(0, 4);
+
+    // Validation
+    if (!srch_year) {
+        alert("검색 연도를 선택하세요");
+        $('#srch_year').focus();
+        return false;
+    }
+
+    var road_fac_sn = $("#road_fac_sn").val();
+    
+    var selectedValue = document.querySelector('input[name="direction"]:checked').value;
+    
+    var t_start = $("#searchFromDateM").val().replaceAll("-","") + "01"; //20210101 형식. cctv_no  
+    var t_end = $("#searchToDateM").val().replaceAll("-","") + "30";  //20210202 형식. module_size
+	 
+	 
+    console.log({ fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end}); 
+    
+    $.ajax({
+        url: "/map/ajax/getYearlyFlowStats3",
+        data: { fac_sn : road_fac_sn , use_yn : selectedValue, cctv_no : t_start, module_size : t_end},
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            console.log("AJAX response data:", data);
+
+            if (!data || !data.result || data.result.length === 0) {
+                alert("조회된 데이터가 없습니다.");
+                $('#statsDefault_wrapper3').css("display", "block");
+                $('#flowStatsGrid_wrapper3, #flowStatsChart_wrapper3').css("display", "none");
+                return;
+            }
+
+            $('#timeSeriesDefault_wrapper3').css("display", "none");
+            $('#flowStatsGrid_wrapper3, #flowStatsChart_wrapper3').css("display", "block");
+
+            var result = data.result;
+
+            // 그룹화: ROAD_NM + DIRE_NM + SECTION_NM을 키로 하고 SPEED(ve)를 매핑
+            var groupedData = {};
+            result.forEach(function (row) {
+                console.log("Processing row:", row);
+                var key = row.ROAD_NM + ' / ' + row.DIRE_NM + ' / ' + row.SECTION_NM;
+                if (!groupedData[key]) {
+                    groupedData[key] = { ve: row.ve || 0, ROAD_NM: row.ROAD_NM, DIRE_NM: row.DIRE_NM, SECTION_NM: row.SECTION_NM };
+                }
+
+                // 월별 데이터 (00~23) 처리
+                for (var month = 0; month <= 23; month++) {
+                    var monthKey = (month < 10 ? '0' : '') + month;
+                    if (row[monthKey]) {
+                        groupedData[key][monthKey] = row[monthKey];
+                    }
+                }
+            });
+
+            // dxDataGrid용 데이터 변환
+            var gridData = [];
+            for (var key in groupedData) {
+                var row = groupedData[key];
+                //console.log(row);
+
+                var newRow = {
+                    ROAD_NM: row.ROAD_NM || '기본',
+                    DIRE_NM: row.DIRE_NM || '기본',
+                    SECTION_NM: row.SECTION_NM || '기본',
+                    ve: row.ve
+                };
+
+                // 월별 데이터를 추가
+                for (var month = 0; month <= 23; month++) {
+                    var monthKey = (month < 10 ? '0' : '') + month;
+                    if (row[monthKey]) {
+                        newRow[monthKey] = row[monthKey];
+                    }
+                }
+
+                gridData.push(newRow);
+            }
+
+            console.log("Grid Data:", gridData);
+
+            // DataGrid 생성
+            $('#flowStatsGrid3').dxDataGrid({
+                dataSource: gridData,
+                width: '100%',
+                paging: {
+                    enabled: true,  // 페이징 활성화
+                    pageSize: 10    // 한 페이지에 표시할 데이터 수
+                },
+                columns: (function () {
+                    var columns = [
+                        { caption: "도로명", dataField: "ROAD_NM", minWidth: 180, alignment: 'center' },
+                        { caption: "방향", dataField: "DIRE_NM", minWidth: 60, alignment: 'center' },
+                        { caption: "구간명", dataField: "SECTION_NM", minWidth: 90, alignment: 'center' },
+                        { caption: "월평균", dataField: "ve", width: 60, alignment: 'center' }
+                    ];
+
+                    // 월별 컬럼을 추가
+                    for (var month = 0; month <= 23; month++) {
+                        var monthKey = (month < 10 ? '0' : '') + month;
+                        columns.push({
+                            caption: monthKey+"시",
+                            dataField: monthKey,
+                            width: 60,
+                            alignment: 'center'
+                        });
+                    }
+
+                    return columns;
+                })(),
+                columnAutoWidth: true,
+                loadPanel: {
+                    enabled: true,
+                    text: '검색중.. 잠시만 기다려 주세요'
+                },
+                "export": {
+                    enabled: true,
+                    fileName: "소통정보_" + srch_year
+                }
+            });
+
+            // dxChart를 위한 데이터 준비
+            var chartData = [];
+            for (var routeKey in groupedData) {
+                var routeData = groupedData[routeKey];
+                var monthlyData = [];
+
+                // 월별 데이터를 chartData에 추가
+                for (var month = 0; month <= 23; month++) {
+                    var monthKey = (month < 10 ? '0' : '') + month;
+                    if (routeData[monthKey] !== undefined) {
+                        monthlyData.push({ month: monthKey, ve: routeData[monthKey] });
+                    }
+                }
+
+                chartData.push({
+                    route: routeKey,
+                    monthlyData: monthlyData
+                });
+            }
+
+            console.log("Chart Data:", chartData);
+
+            // dxChart 생성
+            /*
+            $('#flowStatsChart3').dxChart({
+                dataSource: chartData,
+                commonSeriesSettings: {
+                    argumentField: "month",
+                    valueField: "ve",
+                    type: "bar"
+                },
+                series: chartData.map(function (data) {
+                    return { name: data.route, valueField: "ve" };
+                }),
+                title: "경로 및 구간별 속도 데이터",
+                tooltip: {
+                    enabled: true,
+                    customizeTooltip: function (arg) {
+                        return { text: arg.seriesName + ": " + arg.value + " km/h" };
+                    }
+                },
+                legend: {
+                    verticalAlignment: "bottom",
+                    horizontalAlignment: "center"
+                },
+                "export": {
+                    enabled: true,
+                    fileName: "소통정보_" + srch_year
+                }
+            });
+            */
+        },
+        error: function () {
+            alert("데이터 조회에 실패했습니다.");
+        },
+        beforeSend: function () {
+            $('#statsDefault_wrapper3').css("display", "block");
+            $('#flowStatsGrid_wrapper3, #flowStatsChart_wrapper3').css("display", "none");
+        },
+        complete: function () {
+        	$(".loading-wrapper").hide();
+        }
+    });
+}
+
+</script>
+
+<!-- ###################4번 통계 ################## -->
+<script>
+function checkDate() {
+    const fromDateStr = document.getElementById("searchFromDate").value; // 시작 날짜
+    const toDateStr = document.getElementById("searchToDate").value; // 종료 날짜
+
+    const fromDate = new Date(fromDateStr); // 문자열을 Date 객체로 변환
+    const toDate = new Date(toDateStr);
+
+    // 두 날짜 사이의 차이를 일 단위로 계산
+    const timeDiff = Math.abs(toDate - fromDate); // 밀리초 차이
+    const daysDiff = timeDiff / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+
+    if (daysDiff <= 30) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
+  
+function checkDateM() {
+    const fromDateStr = document.getElementById("searchFromDateM").value; // 시작 날짜 (yyyy-mm)
+    const toDateStr = document.getElementById("searchToDateM").value; // 종료 날짜 (yyyy-mm)
+
+    // 문자열을 Date 객체로 변환 (월의 첫 번째 날로 설정)
+    const fromDate = new Date(fromDateStr + "-01"); // 시작 날짜
+    const toDate = new Date(toDateStr + "-01"); // 종료 날짜
+
+    // 두 날짜 사이의 차이를 월 단위로 계산
+    const yearDiff = toDate.getFullYear() - fromDate.getFullYear();
+    const monthDiff = toDate.getMonth() - fromDate.getMonth();
+    const totalMonthDiff = yearDiff * 12 + monthDiff; // 전체 월 차이
+
+    // 1개월 초과 여부 판단
+    if (totalMonthDiff > 1) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+</script>
+
+
+						
+						
+					
+					
+				</div>
+			</div>
+			<!-- //contents -->
+		</div>	
+	</div>
+	<!-- //container -->
+	
+	
+
+
+<!-- footer -->
+<!-- //secondArea -->			
+			
+<div id="footer" style="height:73px;">
+	<div class="inner" style="white-space: nowrap;">				
+		<div class="footer_nav">
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00050250" target="_blank" title="새창열림" >개인정보처리방침</a>
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00937560" target="_blank" title="새창열림" class="last">영상처리기기운영·관리방침</a>
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00050251" target="_blank" title="새창열림" class="last">저작권정책</a>
+		</div>
+
+		<p class="adress">대구광역시 수성구 무학로 227 대구경찰청 교통정보센터</p>
+		<p class="copy">Copyright by 대구광역시 교통종합정보 All Rights Reserved.</p>
+
+		
+		
+	</div>
+</div>
+<!-- //footer -->
+
+
+
+	
+</div>
+</body>
+</html>

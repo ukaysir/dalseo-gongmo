@@ -2,23 +2,31 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { Circle, MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  Circle,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import { useEffect, useMemo } from "react";
 import type { AddressCandidate, ImpactItem } from "@/lib/types";
 
 const categoryColors: Record<ImpactItem["category"], string> = {
-  traffic: "#b45309",
-  construction: "#92400e",
-  urban_plan: "#1d4ed8",
-  council: "#6d28d9",
-  public_notice: "#0f766e",
-  event: "#be123c",
-  safety: "#dc2626",
-  parking: "#0369a1",
-  heat: "#ea580c",
-  facility: "#4d7c0f",
-  welfare: "#7c3aed",
-  environment: "#15803d",
+  traffic: "#9a5a12",
+  construction: "#7c4b1f",
+  urban_plan: "#315fd1",
+  council: "#7650b5",
+  public_notice: "#236452",
+  event: "#b13b61",
+  safety: "#bf2638",
+  parking: "#1d73a6",
+  heat: "#c2601b",
+  facility: "#587735",
+  welfare: "#6b58c9",
+  environment: "#287a59",
 };
 
 type ImpactMapProps = {
@@ -27,6 +35,7 @@ type ImpactMapProps = {
   radiusM: number;
   selectedId: string | null;
   onSelect: (id: string) => void;
+  onPickLocation?: (lat: number, lng: number) => void;
 };
 
 export default function ImpactMap({
@@ -35,33 +44,37 @@ export default function ImpactMap({
   radiusM,
   selectedId,
   onSelect,
+  onPickLocation,
 }: ImpactMapProps) {
   const selectedItem = items.find((item) => item.id === selectedId) ?? items[0];
-  const userIcon = useMemo(() => createIcon("#111827", "내 위치"), []);
+  const userIcon = useMemo(() => createIcon("#172554", "내 위치"), []);
   const centerPoint: [number, number] = [center.lat, center.lng];
 
   return (
-    <section className="border border-[#dfe4d6] bg-white">
-      <div className="flex flex-col gap-3 border-b border-[#dfe4d6] p-5 sm:flex-row sm:items-end sm:justify-between">
+    <section className="surface overflow-hidden">
+      <div className="flex flex-col gap-3 border-b border-dalseo-border p-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 className="text-lg font-semibold">지도 기반 영향범위</h2>
-          <p className="mt-1 text-sm text-[#69746d]">
-            내 위치, 검색 반경, 각 공공데이터 이슈의 예상 영향권을 함께 표시합니다.
-          </p>
+          <h2 className="text-lg font-semibold">지도 기반 영향 범위</h2>
+          <p className="mt-1 text-sm leading-6 text-dalseo-muted">지도를 눌러 기준 위치를 바꿀 수 있습니다.</p>
         </div>
-        <div className="flex gap-2 text-xs text-[#59645d]">
-          <span className="border border-[#d7ddcf] px-2 py-1">검색 {radiusM.toLocaleString()}m</span>
-          <span className="border border-[#d7ddcf] px-2 py-1">표시 {items.length}건</span>
+        <div className="flex gap-2 text-xs font-semibold text-dalseo-muted">
+          <span className="rounded-dalseo bg-dalseo-soft px-2.5 py-1">
+            검색 {radiusM.toLocaleString()}m
+          </span>
+          <span className="rounded-dalseo bg-dalseo-soft px-2.5 py-1">
+            표시 {items.length}건
+          </span>
         </div>
       </div>
 
-      <div className="h-[390px] w-full">
+      <div className="h-[520px] w-full xl:h-[620px]">
         <MapContainer
           center={centerPoint}
           zoom={14}
           scrollWheelZoom={false}
           className="h-full w-full"
         >
+          <MapClickPicker onPickLocation={onPickLocation} />
           <MapViewport center={centerPoint} selectedItem={selectedItem} radiusM={radiusM} />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -71,9 +84,9 @@ export default function ImpactMap({
             center={centerPoint}
             radius={radiusM}
             pathOptions={{
-              color: "#111827",
-              fillColor: "#111827",
-              fillOpacity: 0.04,
+              color: "#315fd1",
+              fillColor: "#315fd1",
+              fillOpacity: 0.06,
               weight: 2,
               dashArray: "6 6",
             }}
@@ -104,6 +117,20 @@ export default function ImpactMap({
       </div>
     </section>
   );
+}
+
+function MapClickPicker({
+  onPickLocation,
+}: {
+  onPickLocation?: (lat: number, lng: number) => void;
+}) {
+  useMapEvents({
+    click(event) {
+      onPickLocation?.(event.latlng.lat, event.latlng.lng);
+    },
+  });
+
+  return null;
 }
 
 function MarkerWithCircle({

@@ -1,0 +1,35 @@
+{
+  "collected_at": "2026-07-04T00:40:10.491Z",
+  "source_count": 42,
+  "successful_source_count": 42,
+  "item_count": 77,
+  "category_counts": {
+    "public_notice": 9,
+    "event": 6,
+    "urban_plan": 5,
+    "parking": 10,
+    "welfare": 9,
+    "safety": 9,
+    "council": 1,
+    "traffic": 9,
+    "heat": 7,
+    "facility": 5,
+    "environment": 4,
+    "construction": 3
+  },
+  "source_status_counts": {
+    "collected": 42
+  },
+  "validation": {
+    "item_count": 77,
+    "error_count": 0,
+    "warning_count": 0,
+    "errors": [],
+    "warnings": []
+  },
+  "notes": [
+    "공식 웹/공공데이터 메타데이터 원문은 data/raw에 저장했습니다.",
+    "공공데이터포털 API/파일 원자료는 인증키 또는 다운로드 링크 처리가 필요한 경우가 있어 이번 수집에서는 메타데이터를 근거로 생활영향 레퍼런스 데이터를 정규화했습니다.",
+    "요약과 영향권은 주민 이해를 돕기 위한 MVP 데이터이며 최종 판단은 원문과 담당 부서 확인이 필요합니다."
+  ]
+}

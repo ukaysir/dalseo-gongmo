@@ -1,0 +1,1187 @@
+
+
+ 
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"> 
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="대구교통종합정보">
+	<meta property="og:description" content="센터소개, 실시간교통정보, 생활교통정보, 대중/광역교통, 종합교통지표, 알림마당, 교통DB 정보 제공">
+	<meta property="og:image" content="/resources/images/header_logo.jpg">
+	<meta property="og:url" content="http://car.daegu.go.kr/">
+	<link href="/resources/images/common/favicon02.png" rel="icon" type="image/x-icon" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<link type="text/css" rel="stylesheet" href="/resources/css/common.css" />
+	
+	<title>대구교통종합정보</title>
+	<meta name="description" content="센터소개, 실시간교통정보, 생활교통정보, 대중/광역교통, 종합교통지표, 알림마당, 교통DB 정보 제공">
+	<script>
+		$(function(){
+			var loc1 = $('h2.snb_tit').text();
+			var loc2 = $('ul.snb_list .snb_dep1_item.on span').text();
+			var loc3 = $('ul.snb_list .snb_dep2_list a.on').text();
+			
+			
+			$('#contents > .inner > .sub_tit > .location > .loc1').text(loc1);
+			$('#contents > .inner > .sub_tit > .location > .loc2').text(loc2);
+			if(loc3 == null || loc3 == ""){
+				$('title').text('대구교통종합정보 | '+loc1 +" > " + loc2);
+				$('#contents > .inner > .sub_tit > h3').text(loc2);
+			}else{
+				$('title').text('대구교통종합정보 | '+loc1 +" > " + loc2 + " > " + loc3);
+				$('#contents > .inner > .sub_tit > h3').text(loc2 + " > " + loc3);
+				$('.sub_tit > .location').append("<span class='loc3 arrow'>"+loc3+"</span>")
+			}
+			
+			
+			
+		});
+	</script>
+</head>
+<body>
+<div id="wrap">
+	
+
+
+<!-- skipNav -->
+<div id="skipNav">	
+	
+		
+		
+			<a href="#contents">본문 바로가기</a>
+		
+	
+	<a href="#gnb">주메뉴</a>
+</div>
+<!-- //skipNav -->
+
+<!-- header -->
+<div id="header">
+	<div class="util_box">
+		<div class="inner">
+			<h1 class="logo">
+				<a href="/"> 
+					<img style="width: 180px; height: auto;" src="/resources/images/common/logo.png" alt="대구광역시 교통종합정보" class="pc_ver" />
+				</a>
+			</h1>
+			<div id="xio" class="m_ver" style="width:300px; height:100%; position: absolute; top: 0px; left: 0px;" >				
+				<div style="width:188px; height:100%; float:left; text-align: center; align-content: center;">
+					<a href="/"> 
+						<img style="width: 180px; height: auto;" src="/resources/images/common/logo.png" alt="대구광역시 교통종합정보" class="pc_ver" />
+					</a>
+				</div>
+				<!--
+				<div style="width:108px; height:100%; float:left; cursor:pointer; text-align: center;" onclick="$('#da_banner').show();" >
+					<span style="line-height: 74px; font-weight: bold; font-size: 16px; color: #a70e1f;">배너보기</span>
+				</div>
+				-->
+			</div>
+			<div class="m_gnb_btn_wrap">
+				<a href="/" onclick="return false;"
+					class="m_gnb_btn"><img
+					src="/resources/images/common/m_gnb_btn.png"
+					alt="모바일 전체메뉴 아이콘" /></a>
+			</div>
+		</div>
+	</div>
+	<div id="gnb">
+		<h2 class="hide">주메뉴</h2>
+		<div class="inner">
+			<ul class="gnb_list">
+				
+				
+				
+				<li class="dep1"><a href="/metro/outbreak"
+					class="dep1_tit">돌발/사고정보</a>
+					<ul class="dep2">
+						<li><a href="/metro/outbreak">돌발/사고 정보</a></li>
+					</ul></li>
+				<li class="dep1"><a href="/board/speedStat"
+					class="dep1_tit">교통정보</a>
+					<ul class="dep2">
+						
+						
+												
+						<li><a href="/board/speedStat">속도정보</a></li>
+						<li><a href="/board/speedStat2">교통량정보</a></li>
+						<li><a href="/board/trafficData">교통조사자료</a></li>
+
+						
+						
+						
+					</ul>
+				</li>
+				<li class="dep1"><a href="/center/atms"
+					class="dep1_tit">알림마당</a>
+					<ul class="dep2">
+						<li><a href="/center/atms">센터 소개</a></li>
+						<li><a href="/center/intro">사이트 이용안내</a></li>
+						<li><a href="/center/notice">공지사항</a></li>
+						<li><a href="/center/site">관련사이트</a></li>
+						<li><a href="/center/promoVideo">홍보영상</a></li>
+					</ul>
+				</li>
+				<!--  
+				<li id="header_logo_2" class="dep1" style="margin-left: 5px; width: 140px; float: right; margin-top: 15px;">
+					
+				</li>
+				-->
+				
+			</ul>
+		</div>
+		<!--
+		<div id="header_logo_new" style="width:300px; height:100%; /* background-color:black; */ float: right;" >
+			<div style="width:188px; height:100%; float:left; background-color:#dc1229; text-align: center; align-content: center;">
+				<img alt="대구경북통합" style="width: 150px; height: auto;" src="/resources/images/tmpimg/da_title.png" />
+			</div>
+			<div style="width:108px; height:100%; float:left; cursor:pointer; align-content: center; text-align: center;" onclick="$('#da_banner').show();" >
+				<span style="font-weight: bold; font-size: 16px; color: #a70e1f;">배너보기</span>
+			</div>
+		</div>
+		-->
+		<div class="gnb_bg" style="display: none;">
+			<div class="ico"></div>
+		</div>
+	</div>
+
+</div>
+<!-- //header -->
+
+<!-- m_gnb -->
+<div id="m_gnb">
+	<div class="m_gnb_top">
+		<p class="m_gnb_tit">전체메뉴</p>
+		<p class="m_gnb_logo">
+			<img src="/resources/images/common/m_logo.png"
+				alt="대구광약시 교통종합정보" />
+		</p>
+		<button type="button" class="m_gnb_close_btn">모바일 전체메뉴 닫기</button>
+	</div>
+	<div class="m_gnb_wrap">
+		<ul>
+			<li><button type="button" class="ico05">돌발/사고정보</button>
+				<ul class="sub sub01">
+					<li><a href="/metro/outbreak">돌발/사고정보</a></li>
+				</ul></li>
+			<li><button type="button" class="ico04">교통정보</button>
+				<ul class="sub sub01">
+					<li>
+						<a href="/board/speedStat">속도정보</a>
+					</li>
+					
+					<li>	
+						<a href="/board/speedStat2">교통량정보</a>
+					</li>
+				
+					<li>	
+						<a href="/board/trafficData">교통조사자료</a>
+					</li>
+				</ul>
+			</li>
+			<li><button type="button" class="ico06">알림마당</button>
+				<ul class="sub sub01">
+					<li><a href="/center/atms">센터 소개</a></li>
+					<li><a href="/center/intro">사이트 이용안내</a></li>
+					<li><a href="/center/notice">공지사항</a></li>
+					<li><a href="/center/site">관련사이트</a></li>
+					<li><a href="/center/promoVideo">홍보영상</a></li>
+				</ul></li>
+		</ul>
+	</div>
+</div>
+<div class="m_gnb_bg"></div>
+<!-- //m_gnb -->
+
+<script type="text/javascript">
+	var device_state;
+
+	//방문자수 ajax
+	function getVisiterCountMonth(){
+		$.ajax({
+			url : "/ajax/getVisiterCountMonth/",
+			type : "POST",
+			dataType : "json",
+			success: function(data) {
+				if(data != null && data.result != null){					
+					result = data.result;														
+					$('#visitMonth').text(result.cnt);
+					$('#visitMonth_header').text(result.cnt);
+				}
+			},
+			error : function(data){
+				//alert("리스트 조회에 실패하였습니다."); 요구사항
+				console.log("리스트 조회에 실패하였습니다.");
+			}
+		});	
+	}
+	
+	//방문자수 ajax
+	function getVisiterCountToday(){
+		$.ajax({
+			url : "/ajax/getVisiterCountToday/",
+			type : "POST",
+			dataType : "json",
+			success: function(data) {
+				if(data != null && data.result != null){					
+					result = data.result;					
+					$('#visitToday').append(result.cnt);
+					$('#visitToday_header').append(result.cnt);
+				}
+			},
+			error : function(data){
+				//alert("리스트 조회에 실패하였습니다."); 요구사항
+				console.log("리스트 조회에 실패하였습니다.");
+			}
+		});	
+	}
+	
+	$(function() {
+		//getVisiterCountMonth(); //미사용
+		//getVisiterCountToday(); //미사용
+		
+		responsiveFn();
+		var minState = false;
+		$(window).on('load', function() {
+			responsiveFn();
+		});
+
+		$(window).resize(function() {
+			responsiveFn();
+		});
+
+		function responsiveFn() {
+			var window_w = $(window).width() + 17;
+
+			if (window_w >= 1024) {
+
+				if (device_state != "pc") {
+
+					device_state = "pc";
+					//모바일 메뉴
+					$("#m_gnb, .m_gnb_bg").removeAttr("style");
+
+				}
+
+			} else if ((window_w < 1024) && (window_w >= 769)) {
+
+				if (device_state != "tablet") {
+					device_state = "tablet";
+
+				}
+
+			} else if (window_w < 769) {
+
+				if (device_state != "mobile") {
+					device_state = "mobile";
+
+				}
+
+			}
+		}
+
+		//** 241216 상단헤더 애니메이션 강화
+		
+		$("#gnb").on("mouseenter focusin", ".dep1", function() {
+		    $(this).find(".dep2").css("background-color", "#f2f8ff");
+		}).on("mouseleave blur", ".dep1", function() {
+		    $(this).find(".dep2").css("background-color", "");
+		});
+		
+		
+		//** 241216 애니메이션 강화 끝
+		// 변수 추가: 애니메이션 실행 중인지 확인
+		let isAnimating = false;
+		
+		$("#gnb").on("mouseleave", function() {
+		    if (isAnimating) return;  // 애니메이션 중이면 실행 안 함
+		    isAnimating = true;
+		    $(this).find(".dep2").stop(true, true).slideUp(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		    $(".gnb_bg").stop(true, true).slideUp(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		});
+		
+		// gnb
+		$("#gnb").on("mouseenter focusin", ".gnb_list", function() {
+		    if (isAnimating) return;  // 애니메이션 중이면 실행 안 함
+		    isAnimating = true;
+		    $(this).find(".dep2").stop(true, true).slideDown(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		    $(".gnb_bg").stop(true, true).slideDown(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		});
+
+		
+
+		$("#gnb").on("focusout",
+				".gnb_list > li:last-child > .dep2 > li:last-child > a",
+				function() {
+					$("#gnb").find(".dep2").hide();
+					$(".gnb_bg").hide();
+				});
+
+		//바로가기에 대한 메뉴 활성화 비활성화 처리
+		$("#skipNav a").on("focusin",
+				function() {
+					$("#gnb").find(".dep2").hide();
+					$(".gnb_bg").hide();
+				});
+		
+		
+		
+		//모바일 메뉴
+		var m_scroll_pos;
+
+		$(".m_gnb_btn").click(function() {
+			m_scroll_pos = $(window).scrollTop();
+			$("body").addClass("fixed");
+			$(".m_gnb_bg").fadeIn(400);
+			$(".m_nav_close_btn").css("display", "block");
+			$("#m_gnb").show().animate({
+				right : 0 + "px"
+			}, 400, function() {
+				//callback
+			});
+			return false;
+		});
+		$(".m_gnb_bg, #m_gnb .m_gnb_close_btn").click(function() {
+			$("body").removeClass("fixed");
+			$(window).scrollTop(m_scroll_pos);
+			$(".m_gnb_bg").fadeOut(400);
+			$("#m_gnb").animate({
+				right : -100 + "%"
+			}, 400, function() {
+				$(this).hide();
+			});
+			return false;
+		});
+
+		//모바일 gnb 2dep
+		$("#m_gnb ul li").on(
+				"click",
+				"button",
+				function() {
+					if ($("#m_gnb ul li .sub").is(":animated"))
+						return false;
+					if ($(this).next().hasClass("sub")) {
+						$(this).parent().toggleClass("on").siblings()
+								.removeClass("on");
+						$(this).next().slideToggle().parent().siblings()
+								.children(".sub").slideUp();
+						return false;
+					}
+				});
+
+	});
+</script>
+	
+	<div id="container" class="sub">
+		
+	
+		<div class="inner">
+			
+
+ 
+<div id="snb">
+	
+		
+		
+
+		
+			
+		
+			<h2 class="snb_tit"><span class="ico ico07"></span>교통정보</h2>
+			<ul class="snb_list">
+								
+				<li class="snb_dep1"><a href="/board/speedStat" class="snb_dep1_item" ><span>속도정보</span></a></li>
+				<li class="snb_dep1"><a href="/board/speedStat2" class="snb_dep1_item on" ><span>교통량정보</span></a></li>
+				<li class="snb_dep1"><a href="/board/trafficData" class="snb_dep1_item" ><span>교통조사자료</span></a></li>
+				
+				
+			</ul>
+		
+		
+		
+	
+</div>
+<script type="text/javascript">
+	$(function(){
+		
+		//snb : 서브 왼쪽메뉴
+		$("#snb .snb_list .snb_dep1").on("mouseenter focusin", ".list_item", function(){
+			if( $(this).hasClass("on") && $(this).next().is(":visible") ) return;
+			$(this).next().stop().slideDown();
+		});
+
+		$("#snb .snb_list").on("mouseleave", ".snb_dep1", function(){
+			if( $(">a", this).hasClass("on") && $(this).next().is(":visible") ) return;
+			if( $(">a", this).hasClass("on") && $(this).prev().is(":visible") ) return;
+			$(this).find(".snb_dep2_list").stop().slideUp();
+		});
+		
+		$("#snb .snb_dep2_list li:last-child a").on("focusout", function(){
+			if( $(this).closest(".snb_dep2_list").prev().hasClass("on") && $(this).closest(".snb_dep2_list").is(":visible") ) return;
+			$(this).closest(".snb_dep2_list").slideUp();
+		});
+		
+	})
+</script>
+			<!-- contents -->
+			<div id="contents">
+				<div class="inner">
+					<!-- sub_tit 화면 위치 표시 -->
+					<div class="sub_tit">
+						<h3>-</h3>
+						<div class="location">
+							<span class="home"><img src="/resources/images/sub/loc_home.png" alt="홈 아이콘" /></span>
+							<span class="loc1 arrow">-</span>
+							<span class="loc2 arrow">-</span>
+						</div>
+					</div>
+					<!-- //sub_tit -->
+					
+					
+						
+							
+
+ 
+<script type="text/javascript" src="/resources/js/witra/tab.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/devextreme/css/dx.common.css" />
+<link rel="stylesheet" type="text/css" href="/resources/devextreme/css/dx.light.css" />
+<script type="text/javascript" src="/resources/devextreme/js/jszip.min.js"></script>
+
+<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/19.1.5/js/dx.all.js"></script>
+
+<script type="text/javascript" src="/resources/js/moment.js"></script>
+
+<script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script>
+
+<link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/resources/jquery-ui/datepicker-ko.js"></script>
+<!-- 실서버 라이센스 -->
+<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8784ff4119f989df73ebd4be705d21ad&libraries=clusterer"></script> -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04789e72bd97fe029071fe6d5510c022&libraries=clusterer"></script>
+
+<link rel="stylesheet" type="text/css" href="/resources/js/select2/select2.min.css" />
+<script type="text/javascript" src="/resources/js/select2/select2.full.min.js"></script>
+
+<style>
+.loading-wrapper .loading {
+    min-height: 800px;
+    align-content: center;
+    z-index: 99;
+    background: rgba(66, 71, 74, 0.7);
+    height: 5%;
+    padding: 10px;
+    color: #fff;
+    width: 100%;
+    position: absolute;
+}
+.dx-datagrid-rowsview .dx-row {
+    border-bottom: 1px solid #ddd !important;
+}
+</style>
+
+<style>
+#map-wrapper {
+	height: 380px; 
+	border: 1px solid #8d8b8b;
+}
+#map_container{
+	
+}
+.overlay_info {
+	color:white;
+	padding: 3px 4px 3px 4px;
+	border-radius: 5px; 
+	font-size: 14px;
+	background-color: #b37ae4;
+}
+.label {margin-bottom: 96px;}
+.label * {display: inline-block;vertical-align: top;}
+.label .center {
+	color:black;
+	padding: 3px 4px 3px 4px;
+	border-radius: 5px; 
+	font-size: 14px;
+	background-color: white;
+	border : 1px solid black;
+}
+.dx-datagrid table tr.dx-header-row td{
+	background: #d7d7d7;
+	color:black !important;
+}
+#search_table{
+	width:100%;
+}
+#search_table .tit{
+	font-size:16px;
+	font-weight:bold;
+}
+.search_box .condition{
+	border-bottom : 0 !important; 
+	background: none !important;
+}
+.search_box .condition {
+	padding: 10px 20px 10px 0px;
+}
+#customSearchBtn {
+    background-color: #fff !important; /* 흰색 배경 */
+    border: 1px solid #ccc !important; /* 회색 테두리 */
+    color: #333 !important; /* 텍스트 색상 */
+    font-size: 14px !important; /* 글꼴 크기 */
+    padding: 6px 12px !important; /* 버튼 내부 여백 */
+    cursor: pointer !important; /* 마우스 오버 시 포인터 표시 */
+    border-radius: 4px !important; /* 모서리 둥글게 */
+    text-align: center !important;
+    transition: background-color 0.3s, border-color 0.3s !important; /* 부드러운 전환 효과 */
+}
+/* 버튼 호버(마우스 오버) 스타일 */
+#customSearchBtn:hover {
+    background-color: #f9f9f9 !important; /* 호버 시 더 밝은 회색 배경 */
+    border-color: #999 !important; /* 호버 시 더 진한 회색 테두리 */
+}
+
+/* 버튼 클릭(활성화) 스타일 */
+#customSearchBtn:active {
+    background-color: #f0f0f0 !important; /* 클릭 시 배경 색상 */
+    border-color: #777 !important; /* 클릭 시 테두리 색상 */
+}
+</style>
+
+<div class="loading-wrapper alignC" style="display:none;">
+	<div class="loading">
+		<img src="/resources/images/sub/loading_new.gif" alt="로딩중" />
+		<p>데이터를 조회하는 중입니다. 잠시만 기다려 주세요.</p>
+	</div>
+</div>
+
+<div class="tab_inner_wrap">
+	<!-- <button type="button" class="m_tab_btn"><span class="text">시계열 분석</span><span class="ico">메뉴 여닫기</span></button> -->
+	<ul class="tab_inner_area tab_inner2" style="padding-top:0px;">
+		<li>
+			
+			<div class="tab">
+				<div class="brdList_wrap">
+					<table class="brdList">
+						<caption><span class="">교통량 검색</span></caption>
+						<tbody>
+							<!-- <tr>
+								<th class="noLLine" scope="col">분류 선택</th>
+								<td colspan="5" style="text-align: left; padding-left: 40px;">
+									<select id="" class="inspection_typ_cd" style="width:33%;" title="분류선택">
+										<option value="" selected>장비별 교통량 정보</option>					                        
+									</select>
+								</td>
+							</tr>	 -->						
+							<tr>
+								<th class="noLLine" scope="col" style="white-space: nowrap;">지점선택</th>
+								<td colspan="5" style="padding-left: 41px; text-align:left;">
+									<select id="fac_sn">
+										<option value="">==선택==</option>
+											<option value="7">노변교(대구방향)</option>	
+											<option value="8">노변교(경산방향)</option>
+											<option value="15">대봉교-수성교(대봉교방향)</option>
+											<option value="16">대봉교-수성교(수성교방향)</option>
+											<option value="13">동곡R 남측(성주방향)</option>
+											<option value="14">동곡R 남측(대구방향)</option>
+											<option value="5">사월역 동측(대구방향)</option>
+											<option value="6">사월역 동측(경산방향)</option>
+											<option value="17">상동교 북(상화로방향)</option>
+											<option value="18">상동교 남(신천대로방향)</option>
+											<option value="24">수목원 남(상화로방향)</option>
+											<option value="23">수목원 북(테크노방향)</option>
+											<option value="9">스파밸리 남측(대구방향)</option>
+											<option value="10">스파밸리 남측(청도방향)</option>
+											<option value="3">안심교 남측(경산방향)</option>
+											<option value="4">안심교 남측(반야월방향)</option>    										
+											<option value="25">연경진출입로 동(연경방향)</option>
+											<option value="26">연경진출입로 서(동서변방향)</option>
+											<option value="11">위천사거리 북측(시외방향)</option>
+											<option value="12">위천사거리 북측(시내방향)</option>
+											<option value="20">임휴사 남(상화로방향)</option>
+											<option value="19">임휴사 북(신천대로방향)</option>
+											<option value="28">칠성교 남(신천교방향)</option>
+											<option value="27">칠성교 북(경대교방향)</option>
+											<option value="1">파군재3 남측(시내방향)</option>
+											<option value="2">파군재3 남측(파군재방향)</option>
+											<option value="22">팔거교 남(대구방향)</option>
+											<option value="21">팔거교 북(칠곡방향)</option>										
+									</select>
+									
+									
+									
+								</td>								
+							</tr>
+							<tr>
+								<th class="noLLine" scope="col" style="white-space: nowrap;">기간선택</th>
+								<td colspan="4" style="text-align: left; padding-left: 40px;">									
+									<span class="cont" style="width:180px;" >
+										<input style="text-align: center;width: 110px;" type="text" id="srch_start_day" placeholder="검색 시작일자" readonly="readonly"/>
+									</span>
+									<span class="cont" style="width:20px;" >
+									<!--
+									~&nbsp;
+									</span>
+									<span class="cont" style="width:180px;" >
+										<input style="text-align: center;width: 110px;" type="text" id="srch_end_day" placeholder="검색 종료일자" readonly="readonly" />
+									</span>
+									<span style="white-space: nowrap;">(*기간제한 : 일주일)</span>									
+									<button class="btns big" style="white-space: nowrap; height: 32px; line-height: 30px;" onclick="preset1()"><span class="ico">1주일</span></button>
+									-->
+								</td>
+								
+								<td class="noLLine alignR">
+									<!-- loadCircles() -->
+									<!-- <button class="btns big search" style="height: 32px; line-height: 30px;" onclick="getYearlyFlowStats()"><span class="ico">조회</span></button> -->
+									<button class="btns big search" style="height: 32px; line-height: 30px;" onclick="doSearch(); return false;"><span class="ico">조회</span></button>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+					
+				</div>
+				<div>
+					<!-- <h5 class="bulD1">지점 교통량 시계열 정보0</h5> -->
+					<div>
+					
+					<div id="statsDefault_wrapper" class="stats_wrapper" style="margin-bottom:10px;">
+						<div id="statsDefault" class="statsDefault alignC"><p>검색조건을 입력후 검색버튼을 클릭하시면 해당 결과가 표로 표시됩니다.</p></div>
+					</div>
+					<div id="flowStatsGrid_wrapper" class="stats_wrapper" style="display:none;">
+						<p class="bulD2_R">단위 : 대</p>
+						<div id="flowStatsGrid" class="datagrid" ></div>
+					</div>
+					
+					<div id="map_container"  class="stats_wrapper">
+						<div id="map-wrapper">
+							<div id="kakaoMap" class="map" style="width: 100%; height: 100%"></div>
+						</div>
+					</div>	
+								
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<!-- 
+
+<select id="fac_sn">
+										<option value="">==선택==</option>
+											<option value="7">노변교(대구방향)</option>	
+											<option value="8">노변교(경산방향)</option>
+											<option value="15">대봉교-수성교(대봉교방향)</option>
+											<option value="16">대봉교-수성교(수성교방향)</option>
+											<option value="13">동곡R 남측(성주방향)</option>
+											<option value="14">동곡R 남측(대구방향)</option>
+											<option value="5">사월역 동측(대구방향)</option>
+											<option value="6">사월역 동측(경산방향)</option>
+											<option value="17">상동교 북(상화로방향)</option>
+											<option value="18">상동교 남(신천대로방향)</option>
+											<option value="24">수목원 남(상화로방향)</option>
+											<option value="23">수목원 북(테크노방향)</option>
+											<option value="9">스파밸리 남측(대구방향)</option>
+											<option value="10">스파밸리 남측(청도방향)</option>
+											<option value="3">안심교 남측(경산방향)</option>
+											<option value="4">안심교 남측(반야월방향)</option>    										
+											<option value="25">연경진출입로 동(연경방향)</option>
+											<option value="26">연경진출입로 서(동서변방향)</option>
+											<option value="11">위천사거리 북측(시외방향)</option>
+											<option value="12">위천사거리 북측(시내방향)</option>
+											<option value="20">임휴사 남(상화로방향)</option>
+											<option value="19">임휴사 북(신천대로방향)</option>
+											<option value="28">칠성교 남(신천교방향)</option>
+											<option value="27">칠성교 북(경대교방향)</option>
+											<option value="1">파군재3 남측(시내방향)</option>
+											<option value="2">파군재3 남측(파군재방향)</option>
+											<option value="22">팔거교 남(대구방향)</option>
+											<option value="21">팔거교 북(칠곡방향)</option>										
+									</select>
+
+
+
+
+
+
+ -->
+
+
+
+
+<script type="text/javascript">
+	var map;
+	var kakaoMap;
+	var kakaoMarkers = [];
+	var kakaoOverLays = [];
+	
+	$(function(){
+		
+		
+ 		$('#inspection_typ_cd').select2({
+			  language: {
+				    noResults: function() {
+				      return "검색 결과가 없습니다."; // 'No results found' 메시지 변경
+				    }
+				  }
+				});
+		$('#fac_sn').select2({
+			  language: {
+				    noResults: function() {
+				      return "검색 결과가 없습니다."; // 'No results found' 메시지 변경
+				    }
+				  }
+				});  
+		
+		$('#srch_start_day, #srch_end_day').datepicker({
+			changeYear: true,
+			changeMonth: true
+		}).datepicker("setDate", new Date());
+		
+		var container = document.getElementById('kakaoMap'); 
+		var options = { 
+			center: new kakao.maps.LatLng(35.8714, 128.6014), 
+			level: 6
+		};
+	
+		kakaoMap = new kakao.maps.Map(container, options); 
+	});
+	
+	function doSearch() {
+		var fac_sn = $('#fac_sn').val();
+		
+		if(fac_sn == "") {
+			alert("시설물 지점을 선택하세요.");
+			$('#fac_sn').focus();
+			return;
+		}
+		
+		var srch_start_day = $('#srch_start_day').val();
+		var srch_end_day = srch_start_day;
+		//var srch_end_day = $('#srch_end_day').val();
+		srch_start_day = srch_start_day.replace(/-/g,'');
+		srch_end_day = srch_end_day.replace(/-/g,'');
+		
+        const momentDate1 = moment(srch_start_day, 'YYYYMMDD');
+        const momentDate2 = moment(srch_end_day, 'YYYYMMDD');
+
+        const differenceInDays = momentDate2.diff(momentDate1, 'days');
+
+        if(differenceInDays>7){
+        	alert("조회기간은 일주일을 초과할 수 없습니다.");
+        	return false;
+        }
+		if(Number(srch_start_day) > Number(srch_end_day)) {
+			alert("유효하지 않은 조회기간입니다. 조회기간을 다시 선택해주십시오.");
+			$('#srch_start_day').focus();
+			return;
+		}
+		
+		var data = {fac_sn : fac_sn, addr : srch_start_day, addr_typ : srch_end_day};
+		getVdsStats(data);
+		getVdsInfo(data);
+		
+		$(".loading-wrapper").show();
+
+		//setTimeout(function() {
+		//  $(".loading-wrapper").hide();
+		//}, 2500);
+	}
+	
+	function preset1() {		
+		//$("#srch_start_day").val('2025-01-03');
+		//$("#srch_end_day").val('2025-01-10');
+		
+		// #searchToDate에서 값을 가져옴
+		var toDateString = $("#srch_end_day").val();
+
+		// #searchToDate 값이 비어 있지 않은지 확인
+		if (toDateString) {
+		    // toDateString을 Date 객체로 변환
+		    var toDate = new Date(toDateString);
+
+		    // 'searchFromDate'는 #searchToDate에서 7일 전
+		    var fromDate = new Date(toDate);
+		    fromDate.setDate(toDate.getDate() - 7);
+
+		    // 날짜를 YYYY-MM-DD 형식으로 변환하는 함수
+		    function formatDate(date) {
+		        var year = date.getFullYear();
+		        var month = (date.getMonth() + 1).toString().padStart(2, '0');  // 월은 0부터 시작하므로 +1
+		        var day = date.getDate().toString().padStart(2, '0');
+		        return year + '-' + month + '-' + day;
+		    }
+
+		    // 날짜를 설정
+		    $("#srch_start_day").val(formatDate(fromDate));
+		} else {
+		    alert("srch_end_day의 값이 비어 있습니다.");
+		}
+	}
+	
+	function getVdsStats(param) {
+	    var fac_nm = $('#fac_sn option:selected').text();
+	    
+	    $.ajax({
+	        url: "/map/ajax/getVdsStats",
+	        data: param,
+	        type: "post",
+	        dataType: "json",
+	        success: function(data){
+	            console.log(data);
+	            if (data != null && typeof(data.result) != "undefined") {
+	                $('#statsDefault_wrapper').css("display", "none");
+	                $('#flowStatsGrid_wrapper').css("display", "block");
+	                $('#loading-wrapper').css("display", "none");
+
+	                var result = data.result;
+	                console.log(result);
+
+	                var chartArr = [];
+	                var seriesArr = [];
+
+	                // 전체 합계 데이터를 구하기 위한 변수
+	                var totalData = {};
+
+	                for (var i = 0; i <= 23; i++) {
+	                    var hour = (i < 10 ? "0" + i : i + "");
+	                    chartArr.push({ hour: hour });
+	                    $(result).each(function(idx, obj){
+	                        chartArr[i]["" + obj.laneNo] = obj[hour];
+	                        // 각 차로별로 시간별 데이터를 합산
+	                        if (!totalData[hour]) {
+	                            totalData[hour] = 0;
+	                        }
+	                        totalData[hour] += obj[hour];
+	                    });
+	                }
+
+	                // '전체' 차로의 합계를 추가하기 위한 데이터 생성
+	                var totalRow = { FAC_NM: fac_nm, LANE_NO: "전체" };
+	                for (var hour = 0; hour <= 23; hour++) {
+	                    var hourStr = (hour < 10 ? "0" + hour : hour + "");
+	                    totalRow[hourStr] = totalData[hourStr];
+	                }
+
+	                // 합계 데이터를 맨 위에 추가
+	                result.unshift(totalRow);
+
+	                $.each(chartArr[0], function(key, value){
+	                    if (key != "hour") {
+	                        seriesArr.push({ valueField: key, name: key });
+	                    }
+	                });
+
+	                // 그리드 설정
+	                var dataGrid = $('#flowStatsGrid').dxDataGrid({
+	                    dataSource: result,
+	                    columns: [
+	                        { caption: "VDS명", dataField: "FAC_NM", width: 150, alignment: 'center' },
+	                        { caption: "차로", dataField: "LANE_NO", width: 80, alignment: 'center' },
+	                        { caption: "00시", dataField: "00", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "01시", dataField: "01", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "02시", dataField: "02", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "03시", dataField: "03", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "04시", dataField: "04", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "05시", dataField: "05", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "06시", dataField: "06", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "07시", dataField: "07", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "08시", dataField: "08", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "09시", dataField: "09", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "10시", dataField: "10", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "11시", dataField: "11", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "12시", dataField: "12", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "13시", dataField: "13", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "14시", dataField: "14", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "15시", dataField: "15", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "16시", dataField: "16", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "17시", dataField: "17", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "18시", dataField: "18", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "19시", dataField: "19", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "20시", dataField: "20", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "21시", dataField: "21", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "22시", dataField: "22", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  },
+	                        { caption: "23시", dataField: "23", width: 60, alignment: 'center', format: { type: "fixedPoint", precision: 0, thousandSeparator: "," }  }
+	                    ],
+	                    loadPanel: {
+	                        enable: true,
+	                        height: 150,
+	                        width: 400,
+	                        text: '검색중.. 잠시만 기다려 주세요'
+	                    },
+	                    scrolling: {
+	                        mode: "virtual",
+	                        columnRenderingMode: "virtual"
+	                    },
+	                    "export": {
+	                        enabled: true,
+	                        fileName: fac_nm + " VDS 지점별 교통량(" + param.srch_start_day + "~" + param.srch_end_day + ")",
+	                        texts: { exportAll: "엑셀로 저장" }
+	                    }
+	                });
+	            }
+	        },
+	        error: function(data) {
+	            alert("조회에 실패하였습니다.");
+	        },
+	        beforeSend: function() {
+	            $('#loading-wrapper').css("display", "flex");
+	        },
+	        complete: function () {
+	        	$(".loading-wrapper").hide();
+	        }
+	    });
+	}
+
+	
+	function getVdsStats_ex(param) {
+		var fac_nm = $('#fac_sn option:selected').text();
+		
+		$.ajax({
+			url : "/map/ajax/getVdsStats",
+			data : param,
+			type : "post",
+			dataType : "json",
+			success : function(data){
+				console.log(data);
+				if(data != null && typeof(data.result) != "undefined"){
+					$('#statsDefault_wrapper').css("display","none");
+					$('#flowStatsGrid_wrapper').css("display","block");
+					$('#loading-wrapper').css("display","none");
+					
+					var result = data.result;
+					console.log(result);
+					
+					
+					var chartArr = [];
+					var seriesArr = [];
+					
+					for(var i = 0; i <= 23; i++) {
+						var hour = (i < 10 ? "0" + i : i+"");
+						chartArr.push({hour : hour});
+						$(result).each(function(idx, obj){
+							chartArr[i][""+obj.laneNo] =  obj[hour];
+						})
+					}
+					
+					$.each(chartArr[0],function(key, value){
+						if(key != "hour"){
+							seriesArr.push({ valueField: key, name: key});
+						}
+					})
+					
+					var dataGrid = $('#flowStatsGrid').dxDataGrid({
+				        dataSource: result,
+				        columns: [
+			        		  {caption : "VDS명", dataField : "FAC_NM", width: 150,alignment: 'center'},
+			                  {caption : "차로", dataField : "LANE_NO", width: 80,alignment: 'center'},
+			                  {caption : "00시", dataField : "00", width:60, alignment: 'center'},
+			                  {caption : "01시", dataField : "01", width:60, alignment: 'center'},
+			                  {caption : "02시", dataField : "02", width:60, alignment: 'center'},
+			                  {caption : "03시", dataField : "03", width:60, alignment: 'center'},
+			                  {caption : "04시", dataField : "04", width:60, alignment: 'center'},
+			                  {caption : "05시", dataField : "05", width:60, alignment: 'center'},
+			                  {caption : "06시", dataField : "06", width:60, alignment: 'center'},
+			                  {caption : "07시", dataField : "07", width:60, alignment: 'center'},
+			                  {caption : "08시", dataField : "08", width:60, alignment: 'center'},
+			                  {caption : "09시", dataField : "09", width:60, alignment: 'center'},
+			                  {caption : "10시", dataField : "10", width:60, alignment: 'center'},
+			                  {caption : "11시", dataField : "11", width:60, alignment: 'center'},
+			                  {caption : "12시", dataField : "12", width:60, alignment: 'center'},
+			                  {caption : "13시", dataField : "13", width:60, alignment: 'center'},
+			                  {caption : "14시", dataField : "14", width:60, alignment: 'center'},
+			                  {caption : "15시", dataField : "15", width:60, alignment: 'center'},
+			                  {caption : "16시", dataField : "16", width:60, alignment: 'center'},
+			                  {caption : "17시", dataField : "17", width:60, alignment: 'center'},
+			                  {caption : "18시", dataField : "18", width:60, alignment: 'center'},
+			                  {caption : "19시", dataField : "19", width:60, alignment: 'center'},
+			                  {caption : "20시", dataField : "20", width:60, alignment: 'center'},
+			                  {caption : "21시", dataField : "21", width:60, alignment: 'center'},
+			                  {caption : "22시", dataField : "22", width:60, alignment: 'center'},
+			                  {caption : "23시", dataField : "23", width:60, alignment: 'center'}
+	                 	],
+			            loadPanel: {
+			                enable : true,
+			            	height: 150,
+			                width: 400,
+			                text: '검색중.. 잠시만 기다려 주세요'
+			            },
+				        scrolling: {
+				            mode: "virtual",
+				            columnRenderingMode: "virtual"
+				        },
+				        "export": {
+				            enabled: true,
+				            fileName: fac_nm+" VDS 지점별 교통량("+param.srch_start_day+"~"+param.srch_end_day+")",
+				            texts : {exportAll : "엑셀로 저장"}
+				        }
+				    });
+				}
+			},
+			error : function(data){
+				alert("조회에 실패하였습니다.");
+			},
+			beforeSend : function(){
+				$('#loading-wrapper').css("display","flex");
+			},
+			complete: function () {
+	        	$(".loading-wrapper").hide();
+	        }
+		});
+	}
+	
+	function getVdsInfo(param){
+		$.ajax({
+			//url : "/reportMgr/ajax/getTrafficVolumnVdsInfo",
+			url :"/map/ajax/getTrafficVolumnVdsInfo",			
+			data : param,
+			type : "post",
+			dataType : "json",
+			async : false,
+			success : function(data){
+				/* map.clearFeature("map_layer"); */
+				result = data.result[0];
+				console.log(result);
+				
+				if(result){
+					longitude = result.XCRD;
+					latitude = result.YCRD;
+					/* map.setCenter(latitude,longitude,'EPSG:4326');
+					var iconStyle = new ol.style.Style({
+					    image: new ol.style.Icon( ({
+					    	anchor: [0.5, 0.5],
+							anchorXUnits: 'fraction',
+							anchorYUnits: 'fraction',
+							src: '/resources/images/map/map_icon_vds.png',
+							scale: 1.5
+					    }))
+					}); */
+					
+					console.log(longitude);
+				
+					setMarkers(null); //아이콘 초기화
+					
+					/*카카오*/
+					//아이콘생성
+					var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
+					/* var marker = new kakao.maps.Marker({
+					    position: markerPosition
+					});
+					marker.setMap(map); */
+					
+					const imageSrc = '/resources/images/map/map_icon_vds.png'; 
+				    const imageSize = new kakao.maps.Size(36, 37); 
+				    const imgOptions = {};
+				    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
+				    const marker = new kakao.maps.Marker({
+				        position: markerPosition,
+				        image: markerImage,
+				    });
+
+				    marker.setMap(kakaoMap);
+				    kakaoMarkers.push(marker);
+					
+					//커스텀 오버레이
+					var content = '<div class ="label"><span class="center">'+result.FCLTY_NM+'</span></div>';
+					var position = new kakao.maps.LatLng(latitude, longitude);  
+					var customOverlay = new kakao.maps.CustomOverlay({
+					    position: position,
+					    content: content   
+					});
+					customOverlay.setMap(kakaoMap);
+					kakaoOverLays.push(customOverlay);
+					
+					//맵이동
+					var moveLatLon = new kakao.maps.LatLng(latitude, longitude);
+					kakaoMap.setCenter(moveLatLon);
+				    kakaoMap.setLevel(2);
+				    /**/
+
+					/* map.addFeaturePoint("map_layer", "point", [[latitude, longitude]], 'EPSG:4326', iconStyle);
+					$('.overlay_info').remove();
+					map.setNameOverlayPositionByCoord('overlay_info',[latitude,longitude],result.fcltyNm,"EPSG:4326",[0,45],result); */
+				} else {
+					/* map.setCenter(latitude,longitude,'EPSG:4326'); */
+				}
+			},
+			error : function(data){
+				alert("조회에 실패하였습니다.");
+			}
+		});
+	}
+	
+	function setMarkers(map) {
+	    for (var i = 0; i < kakaoMarkers.length; i++) {
+	    	kakaoMarkers[i].setMap(map);
+	    }  
+	    for (var i = 0; i < kakaoOverLays.length; i++) {
+	    	kakaoOverLays[i].setMap(map);
+	    } 
+	}
+	
+/* 	var map_layer = {
+		init : function(){
+			map.addLayerVector("map_layer", "map_layer", true, null, null);
+			map.setCenter(1099470.10,1764431.97);
+			map.clearFeature("map_layer");
+			map.setMinZoom(5);
+		}
+	} */
+	
+</script>
+
+
+
+						
+						
+					
+					
+				</div>
+			</div>
+			<!-- //contents -->
+		</div>	
+	</div>
+	<!-- //container -->
+	
+	
+
+
+<!-- footer -->
+<!-- //secondArea -->			
+			
+<div id="footer" style="height:73px;">
+	<div class="inner" style="white-space: nowrap;">				
+		<div class="footer_nav">
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00050250" target="_blank" title="새창열림" >개인정보처리방침</a>
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00937560" target="_blank" title="새창열림" class="last">영상처리기기운영·관리방침</a>
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00050251" target="_blank" title="새창열림" class="last">저작권정책</a>
+		</div>
+
+		<p class="adress">대구광역시 수성구 무학로 227 대구경찰청 교통정보센터</p>
+		<p class="copy">Copyright by 대구광역시 교통종합정보 All Rights Reserved.</p>
+
+		
+		
+	</div>
+</div>
+<!-- //footer -->
+
+
+
+	
+</div>
+</body>
+</html>

@@ -11,7 +11,17 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const query = searchParams.get("address") ?? "달서구청";
   const radiusM = Number(searchParams.get("radius") ?? 1000);
-  const center = resolveAddress(query);
+  const lat = Number(searchParams.get("lat"));
+  const lng = Number(searchParams.get("lng"));
+  const hasCoordinates = Number.isFinite(lat) && Number.isFinite(lng);
+  const center = hasCoordinates
+    ? {
+        label: query,
+        address: query,
+        lat,
+        lng,
+      }
+    : resolveAddress(query);
 
   let source: ImpactSearchResponse["source"] = "sample";
   let rows: ImpactItem[] = sampleImpactItems;

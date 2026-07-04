@@ -1,0 +1,669 @@
+{
+  "collected_at": "2026-07-04T00:40:10.491Z",
+  "sources": [
+    {
+      "id": "dalseo-notices",
+      "name": "달서구 고시공고",
+      "url": "https://www.dalseo.daegu.kr/index.do?menu_id=10000104",
+      "kind": "official_html",
+      "category": "public_notice",
+      "priority": "high",
+      "expected_fields": [
+        "제목",
+        "공고일",
+        "담당부서",
+        "첨부파일",
+        "원문 URL"
+      ],
+      "collection_risk": "게시판 목록과 첨부파일 상세 파싱이 추가로 필요합니다."
+    },
+    {
+      "id": "dalseo-general-notices",
+      "name": "달서구 공지사항",
+      "url": "https://www.dalseo.daegu.kr/index.do?menu_id=10000102",
+      "kind": "official_html",
+      "category": "public_notice",
+      "priority": "high",
+      "expected_fields": [
+        "제목",
+        "등록일",
+        "담당부서",
+        "첨부파일",
+        "원문 URL"
+      ],
+      "collection_risk": "일반 공지에는 다양한 주제가 섞여 있어 위치·기간 추출 품질 검증이 필요합니다."
+    },
+    {
+      "id": "dalseo-participation",
+      "name": "달서구 구민참여·공모·생활 신청",
+      "url": "https://www.dalseo.daegu.kr/index.do?menu_id=10000106",
+      "kind": "official_html",
+      "category": "event",
+      "priority": "medium",
+      "expected_fields": [
+        "행사명",
+        "접수기간",
+        "장소",
+        "담당부서"
+      ],
+      "collection_risk": "메뉴 통합 페이지라 세부 게시판 URL 분리가 필요합니다."
+    },
+    {
+      "id": "dalseo-events-classes",
+      "name": "달서구 행사·강좌",
+      "url": "https://www.dalseo.daegu.kr/index.do?menu_id=00001851",
+      "kind": "official_html",
+      "category": "event",
+      "priority": "high",
+      "expected_fields": [
+        "행사명",
+        "모집기간",
+        "운영기간",
+        "장소",
+        "첨부파일"
+      ],
+      "collection_risk": "모집 공고와 실제 행사 일정이 분리될 수 있어 기간 필드 구분이 필요합니다."
+    },
+    {
+      "id": "dalseo-newsletter",
+      "name": "달서구소식지",
+      "url": "https://www.dalseo.daegu.kr/index.do?menu_id=00000682",
+      "kind": "official_html",
+      "category": "public_notice",
+      "priority": "medium",
+      "expected_fields": [
+        "발행월",
+        "PDF",
+        "전자책",
+        "주요 소식"
+      ],
+      "collection_risk": "PDF/e-book에서 비정형 정책·행사 정보를 추출해야 합니다."
+    },
+    {
+      "id": "dalseo-policy-research",
+      "name": "달서구 정책연구용역 결과",
+      "url": "https://www.dalseo.daegu.kr/index.do?menu_id=00002552",
+      "kind": "official_html",
+      "category": "urban_plan",
+      "priority": "medium",
+      "expected_fields": [
+        "연구명",
+        "부서",
+        "PDF/HWP",
+        "공개일"
+      ],
+      "collection_risk": "연구보고서는 장문 PDF/HWP 파싱과 위치 추출이 필요합니다."
+    },
+    {
+      "id": "dalseo-audit-results",
+      "name": "달서구 감사결과 공개",
+      "url": "https://www.dalseo.daegu.kr/index.do?menu_id=10000219",
+      "kind": "official_html",
+      "category": "public_notice",
+      "priority": "medium",
+      "expected_fields": [
+        "감사명",
+        "대상기관",
+        "PDF",
+        "공개일"
+      ],
+      "collection_risk": "감사 결과는 생활영향보다는 행정 신뢰도 보조 데이터로 쓰는 편이 적절합니다."
+    },
+    {
+      "id": "dalseo-official-parking",
+      "name": "달서구 주차장 현황",
+      "url": "https://www.dalseo.daegu.kr/index.do?menu_id=20000380",
+      "kind": "official_html",
+      "category": "parking",
+      "priority": "high",
+      "expected_fields": [
+        "주차장명",
+        "주소",
+        "면수",
+        "운영시간",
+        "요금",
+        "개방구분"
+      ],
+      "collection_risk": "탭형 테이블 구조라 HTML 테이블 파싱이 필요합니다."
+    },
+    {
+      "id": "dalseo-health-notices",
+      "name": "달서구 보건소 공지사항",
+      "url": "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=30001083",
+      "kind": "official_html",
+      "category": "welfare",
+      "priority": "medium",
+      "expected_fields": [
+        "제목",
+        "등록일",
+        "의료기관/약국 파일",
+        "첨부파일"
+      ],
+      "collection_risk": "명절 진료·약국 등 특정 시점 데이터는 유효기간 관리를 해야 합니다."
+    },
+    {
+      "id": "dalseo-health-provider-notices",
+      "name": "달서구 보건소 의료기관 안내",
+      "url": "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=00002665",
+      "kind": "official_html",
+      "category": "welfare",
+      "priority": "medium",
+      "expected_fields": [
+        "의료기관",
+        "약국",
+        "주소",
+        "연락처",
+        "첨부파일"
+      ],
+      "collection_risk": "XLSX/PDF 첨부 파싱이 필요합니다."
+    },
+    {
+      "id": "dalseo-health-infection-alerts",
+      "name": "달서구 감염병 알림",
+      "url": "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=00004251",
+      "kind": "official_html",
+      "category": "safety",
+      "priority": "medium",
+      "expected_fields": [
+        "알림명",
+        "등록일",
+        "예방수칙",
+        "이미지/첨부"
+      ],
+      "collection_risk": "이미지 중심 공지는 OCR 또는 대체 텍스트 확보가 필요합니다."
+    },
+    {
+      "id": "dalseo-council-video",
+      "name": "달서구의회 영상회의록",
+      "url": "http://tv.dalseocouncil.daegu.kr/",
+      "kind": "official_html",
+      "category": "council",
+      "priority": "medium",
+      "expected_fields": [
+        "회의명",
+        "안건명",
+        "회의일",
+        "발언 내용"
+      ],
+      "collection_risk": "영상/자막 구조가 동적이면 별도 회의록 페이지 연계가 필요합니다."
+    },
+    {
+      "id": "daegu-traffic-home",
+      "name": "대구교통종합정보",
+      "url": "https://car.daegu.go.kr/",
+      "kind": "official_html",
+      "category": "traffic",
+      "priority": "high",
+      "expected_fields": [
+        "돌발유형",
+        "주소",
+        "좌표",
+        "시작시간",
+        "종료시간"
+      ],
+      "collection_risk": "실시간 상세 데이터는 공공데이터 API 활용신청이 필요할 수 있습니다."
+    },
+    {
+      "id": "daegu-parking-system",
+      "name": "대구광역시 통합주차정보시스템",
+      "url": "https://pis.daegu.go.kr/",
+      "kind": "official_html",
+      "category": "parking",
+      "priority": "high",
+      "expected_fields": [
+        "주차장명",
+        "주소",
+        "좌표",
+        "잔여면수",
+        "혼잡도"
+      ],
+      "collection_risk": "실시간 주차면수는 화면 내부 API 확인 또는 공식 API가 필요합니다."
+    },
+    {
+      "id": "daegu-heat-shelter-page",
+      "name": "대구광역시 무더위 쉼터",
+      "url": "https://www.daegu.go.kr/safety/index.do?menu_id=00934271",
+      "kind": "official_html",
+      "category": "heat",
+      "priority": "high",
+      "expected_fields": [
+        "쉼터명",
+        "주소",
+        "운영시간",
+        "수용인원",
+        "다운로드"
+      ],
+      "collection_risk": "현황표 다운로드 파일을 별도로 받아 파싱해야 정확한 행 단위 데이터가 됩니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-public-parking",
+      "name": "대구광역시 달서구_공영주차장 운영 현황",
+      "url": "https://www.data.go.kr/data/15110071/fileData.do?recommendDataYn=Y",
+      "kind": "public_data_metadata",
+      "category": "parking",
+      "priority": "high",
+      "expected_fields": [
+        "주차장명",
+        "주소",
+        "위도",
+        "경도",
+        "운영시간"
+      ],
+      "collection_risk": "파일 다운로드는 포털 다운로드 링크 파싱 또는 수동 파일 반입이 필요합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-private-parking",
+      "name": "대구광역시 달서구_민영주차장 운영 현황",
+      "url": "https://www.data.go.kr/data/15110080/fileData.do",
+      "kind": "public_data_metadata",
+      "category": "parking",
+      "priority": "medium",
+      "expected_fields": [
+        "주차장명",
+        "주소",
+        "위도",
+        "경도"
+      ],
+      "collection_risk": "파일 다운로드는 포털 다운로드 링크 파싱 또는 수동 파일 반입이 필요합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-shared-parking",
+      "name": "대구광역시 달서구_개방공유주차장 운영 현황",
+      "url": "https://www.data.go.kr/data/15110065/fileData.do",
+      "kind": "public_data_metadata",
+      "category": "parking",
+      "priority": "high",
+      "expected_fields": [
+        "주차장명",
+        "주소",
+        "위도",
+        "경도",
+        "개방시간",
+        "면수"
+      ],
+      "collection_risk": "개방 가능 시간과 실제 이용 가능 여부를 최신 공지와 함께 확인해야 합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-development-permits",
+      "name": "대구광역시 달서구_개발행위허가정보",
+      "url": "https://www.data.go.kr/data/15099461/fileData.do",
+      "kind": "public_data_metadata",
+      "category": "urban_plan",
+      "priority": "high",
+      "expected_fields": [
+        "위치",
+        "위도",
+        "경도",
+        "허가일",
+        "면적",
+        "용도지역",
+        "개발행위 목적"
+      ],
+      "collection_risk": "연간 갱신 데이터라 최신 공고와 시차가 있어 고시공고와 조인해야 합니다."
+    },
+    {
+      "id": "data-go-kr-traffic-event",
+      "name": "대구광역시_돌발 교통정보 조회 서비스(신)",
+      "url": "https://www.data.go.kr/data/15126267/openapi.do",
+      "kind": "openapi_metadata",
+      "category": "traffic",
+      "priority": "high",
+      "expected_fields": [
+        "돌발유형",
+        "돌발등급",
+        "좌표",
+        "제보시간",
+        "종료시점"
+      ],
+      "collection_risk": "실제 호출에는 공공데이터포털 활용신청과 인증키가 필요합니다."
+    },
+    {
+      "id": "data-go-kr-traffic-flow",
+      "name": "대구광역시_교통소통정보(신)",
+      "url": "https://www.data.go.kr/data/15126266/openapi.do",
+      "kind": "openapi_metadata",
+      "category": "traffic",
+      "priority": "high",
+      "expected_fields": [
+        "구간명",
+        "도로명",
+        "속도",
+        "거리",
+        "혼잡도"
+      ],
+      "collection_risk": "실제 호출에는 공공데이터포털 활용신청과 인증키가 필요합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-school-zone",
+      "name": "대구광역시 달서구_어린이보호구역 현황",
+      "url": "https://www.data.go.kr/data/15110063/fileData.do?recommendDataYn=Y",
+      "kind": "public_data_metadata",
+      "category": "safety",
+      "priority": "high",
+      "expected_fields": [
+        "대상시설명",
+        "소재지",
+        "위도",
+        "경도",
+        "CCTV",
+        "도로폭"
+      ],
+      "collection_risk": "1회성 데이터라 기준일자를 명확히 표시해야 합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-elder-zone",
+      "name": "대구광역시 달서구_노인보호구역 현황",
+      "url": "https://www.data.go.kr/data/15110064/fileData.do",
+      "kind": "public_data_metadata",
+      "category": "safety",
+      "priority": "medium",
+      "expected_fields": [
+        "시설명",
+        "주소",
+        "위도",
+        "경도",
+        "보호구역도로폭",
+        "CCTV"
+      ],
+      "collection_risk": "어린이보호구역과 별도 기준일자를 관리해야 합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-cctv",
+      "name": "대구광역시 달서구_CCTV 설치 위치",
+      "url": "https://www.data.go.kr/data/15083776/fileData.do",
+      "kind": "public_data_metadata",
+      "category": "safety",
+      "priority": "medium",
+      "expected_fields": [
+        "설치목적",
+        "주소",
+        "위도",
+        "경도",
+        "카메라대수",
+        "촬영방면"
+      ],
+      "collection_risk": "상세 위치 노출은 민감할 수 있어 안전 접근성 파생값으로 사용하는 편이 적절합니다."
+    },
+    {
+      "id": "data-go-kr-school-zone-risk",
+      "name": "대구광역시_어린이 보호구역 위험요소 조회 서비스",
+      "url": "https://www.data.go.kr/data/15097855/openapi.do",
+      "kind": "openapi_metadata",
+      "category": "safety",
+      "priority": "medium",
+      "expected_fields": [
+        "위험요소 유형",
+        "위험도",
+        "위도",
+        "경도",
+        "발생 시간"
+      ],
+      "collection_risk": "실제 호출에는 공공데이터포털 활용신청과 인증키가 필요합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-senior-centers",
+      "name": "대구광역시 달서구_경로당 현황",
+      "url": "https://www.data.go.kr/data/3040548/fileData.do",
+      "kind": "public_data_metadata",
+      "category": "welfare",
+      "priority": "high",
+      "expected_fields": [
+        "명칭",
+        "주소",
+        "위도",
+        "경도",
+        "전화번호",
+        "행정동"
+      ],
+      "collection_risk": "쉼터/복지시설 용도는 별도 운영정보와 결합해야 합니다."
+    },
+    {
+      "id": "data-go-kr-heat-standard",
+      "name": "전국무더위쉼터표준데이터",
+      "url": "https://www.data.go.kr/data/15013199/standard.do",
+      "kind": "standard_data_metadata",
+      "category": "heat",
+      "priority": "high",
+      "expected_fields": [
+        "쉼터명칭",
+        "상세주소",
+        "이용가능인원",
+        "냉방기",
+        "운영기간"
+      ],
+      "collection_risk": "전국 표준 데이터에서 달서구 행만 필터링해야 합니다."
+    },
+    {
+      "id": "data-go-kr-village-hall-standard",
+      "name": "전국마을회관및경로당표준데이터",
+      "url": "https://www.data.go.kr/data/15114136/standard.do",
+      "kind": "standard_data_metadata",
+      "category": "welfare",
+      "priority": "medium",
+      "expected_fields": [
+        "시설명",
+        "주소",
+        "위도",
+        "경도",
+        "운영상태"
+      ],
+      "collection_risk": "전국 표준 데이터에서 달서구 행만 필터링해야 합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-cultural-facilities",
+      "name": "대구광역시 달서구_문화시설현황",
+      "url": "https://www.data.go.kr/data/15077166/fileData.do",
+      "kind": "public_data_metadata",
+      "category": "facility",
+      "priority": "medium",
+      "expected_fields": [
+        "시설명",
+        "주소",
+        "위도",
+        "경도",
+        "운영정보"
+      ],
+      "collection_risk": "시설 운영시간과 행사 일정은 별도 출처와 결합해야 합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-emergency-shelters",
+      "name": "대구광역시 달서구_비상대피시설",
+      "url": "https://www.data.go.kr/data/15136227/fileData.do?recommendDataYn=Y",
+      "kind": "public_data_metadata",
+      "category": "safety",
+      "priority": "medium",
+      "expected_fields": [
+        "시설명",
+        "주소",
+        "위도",
+        "경도",
+        "수용인원"
+      ],
+      "collection_risk": "재난대피 목적 데이터라 평시 생활영향 문구와 분리해야 합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-contracts",
+      "name": "대구광역시 달서구_계약현황",
+      "url": "https://www.data.go.kr/data/15063250/fileData.do",
+      "kind": "public_data_metadata",
+      "category": "construction",
+      "priority": "medium",
+      "expected_fields": [
+        "계약명",
+        "계약일",
+        "담당부서",
+        "계약구분"
+      ],
+      "collection_risk": "계약명에서 실제 위치를 추출하려면 주소/시설명 매칭이 필요합니다."
+    },
+    {
+      "id": "data-go-kr-dalseo-public-data-catalog",
+      "name": "대구광역시 달서구_공공데이터 목록",
+      "url": "https://www.data.go.kr/data/15136269/fileData.do?recommendDataYn=Y",
+      "kind": "public_data_metadata",
+      "category": "public_notice",
+      "priority": "medium",
+      "expected_fields": [
+        "서비스명",
+        "분류",
+        "제공형태",
+        "갱신주기",
+        "등록일",
+        "수정일"
+      ],
+      "collection_risk": "데이터셋 목록 자체라 개별 생활영향 항목으로 쓰기보다 출처 발견용으로 사용합니다."
+    },
+    {
+      "id": "data-go-kr-airkorea",
+      "name": "한국환경공단_에어코리아_대기오염정보",
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15073861",
+      "kind": "openapi_metadata",
+      "category": "environment",
+      "priority": "medium",
+      "expected_fields": [
+        "측정소",
+        "PM10",
+        "PM2.5",
+        "O3",
+        "NO2",
+        "측정시각"
+      ],
+      "collection_risk": "달서구 측정소 기준으로 생활권 영향 모델을 별도 계산해야 합니다."
+    },
+    {
+      "id": "d-datahub-dalseo-council-bills",
+      "name": "D-데이터허브 달서구 의안정보",
+      "url": "https://data.daegu.go.kr/open/data/dataView.do?dataSetDetailId=150380741c00e601efe4e&dataSetId=15038074&provdMethod=FILE",
+      "kind": "public_data_metadata",
+      "category": "council",
+      "priority": "medium",
+      "expected_fields": [
+        "의안명",
+        "회기",
+        "처리결과",
+        "제안일"
+      ],
+      "collection_risk": "연간/파일형 데이터라 최신 회의록과 시차가 있을 수 있습니다."
+    },
+    {
+      "id": "d-datahub-dalseo-medical",
+      "name": "D-데이터허브 달서구 의료기관",
+      "url": "https://data.daegu.go.kr/open/data/dataView.do?dataSetDetailId=3040172d369e45fa690&dataSetId=3040172&provdMethod=FILE",
+      "kind": "public_data_metadata",
+      "category": "welfare",
+      "priority": "medium",
+      "expected_fields": [
+        "기관명",
+        "주소",
+        "전화번호",
+        "진료과목"
+      ],
+      "collection_risk": "응급/야간 운영 여부는 별도 보건 페이지와 결합해야 합니다."
+    },
+    {
+      "id": "d-datahub-dalseo-disabled-facilities",
+      "name": "D-데이터허브 달서구 장애인 관련 시설",
+      "url": "https://data.daegu.go.kr/open/data/dataView.do?dataSetDetailId=3073036d9ad12dc000d&dataSetId=3073036&provdMethod=FILE",
+      "kind": "public_data_metadata",
+      "category": "welfare",
+      "priority": "medium",
+      "expected_fields": [
+        "시설명",
+        "주소",
+        "전화번호",
+        "시설유형"
+      ],
+      "collection_risk": "접근성 정보는 시설 종류만으로 부족해 별도 보강이 필요합니다."
+    },
+    {
+      "id": "d-datahub-dalseo-sports-facilities",
+      "name": "D-데이터허브 달서구 체육시설",
+      "url": "https://data.daegu.go.kr/open/data/dataView.do?dataSetDetailId=150532712b1db1c6b742a&dataSetId=15053271&provdMethod=FILE",
+      "kind": "public_data_metadata",
+      "category": "facility",
+      "priority": "medium",
+      "expected_fields": [
+        "시설명",
+        "주소",
+        "운영정보",
+        "시설유형"
+      ],
+      "collection_risk": "행사/예약 일정과 연결해야 실제 혼잡 영향 분석이 가능합니다."
+    },
+    {
+      "id": "d-datahub-dalseo-asbestos",
+      "name": "D-데이터허브 달서구 석면조사대상 건축물",
+      "url": "https://data.daegu.go.kr/open/data/dataView.do?dataSetDetailId=304728018bcfc0904343_201602191519&dataSetId=3047280&provdMethod=FILE",
+      "kind": "public_data_metadata",
+      "category": "environment",
+      "priority": "medium",
+      "expected_fields": [
+        "건축물명",
+        "주소",
+        "조사결과",
+        "기준일"
+      ],
+      "collection_risk": "환경 위험 정보는 과도한 단정 없이 원문 근거와 함께 표시해야 합니다."
+    },
+    {
+      "id": "daegu-city-notices",
+      "name": "대구광역시 고시공고",
+      "url": "https://www.daegu.go.kr/index.do?menu_id=00940170&menu_link=%2Ffront%2FdaeguSidoGosi%2FdaeguSidoGosiList.do",
+      "kind": "official_html",
+      "category": "public_notice",
+      "priority": "medium",
+      "expected_fields": [
+        "제목",
+        "고시번호",
+        "부서",
+        "공고일",
+        "첨부파일"
+      ],
+      "collection_risk": "대구시 전체 공고에서 달서구 관련 항목만 필터링해야 합니다."
+    },
+    {
+      "id": "daegu-urban-management-plan",
+      "name": "대구 도시관리계획",
+      "url": "https://www.daegu.go.kr/build/index.do?menu_id=00933156",
+      "kind": "official_html",
+      "category": "urban_plan",
+      "priority": "medium",
+      "expected_fields": [
+        "계획명",
+        "장별 문서",
+        "도시계획 설명"
+      ],
+      "collection_risk": "기본계획 성격이라 개별 주소 영향은 고시공고와 결합해야 합니다."
+    },
+    {
+      "id": "daegu-night-pharmacies",
+      "name": "대구 공공심야약국",
+      "url": "https://www.daegu.go.kr/health/index.do?menu_id=00933164",
+      "kind": "official_html",
+      "category": "welfare",
+      "priority": "medium",
+      "expected_fields": [
+        "약국명",
+        "주소",
+        "전화번호",
+        "운영시간"
+      ],
+      "collection_risk": "달서구 행만 필터링하고 운영시간 변경을 주기적으로 확인해야 합니다."
+    },
+    {
+      "id": "daegu-pediatric-night-care",
+      "name": "대구 소아 야간·휴일 진료기관",
+      "url": "https://www.daegu.go.kr/health/index.do?menu_id=00936060",
+      "kind": "official_html",
+      "category": "welfare",
+      "priority": "medium",
+      "expected_fields": [
+        "기관명",
+        "주소",
+        "운영시간",
+        "전화번호"
+      ],
+      "collection_risk": "달서구 행만 필터링하고 명절/휴일 운영 변경을 확인해야 합니다."
+    }
+  ]
+}

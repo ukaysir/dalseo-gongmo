@@ -1,0 +1,232 @@
+@charset "utf-8";
+
+/* 
+ * Common CSS Document 
+ * IEETU Web Standardization Team 
+ * 2016-11-17
+ */
+ 
+ /* 공통 */
+.comm_space{margin-bottom: 20px;}
+.mt10{margin-top:10px;}
+
+ /* text */
+.txt_red{color:#cd1f1f;}
+.caption_table{margin-bottom:0px !important;margin-top:-10px;text-align:right;}
+ 
+/* table */
+table tr.bg_sum td,
+table tr.bg_sum th{background:#e9f4f7;}
+table tr.bg_strong td{background:#f7fffb;}
+table .bg_none{background:transparent !important;}
+
+/* 비상시 국민행동 요령 */
+.behaivor{}
+.behaivor ul{margin-left:-26px !important;}
+.behaivor ul:after{content:''; display:block; clear:both;}	
+.behaivor ul li{float:left; width:218px; height:308px; margin:47px 0 0 26px; border:1px solid #d8d8d8;}
+.behaivor ul li .tbox{display:inline-block; padding:25px 15px 5px;}
+.behaivor ul li .tbox .tit{display:block; font-size:17px; color:#345693; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; letter-spacing:-1px;}
+.behaivor ul li .tbox .txt{display:inline-block;margin-top:7px;}
+.behaivor2{margin-top:70px;}
+.behaivor2 span{display:inline-block; margin-bottom:5px;}   
+
+/* 안전문화헌장 */
+.safety_culture{box-sizing:border-box; max-width:851px; height:951px; padding:143px 92px 0 100px;margin:0 auto;background:url(../images/content/bg_safety.jpg) no-repeat 0 0; background-size:100%; font-size:1.071em;}
+.safety_culture .tit{margin-bottom:50px; font-size:1.83em; font-weight:600; color:#3158d7; text-align:center;}
+.safety_culture p,
+.safety_culture ul li{line-height:1.9;} 
+
+/* 비상대피/급수시설현황 */
+.box_civil_defense{position:relative;border-top:3px solid #1e6aa8;border-bottom:1px solid #d8d8d8;border-right:1px solid #d8d8d8;background:url(../images/content/bg_civil_defense.gif) repeat 0 0;}
+.box_civil_defense > img{position:absolute;left:0px;top:0px; max-width:50%; height:202px;}
+.box_civil_defense > a{display:block;position:relative;margin-left:50%; width:50%; padding:0 20px;height:202px;box-sizing:border-box;font-size:1.57em;line-height:30px; display:flex; align-items: center; justify-content: space-between; }
+.box_civil_defense > a > span{}
+.box_civil_defense > a:after{content:'';display:block;width:86px;height:86px;background:url(../images/2022/icon_menu_down.png) no-repeat 0 0 / contain;}
+
+/* 위법행위제보 */
+.box_dudeu{position:relative;border:1px solid #d8d8d8;padding:30px;min-height:328px;box-sizing:border-box;}
+.box_dudeu h2{font-size:1.28em;padding-left:0px;margin-top:0px;}
+.box_dudeu h2:before{display:none;}
+.box_dudeu h2 > strong{color:#e15659;}
+.box_dudeu > :not(h2){margin-left:380px;}
+.box_dudeu > img{position:absolute;top:70px;left:30px;margin-left:0px;}
+
+/* 좌글 우 이미지 */
+.calamity_img{position:relative;}
+.calamity_img > ul{margin-right:330px;min-height:200px;}
+.calamity_img > span{position:absolute;right:0px;top:0px;}
+
+/*태풍호우*/
+.storm{}
+.storm ul{ display:flex; justify-content: space-between;}
+.storm ul:after{content:''; display:block; clear:both;}
+.storm ul li{width: calc(50% - 20px);margin: 0 10px;}
+.storm ul li > a {display:block}
+.storm ul li.border{border:1px solid #d8d8d8;padding:20px; box-sizing:border-box;}
+.storm ul li .tbox{display:inline-block; }
+.storm ul li .tbox .tit{display:block;font-weight:bold; font-size:17px; color:#345693; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; letter-spacing:-1px;}
+.storm ul li .tbox .txt{display:inline-block;margin-top:7px;}
+.storm ul li .tbox > ul li {width:100%}
+.video_wrap {padding: 0 10px}
+
+/*대설 & 한파*/
+dl.h1{border: 1px solid #d2d2d2;padding: 5px;}
+dl.h1 dt{display: table-cell;width: 20%;text-align: center;font-size: 1.14em;font-weight: 600;background: #e1eef9;vertical-align: middle;padding: 19px;height: 70px;}
+dl.h1 dd{display: table-cell;width: 80%;padding: 0 30px;vertical-align: middle;}
+dl.h1+h2 {margin-top:20px}
+
+ul.h3_type { }
+ul.h3_type > li{position:relative;margin-bottom: 20px;padding-left: 14px;font-weight:600;font-size:1.14em;line-height:1.4;letter-spacing: -1px;}
+ul.h3_type > li:before{top:7px;left:0;width:6px;height:6px;background: url(/cmsh/daegu.go.kr/images/common/sp_icss.png) no-repeat 0 -100px;}
+ul.h3_type > li > ul{}
+ul.h3_type > li > ul > li{position:relative;margin-bottom: 5px;padding-left: 12px;line-height: 1.6;font-size: 14px;font-weight: normal;}
+
+
+/*지진*/
+.earth {margin-top:20px}
+
+.earth>ul{ display:flex; justify-content: space-between; flex-wrap:wrap; margin-top:-14px;}
+.earth>ul>li{  border:1px solid #d8d8d8; width:48%;  margin-top:14px;}
+.earth>ul>li>.tbox{ height:auto !important; }
+.earth>ul>li>.tbox .tit{display:block;font-weight:bold;background:#dfdfdf; padding:5px 15px; font-size:17px; color:#345693; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; letter-spacing:-1px; text-align:center;}
+.earth>ul>li>.tbox .txt{display:inline-block;margin-top:7px;}
+.earth>ul>li>.tbox > ul {padding:0 20px }
+.earth>ul>li>.tbox > ul > li {border:none}
+.earth>ul>li>.tbox > ul li.why {margin-top:5px}
+.earth>ul>li>.tbox > ul li.why > span {padding:6px 13px;background:#00a651;color:#fff;border-radius:50px;font-weight:bold;}
+
+/*침수*/
+.conBox.mt0 {margin:0;padding: 0 20px 20px;}
+.flood p.img {position:absolute; top:0; right:0;height: 150px;}
+.flood p.img > img {height:100%}
+.flood > ul > li:nth-child(1) {padding-right:200px;margin-bottom: 30px;}
+
+/* 임시주거시설 */
+.box_house{background:#f8f8f8 url(../images/2022/img_house.png) no-repeat right bottom; border:1px solid #d2d2d2; height:330px;box-sizing:border-box;padding:40px;}
+.box_house > h2:before{display:none;}
+.box_house > h2{padding-left:0px;font-size:38px;}
+.box_house > h2:after{content:'';display:block;width:460px;height:3px;background:#2e444b;margin-top:15px;}
+
+.img_box {display:flex;}
+.img_box .img_right {min-width:291px; margin-left:10px;}
+
+.img_col4 {display:flex; justify-content:space-between; margin-top:10px;}
+.img_col4 div { padding:10px; border:1px solid #d2d2d2; box-sizing:border-box; width:calc(25% - 10px); line-height:1.3;}
+.img_col4 div img { margin-bottom:10px;}
+
+
+.icss .s_chart {display:flex; justify-content: space-between;}
+.icss .s_chart li {padding:0; margin:0; width:16%;}
+.icss .s_chart li:before {display:none;}
+.icss .s_chart li strong {display:flex; align-items: center; background:#162c66; color:#fff;  height:50px; line-height:1.2; font-size:14px;  padding-left:40px; position:relative;}
+.icss .s_chart li strong .num {display:block; width:24px; height:24px; background:#fff; border-radius:50px; line-height:24px; text-align:center; color:#333; position:absolute; left:8px; top:50%; margin-top:-12px;}
+.icss .s_chart li .box {display:flex; height:80px; border:1px solid #d2d2d2; border-top:0; padding:10px; position:relative; align-items: center; justify-content: center; text-align:center; line-height:1.3;}
+.icss .s_chart li .box:before {content:''; display:block; width:20px; height:20px; position:absolute; right:-11px; top:5px; transform: rotate(45deg); background:#fff; border-top:1px solid #d2d2d2; border-right:1px solid #d2d2d2; z-index:2;}
+.icss .s_chart li:last-child .box:before {display:none;} 
+
+/*폭염*/
+.cont_heatwave .imgBx{margin-top:10px;display:flex;justify-content: center;}
+
+/*이미지 목록*/
+.img_list ol {display: flex;margin: 0 -5px;flex-wrap: wrap;justify-content: flex-start;}
+.img_list ol li{width: calc(25% - 12px); margin: 10px 5px;text-align:center; border:1px solid #afafaf;}
+.img_list ol li a {text-decoration:none}
+.img_list ol li a >  span {display:block}
+.img_list ol li a >  span.txt {padding: 8px 5px;padding-right: 15px;letter-spacing:-1px;background:#f8f8f8;position: relative;}
+.img_list ol li a >  span.txt:after {content:"";position:absolute;right: 5px;top:50%;transform:translateY(-50%);width:20px;height:20px;background: url(/cmsh/daegu.go.kr/images/common/sp_btn_ico.png) no-repeat 0 -120px;}
+.img_list ol li img {width:100%}
+
+@media screen and (max-width:1259px){
+	.icss .s_chart {flex-wrap: wrap;}
+	.icss .s_chart li{margin-right:1%;width: 31.333%;}
+	
+	/*비슬산레이더정보*/
+	#current_weather{width:100%!important;}
+	#current_weather iframe{width:100%!important;left:0!important;}
+
+}
+/* Tablet 768px ~ 1023px */
+@media screen and (max-width: 1023px){
+	.img_type2 img {width:300px;}
+	
+	.box_house {height:400px;}
+	.icss .s_chart {flex-wrap:wrap;}
+	.icss .s_chart li {width:31.333%; margin-bottom:15px;}
+	
+	.img_list ol li{width:calc(25% - 5px);}
+	
+}
+@media screen and (min-width: 768px){
+	.mobile{display:none;}
+	
+}
+/* 모바일  ~ 767px*/
+@media screen and (max-width: 767px){
+	.pc{display:none;}
+	
+	.storm ul {display:block;}
+	.storm ul li {width:auto; margin : 0; margin-bottom:10px; padding:12px !important;}
+	.storm ul li:last-child {margin-bottom:0;}
+	
+	.img_box {display:block;}
+	dl.h1 dt { width:auto; display:block; height:auto; padding:10px;}
+	dl.h1 dd {display:block; width:auto; padding:10px;}
+	
+	.earth>ul {display:block; margin-top:0;}
+	.earth>ul>li { width:auto;}
+	.img_col4 {flex-wrap:wrap;}
+	.img_col4 div {width:49%; margin-bottom:14px; }
+	.img_col4 div img {width:100%;}
+	
+	.img_type2 .far {float:none !important; }
+	.img_type2 .far img {width:100% ;}
+	
+	
+	.box_house { background-size:400px auto; height:auto; padding:26px 26px 150px;}
+	.box_house > h2 { font-size:20px;}
+	.box_house > h2:after {width:100%;}
+	.box_house p {width:auto !important;}
+	
+	.safety_culture {padding:120px 70px 70px;}
+	.safety_culture .tit {margin-bottom:15px;}
+	.safety_culture p, .safety_culture ul li {line-height:1.5; font-size:15px;}
+	
+	.icss .s_chart {display:block;}
+	.icss .s_chart li {width:auto; margin-bottom:25px;margin-right:0;}
+	.icss .s_chart li .box{height:auto;}
+	.icss .s_chart li .box:before {right:50%; margin-right:-11px; bottom:-11px; top:inherit; transform: rotate(135deg);}
+	
+	.box_civil_defense {text-align:center; border-left:1px solid #d8d8d8;}
+	.box_civil_defense > img {position:inherit; left:inherit; top:inherit;  width:auto; height:auto; max-width:calc(100% - 30px); box-sizing: border-box; margin:15px;}
+	.box_civil_defense > a {margin:0; padding:15px; background:#fff; width:auto; text-align:left;font-size: 16px;height: auto;align-items: center;line-height: 1.4;}
+	.box_civil_defense > a br {display:none;}
+	.box_civil_defense > a:after {width:50px; height:50px;}
+	
+	.cont_heatwave .imgBx{justify-content:space-between;}
+	.cont_heatwave .imgBx img{width:49.5%;}
+	
+	/*침수*/
+	.flood p.img {position:relative; top:revert; right:revert;height: 150px; margin:0 auto;text-align: center;}
+	.flood p.img > img {height:auto}
+	.flood > ul > li:nth-child(1) {padding-right:0;margin-bottom:0px;}
+	
+	.img_list ol{margin:0;display:flex;flex-wrap: wrap;}
+	.img_list ol li{width: calc(33.33% - 12px);}
+	
+}
+@media screen and (max-width:639px){
+	.safety_culture { height:auto; background-size:100% 100%; padding:50px 40px; position:relative; background:none; border:2px solid #6e3d0b;}
+	.safety_culture:before {content:''; display:block; border:1px solid #fcdc7d; position:absolute; left:15px; top:15px; right:15px; bottom:15px; border-radius:5px;}
+	.safety_culture p, .safety_culture ul li {font-size:14px;}
+	
+	.img_list ol li{width: calc(50% - 12px);}
+}
+@media screen and (max-width:425px){
+	    .box_house { background-size:400px auto; height:auto; padding:16px 16px 150px;}
+		.img_list ol li{width:100%}
+	
+
+}
+
+

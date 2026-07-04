@@ -1,0 +1,181 @@
+@charset "utf-8";
+
+/* 
+ * Ieetu CMS Style Sheet CSS Document 
+ * IEETU Web Standardization Team 
+ * 2016-11-23
+ */
+
+/* 글자 정렬 */
+.icss{word-break:keep-all; word-wrap:break-word;}
+/* Sprite Image */
+.icss h2:before,
+.conTit2:before,
+.icss h3:before,
+.conTit3:before,
+.icss h4:before,
+.conTit4:before,
+.icss h5:before,
+.conTit5:before,
+.icss li:before{content: ''; display: inline-block; position: absolute; top: 0; left: 0; background: url(../images/common/sp_icss.png) no-repeat 0 0;}
+/* Content Heading */
+.icss h2,
+.conTit2{position:relative; margin-top:50px; margin-bottom:15px; padding-left: 24px; font-weight:600; font-size:1.57em; line-height:1.2; letter-spacing: -2px;}
+.icss h3,
+.conTit3{position:relative; margin-top:30px; margin-bottom:10px; padding-left:8px; font-weight:600; font-size:1.14em; line-height:1.4; letter-spacing: -1px;}
+.icss h4,
+.conTit4{position:relative; margin-top:20px; margin-bottom:10px; font-weight:600; font-size:1.14em; line-height:1.4; letter-spacing: -1px;}
+.icss h5,
+.conTit5{position:relative; margin-top:20px; margin-bottom:10px; font-weight:600; font-size:1.07em; line-height:1.4; letter-spacing: -1px;}
+.icss h2:first-child,
+.icss h3:nth-of-type(1),
+.icss h4:nth-of-type(1),
+.icss h5:nth-of-type(1){margin-top:0;}
+.icss h2:before,
+.conTit2:before{top:4px; left:0; width:17px; height:17px; background-position: 0 0;}
+.icss h3:before,
+.conTit3:before{position:relative; top:-2px; left:-8px; width:6px; height:6px; background-position:0 -100px;}
+/* Content List */
+.icss ul,
+.icss ol,
+.conLst,
+.conLst2,
+.conLst3{margin-bottom: 20px;}
+.icss li ul,
+.icss li ol,
+.conLst li ul,
+.conLst li ol,
+.conLst2 li ul,
+.conLst2 li ol,
+.conLst3 li ul,
+.conLst3 li ol{margin-top: 5px; margin-bottom: 10px;}
+.icss td>ul,
+.icss td>ol,
+.conLst td>ul,
+.conLst td>ol,
+.conLst2 td>ul,
+.conLst2 td>ol,
+.conLst3 td>ul,
+.conLst3 td>ol{margin-bottom: 0;}
+.icss li,
+.conLst li,
+.conLst2 li,
+.conLst3 li{position:relative; margin-bottom: 5px; padding-left: 12px; line-height: 1.6;}
+.icss li:before,
+.conLst li:before{top:9px; left:2px; width: 3px; height: 3px; background: #666;}
+.icss li li,
+.conLst2 li{padding-left: 12px;}
+.icss li li:before,
+.conLst2 li:before{top:10px; left:2px; width: 5px; height: 1px; background: #666;}
+.icss li li li,
+.conLst3 li{padding-left:10px;}
+.icss li li li:before,
+.conLst3 li:before{top:9px; left:2px; width: 2px; height: 2px; border:1px solid #999; background: none;}
+.icss ol{margin-left: 15px;}
+.icss ol>li{padding-left:0; list-style-type: decimal;}
+.icss ol>li:before{display: none;}
+/* List Init */
+.icss .init{margin-left:0; padding-left: 0;}
+.icss .init>li{padding-left: 0; list-style-type: none;}
+.icss .init:before,
+.icss .init>li:before{display: none;}
+/* Content Box */
+.icss .conBox{position:relative; margin-bottom:40px;}
+.icss h2 + .conBox,
+.conTit2 + .conBox{margin-bottom:50px; margin-left: 26px;}
+.icss h3 + .conBox,
+.conTit3 + .conBox{margin-bottom:30px; margin-left: 18px;}
+.icss h4 + .conBox,
+.conTit4 + .conBox{margin-bottom:30px;}
+.icss h5 + .conBox,
+.conTit5 + .conBox{margin-bottom:30px;}
+/* Content Paragraph */
+.icss p{margin-bottom: 20px; line-height: 1.6;}
+/* Table */
+/* Table Type */
+table.fixed{table-layout:fixed;}
+/* circle_num */
+.icss .c_num{margin-left:0; counter-reset:index;}
+.icss .c_num > li{padding-left: 28px; font-size:15px; line-height:22px; color:#585858; letter-spacing:-0.01em;list-style-type: none !important;}
+.icss .c_num > li:before{display:block; position:absolute; top: 3px !important; left: 0px !important; width: 18px !important; height: 18px !important; line-height: 16px;border-radius:100%;border:1px solid #444; background:none !important; text-align:center; font-size:11px; font-weight:600; box-sizing:border-box; counter-increment:index; content:counter(index);}
+@media screen and (max-width:1023px){
+	table.fixed{table-layout:auto;}
+}
+/* 상단,좌측 제목 */
+.tb_unit {text-align:right;line-height:1;font-size:14px; font-weight:normal} /*표 단위*/
+
+.icss table{width:100%; margin-top: 10px; margin-bottom:5px; border-top:3px solid #444; border-bottom:1px solid #444;}
+.icss table th,
+.icss table td,
+.tbl01 th,
+.tbl01 td{padding:13px 10px; border:1px solid #d6d6d6; border-bottom: 0; line-height: 1.5;}
+.icss table thead th,
+.tbl01 thead th{border-bottom:1px solid #61646c; background:#f6f6f7; font-weight:bold; text-align:center;}
+.icss table tbody th,
+.tbl01 tbody th{background:#f6f6f7; font-weight:bold; text-align:center;}
+/* 모바일용 테이블 스크롤 */
+.scroll{overflow:auto;}
+
+/**************************************************
+	테이블
+**************************************************/
+/* 모바일 테이블 스크롤(스크립트에서 class 생성됨) */
+.table_scroll_wrap{position:relative;margin-top:10px;}
+.table_scroll_wrap:after{content:'scroll 옆으로 미세요'; display:inline-block; position:absolute; top:0; right:0; padding:0 0 0 30px; background:url(../images/2022/base/ico_scroll_x2.png) no-repeat 0 0/auto 30px; font-size:13px; line-height:30px;}
+.table_scroll_wrap table{table-layout:auto !important; margin-top:40px !important; min-width:800px}
+.table_scroll{overflow:hidden; overflow-x:auto; word-break:keep-all; word-wrap:break-word;}
+/* Table02 */
+.icss table.tbl02{position:relative; /*border-top:1px solid #000; border-bottom:1px solid #000;*/}
+.icss table.tbl02:after{content:''; display:block; position:absolute; left:0; bottom:0; z-index:10; width:100%; height:1px; background:#000;}
+.icss table.tbl02 th,
+.icss table.tbl02 td{padding:14px 5px; border:1px solid #e2e2e2; background:none;}
+.icss table.tbl02 th{font-weight:600; font-size:14px; text-align:center;}
+.icss table.tbl02 td{padding:13px 12px; font-size:14px;}
+.icss table.tbl02 tbody tr:first-child th,
+.icss table.tbl02 tbody tr:first-child td{box-shadow:inset 0 4px 0 #f7f7f7;}
+.icss table.tbl02 thead th{position:relative; border-left:0; border-right:0; border-color:#000;}
+.icss table.tbl02 tbody th{padding-left:12px; padding-right:12px;}
+.icss table.tbl02 th:first-child,
+.icss table.tbl02 td:first-child{border-left:0;}
+.icss table.tbl02 th:last-child,
+.icss table.tbl02 td:last-child{border-right:0;}
+.icss table.tbl02 tr:first-child th,
+.icss table.tbl02 tr:first-child td{border-top-color:#61646c;}
+.icss table.tbl02 thead th:before{content:''; display:block; position:absolute; top:0; left:0; bottom:0; width:1px; height:15px; margin:auto 0; background:#e2e2e2;}
+.icss table.tbl02 thead th:first-child:before{display:none;}
+.icss table.tbl02 thead .bdl{border-left:1px solid #e2e2e2;}
+.icss table.tbl02 thead .bdr{border-right:1px solid #e2e2e2;}
+.icss table.tbl02 tbody .bdl{border-left:1px solid #e2e2e2;}
+.icss table.tbl02 tbody .bdr{border-right:1px solid #e2e2e2;}
+
+/* 01. Tablet 768px ~ 1023px */
+@media screen and (max-width:1023px){
+	/**************************************************
+		컨텐츠 블릿,들여쓰기
+	**************************************************/
+	/* Content Heading */
+	.icss h2,
+	.conTit2{margin-top:30px; margin-bottom:13px;}
+	.icss h3,
+	.conTit3{margin-top:20px; margin-bottom:10px;}
+	.icss h4,
+	.conTit4{margin-top:20px; margin-bottom:10px;}
+	.icss h5,
+	.conTit5{margin-top:20px; margin-bottom:10px;}
+	/* Content Box */
+	.icss .conBox{margin-bottom:30px;}
+	.icss h2 + .conBox,
+	.conTit2 + .conBox{margin-bottom:30px;}
+	.icss h3 + .conBox,
+	.conTit3 + .conBox{margin-bottom:30px;}
+	.icss h4 + .conBox,
+	.conTit4 + .conBox{margin-bottom:30px;}
+	.icss h5 + .conBox,
+	.conTit5 + .conBox{margin-bottom:30px;}
+
+
+}
+
+@media(max-width:767px){
+	.icss h3 + .conBox, .conTit3 + .conBox{margin-bottom:15px;}
+}

@@ -2,6 +2,8 @@ create extension if not exists "pgcrypto";
 
 create table if not exists public.impact_items (
   id uuid primary key default gen_random_uuid(),
+  external_id text unique not null,
+  source_id text,
   title text not null,
   category text not null check (
     category in (
@@ -11,11 +13,18 @@ create table if not exists public.impact_items (
       'council',
       'public_notice',
       'event',
-      'safety'
+      'safety',
+      'parking',
+      'heat',
+      'facility',
+      'welfare',
+      'environment'
     )
   ),
   source_name text not null,
   source_url text not null,
+  source_type text,
+  source_status text,
   address text not null,
   dong text not null,
   lat double precision not null,
@@ -29,6 +38,13 @@ create table if not exists public.impact_items (
   action_guide text not null,
   department text not null,
   contact text not null,
+  impact_radius_m integer,
+  location_confidence text,
+  summary_confidence text,
+  urgency text,
+  raw_text_path text,
+  collected_at timestamptz,
+  is_demo boolean not null default false,
   updated_at timestamptz not null default now()
 );
 
@@ -41,6 +57,9 @@ create index if not exists impact_items_category_idx
 create index if not exists impact_items_dong_idx
   on public.impact_items (dong);
 
+create index if not exists impact_items_source_id_idx
+  on public.impact_items (source_id);
+
 alter table public.impact_items enable row level security;
 
 drop policy if exists "Public impact items are readable" on public.impact_items;
@@ -51,6 +70,7 @@ create policy "Public impact items are readable"
   using (true);
 
 insert into public.impact_items (
+  external_id,
   title,
   category,
   source_name,
@@ -71,6 +91,7 @@ insert into public.impact_items (
 )
 values
   (
+    'sample-urban-1',
     '월성권 생활도로 정비 도시관리계획 주민의견청취',
     'urban_plan',
     '달서구 고시공고',
@@ -90,6 +111,7 @@ values
     '053-000-0000'
   ),
   (
+    'sample-traffic-1',
     '상인역네거리 야간 차로 부분 통제',
     'traffic',
     '대구 교통통제 정보',
@@ -109,6 +131,7 @@ values
     '053-000-0000'
   ),
   (
+    'sample-event-1',
     '두류공원 문화행사 주변 주차 혼잡 예고',
     'event',
     '달서구 보도자료',

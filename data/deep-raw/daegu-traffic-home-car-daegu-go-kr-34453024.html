@@ -1,0 +1,542 @@
+
+
+ 
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"> 
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="대구교통종합정보">
+	<meta property="og:description" content="센터소개, 실시간교통정보, 생활교통정보, 대중/광역교통, 종합교통지표, 알림마당, 교통DB 정보 제공">
+	<meta property="og:image" content="/resources/images/header_logo.jpg">
+	<meta property="og:url" content="http://car.daegu.go.kr/">
+	<link href="/resources/images/common/favicon02.png" rel="icon" type="image/x-icon" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<link type="text/css" rel="stylesheet" href="/resources/css/common.css" />
+	
+	<title>대구교통종합정보</title>
+	<meta name="description" content="센터소개, 실시간교통정보, 생활교통정보, 대중/광역교통, 종합교통지표, 알림마당, 교통DB 정보 제공">
+	<script>
+		$(function(){
+			var loc1 = $('h2.snb_tit').text();
+			var loc2 = $('ul.snb_list .snb_dep1_item.on span').text();
+			var loc3 = $('ul.snb_list .snb_dep2_list a.on').text();
+			
+			
+			$('#contents > .inner > .sub_tit > .location > .loc1').text(loc1);
+			$('#contents > .inner > .sub_tit > .location > .loc2').text(loc2);
+			if(loc3 == null || loc3 == ""){
+				$('title').text('대구교통종합정보 | '+loc1 +" > " + loc2);
+				$('#contents > .inner > .sub_tit > h3').text(loc2);
+			}else{
+				$('title').text('대구교통종합정보 | '+loc1 +" > " + loc2 + " > " + loc3);
+				$('#contents > .inner > .sub_tit > h3').text(loc2 + " > " + loc3);
+				$('.sub_tit > .location').append("<span class='loc3 arrow'>"+loc3+"</span>")
+			}
+			
+			
+			
+		});
+	</script>
+</head>
+<body>
+<div id="wrap">
+	
+
+
+<!-- skipNav -->
+<div id="skipNav">	
+	
+		
+		
+			<a href="#contents">본문 바로가기</a>
+		
+	
+	<a href="#gnb">주메뉴</a>
+</div>
+<!-- //skipNav -->
+
+<!-- header -->
+<div id="header">
+	<div class="util_box">
+		<div class="inner">
+			<h1 class="logo">
+				<a href="/"> 
+					<img style="width: 180px; height: auto;" src="/resources/images/common/logo.png" alt="대구광역시 교통종합정보" class="pc_ver" />
+				</a>
+			</h1>
+			<div id="xio" class="m_ver" style="width:300px; height:100%; position: absolute; top: 0px; left: 0px;" >				
+				<div style="width:188px; height:100%; float:left; text-align: center; align-content: center;">
+					<a href="/"> 
+						<img style="width: 180px; height: auto;" src="/resources/images/common/logo.png" alt="대구광역시 교통종합정보" class="pc_ver" />
+					</a>
+				</div>
+				<!--
+				<div style="width:108px; height:100%; float:left; cursor:pointer; text-align: center;" onclick="$('#da_banner').show();" >
+					<span style="line-height: 74px; font-weight: bold; font-size: 16px; color: #a70e1f;">배너보기</span>
+				</div>
+				-->
+			</div>
+			<div class="m_gnb_btn_wrap">
+				<a href="/" onclick="return false;"
+					class="m_gnb_btn"><img
+					src="/resources/images/common/m_gnb_btn.png"
+					alt="모바일 전체메뉴 아이콘" /></a>
+			</div>
+		</div>
+	</div>
+	<div id="gnb">
+		<h2 class="hide">주메뉴</h2>
+		<div class="inner">
+			<ul class="gnb_list">
+				
+				
+				
+				<li class="dep1"><a href="/metro/outbreak"
+					class="dep1_tit">돌발/사고정보</a>
+					<ul class="dep2">
+						<li><a href="/metro/outbreak">돌발/사고 정보</a></li>
+					</ul></li>
+				<li class="dep1"><a href="/board/speedStat"
+					class="dep1_tit">교통정보</a>
+					<ul class="dep2">
+						
+						
+												
+						<li><a href="/board/speedStat">속도정보</a></li>
+						<li><a href="/board/speedStat2">교통량정보</a></li>
+						<li><a href="/board/trafficData">교통조사자료</a></li>
+
+						
+						
+						
+					</ul>
+				</li>
+				<li class="dep1"><a href="/center/atms"
+					class="dep1_tit">알림마당</a>
+					<ul class="dep2">
+						<li><a href="/center/atms">센터 소개</a></li>
+						<li><a href="/center/intro">사이트 이용안내</a></li>
+						<li><a href="/center/notice">공지사항</a></li>
+						<li><a href="/center/site">관련사이트</a></li>
+						<li><a href="/center/promoVideo">홍보영상</a></li>
+					</ul>
+				</li>
+				<!--  
+				<li id="header_logo_2" class="dep1" style="margin-left: 5px; width: 140px; float: right; margin-top: 15px;">
+					
+				</li>
+				-->
+				
+			</ul>
+		</div>
+		<!--
+		<div id="header_logo_new" style="width:300px; height:100%; /* background-color:black; */ float: right;" >
+			<div style="width:188px; height:100%; float:left; background-color:#dc1229; text-align: center; align-content: center;">
+				<img alt="대구경북통합" style="width: 150px; height: auto;" src="/resources/images/tmpimg/da_title.png" />
+			</div>
+			<div style="width:108px; height:100%; float:left; cursor:pointer; align-content: center; text-align: center;" onclick="$('#da_banner').show();" >
+				<span style="font-weight: bold; font-size: 16px; color: #a70e1f;">배너보기</span>
+			</div>
+		</div>
+		-->
+		<div class="gnb_bg" style="display: none;">
+			<div class="ico"></div>
+		</div>
+	</div>
+
+</div>
+<!-- //header -->
+
+<!-- m_gnb -->
+<div id="m_gnb">
+	<div class="m_gnb_top">
+		<p class="m_gnb_tit">전체메뉴</p>
+		<p class="m_gnb_logo">
+			<img src="/resources/images/common/m_logo.png"
+				alt="대구광약시 교통종합정보" />
+		</p>
+		<button type="button" class="m_gnb_close_btn">모바일 전체메뉴 닫기</button>
+	</div>
+	<div class="m_gnb_wrap">
+		<ul>
+			<li><button type="button" class="ico05">돌발/사고정보</button>
+				<ul class="sub sub01">
+					<li><a href="/metro/outbreak">돌발/사고정보</a></li>
+				</ul></li>
+			<li><button type="button" class="ico04">교통정보</button>
+				<ul class="sub sub01">
+					<li>
+						<a href="/board/speedStat">속도정보</a>
+					</li>
+					
+					<li>	
+						<a href="/board/speedStat2">교통량정보</a>
+					</li>
+				
+					<li>	
+						<a href="/board/trafficData">교통조사자료</a>
+					</li>
+				</ul>
+			</li>
+			<li><button type="button" class="ico06">알림마당</button>
+				<ul class="sub sub01">
+					<li><a href="/center/atms">센터 소개</a></li>
+					<li><a href="/center/intro">사이트 이용안내</a></li>
+					<li><a href="/center/notice">공지사항</a></li>
+					<li><a href="/center/site">관련사이트</a></li>
+					<li><a href="/center/promoVideo">홍보영상</a></li>
+				</ul></li>
+		</ul>
+	</div>
+</div>
+<div class="m_gnb_bg"></div>
+<!-- //m_gnb -->
+
+<script type="text/javascript">
+	var device_state;
+
+	//방문자수 ajax
+	function getVisiterCountMonth(){
+		$.ajax({
+			url : "/ajax/getVisiterCountMonth/",
+			type : "POST",
+			dataType : "json",
+			success: function(data) {
+				if(data != null && data.result != null){					
+					result = data.result;														
+					$('#visitMonth').text(result.cnt);
+					$('#visitMonth_header').text(result.cnt);
+				}
+			},
+			error : function(data){
+				//alert("리스트 조회에 실패하였습니다."); 요구사항
+				console.log("리스트 조회에 실패하였습니다.");
+			}
+		});	
+	}
+	
+	//방문자수 ajax
+	function getVisiterCountToday(){
+		$.ajax({
+			url : "/ajax/getVisiterCountToday/",
+			type : "POST",
+			dataType : "json",
+			success: function(data) {
+				if(data != null && data.result != null){					
+					result = data.result;					
+					$('#visitToday').append(result.cnt);
+					$('#visitToday_header').append(result.cnt);
+				}
+			},
+			error : function(data){
+				//alert("리스트 조회에 실패하였습니다."); 요구사항
+				console.log("리스트 조회에 실패하였습니다.");
+			}
+		});	
+	}
+	
+	$(function() {
+		//getVisiterCountMonth(); //미사용
+		//getVisiterCountToday(); //미사용
+		
+		responsiveFn();
+		var minState = false;
+		$(window).on('load', function() {
+			responsiveFn();
+		});
+
+		$(window).resize(function() {
+			responsiveFn();
+		});
+
+		function responsiveFn() {
+			var window_w = $(window).width() + 17;
+
+			if (window_w >= 1024) {
+
+				if (device_state != "pc") {
+
+					device_state = "pc";
+					//모바일 메뉴
+					$("#m_gnb, .m_gnb_bg").removeAttr("style");
+
+				}
+
+			} else if ((window_w < 1024) && (window_w >= 769)) {
+
+				if (device_state != "tablet") {
+					device_state = "tablet";
+
+				}
+
+			} else if (window_w < 769) {
+
+				if (device_state != "mobile") {
+					device_state = "mobile";
+
+				}
+
+			}
+		}
+
+		//** 241216 상단헤더 애니메이션 강화
+		
+		$("#gnb").on("mouseenter focusin", ".dep1", function() {
+		    $(this).find(".dep2").css("background-color", "#f2f8ff");
+		}).on("mouseleave blur", ".dep1", function() {
+		    $(this).find(".dep2").css("background-color", "");
+		});
+		
+		
+		//** 241216 애니메이션 강화 끝
+		// 변수 추가: 애니메이션 실행 중인지 확인
+		let isAnimating = false;
+		
+		$("#gnb").on("mouseleave", function() {
+		    if (isAnimating) return;  // 애니메이션 중이면 실행 안 함
+		    isAnimating = true;
+		    $(this).find(".dep2").stop(true, true).slideUp(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		    $(".gnb_bg").stop(true, true).slideUp(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		});
+		
+		// gnb
+		$("#gnb").on("mouseenter focusin", ".gnb_list", function() {
+		    if (isAnimating) return;  // 애니메이션 중이면 실행 안 함
+		    isAnimating = true;
+		    $(this).find(".dep2").stop(true, true).slideDown(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		    $(".gnb_bg").stop(true, true).slideDown(200, function() {
+		        isAnimating = false;  // 애니메이션 끝나면 상태 변경
+		    });
+		});
+
+		
+
+		$("#gnb").on("focusout",
+				".gnb_list > li:last-child > .dep2 > li:last-child > a",
+				function() {
+					$("#gnb").find(".dep2").hide();
+					$(".gnb_bg").hide();
+				});
+
+		//바로가기에 대한 메뉴 활성화 비활성화 처리
+		$("#skipNav a").on("focusin",
+				function() {
+					$("#gnb").find(".dep2").hide();
+					$(".gnb_bg").hide();
+				});
+		
+		
+		
+		//모바일 메뉴
+		var m_scroll_pos;
+
+		$(".m_gnb_btn").click(function() {
+			m_scroll_pos = $(window).scrollTop();
+			$("body").addClass("fixed");
+			$(".m_gnb_bg").fadeIn(400);
+			$(".m_nav_close_btn").css("display", "block");
+			$("#m_gnb").show().animate({
+				right : 0 + "px"
+			}, 400, function() {
+				//callback
+			});
+			return false;
+		});
+		$(".m_gnb_bg, #m_gnb .m_gnb_close_btn").click(function() {
+			$("body").removeClass("fixed");
+			$(window).scrollTop(m_scroll_pos);
+			$(".m_gnb_bg").fadeOut(400);
+			$("#m_gnb").animate({
+				right : -100 + "%"
+			}, 400, function() {
+				$(this).hide();
+			});
+			return false;
+		});
+
+		//모바일 gnb 2dep
+		$("#m_gnb ul li").on(
+				"click",
+				"button",
+				function() {
+					if ($("#m_gnb ul li .sub").is(":animated"))
+						return false;
+					if ($(this).next().hasClass("sub")) {
+						$(this).parent().toggleClass("on").siblings()
+								.removeClass("on");
+						$(this).next().slideToggle().parent().siblings()
+								.children(".sub").slideUp();
+						return false;
+					}
+				});
+
+	});
+</script>
+	
+	<div id="container" class="sub">
+		
+	
+		<div class="inner">
+			
+
+ 
+<div id="snb">
+	
+		
+		
+
+		
+			
+		
+			<h2 class="snb_tit"><span class="ico ico07"></span>교통정보</h2>
+			<ul class="snb_list">
+								
+				<li class="snb_dep1"><a href="/board/speedStat" class="snb_dep1_item" ><span>속도정보</span></a></li>
+				<li class="snb_dep1"><a href="/board/speedStat2" class="snb_dep1_item" ><span>교통량정보</span></a></li>
+				<li class="snb_dep1"><a href="/board/trafficData" class="snb_dep1_item" ><span>교통조사자료</span></a></li>
+				
+				
+			</ul>
+		
+		
+		
+	
+</div>
+<script type="text/javascript">
+	$(function(){
+		
+		//snb : 서브 왼쪽메뉴
+		$("#snb .snb_list .snb_dep1").on("mouseenter focusin", ".list_item", function(){
+			if( $(this).hasClass("on") && $(this).next().is(":visible") ) return;
+			$(this).next().stop().slideDown();
+		});
+
+		$("#snb .snb_list").on("mouseleave", ".snb_dep1", function(){
+			if( $(">a", this).hasClass("on") && $(this).next().is(":visible") ) return;
+			if( $(">a", this).hasClass("on") && $(this).prev().is(":visible") ) return;
+			$(this).find(".snb_dep2_list").stop().slideUp();
+		});
+		
+		$("#snb .snb_dep2_list li:last-child a").on("focusout", function(){
+			if( $(this).closest(".snb_dep2_list").prev().hasClass("on") && $(this).closest(".snb_dep2_list").is(":visible") ) return;
+			$(this).closest(".snb_dep2_list").slideUp();
+		});
+		
+	})
+</script>
+			<!-- contents -->
+			<div id="contents">
+				<div class="inner">
+					<!-- sub_tit 화면 위치 표시 -->
+					<div class="sub_tit">
+						<h3>-</h3>
+						<div class="location">
+							<span class="home"><img src="/resources/images/sub/loc_home.png" alt="홈 아이콘" /></span>
+							<span class="loc1 arrow">-</span>
+							<span class="loc2 arrow">-</span>
+						</div>
+					</div>
+					<!-- //sub_tit -->
+					
+					
+						
+							
+
+ 
+
+
+
+<input type="hidden" value=""/>
+<div id="board">
+	<div class="bbs_view_default">
+		<div class="bbs_view_head">
+			<p class="subject">CCTV 서비스 일시 중단 안내</p>
+			<div class="bbs_view_sub">
+				<span class="write">교통정보운영과</span>
+				<span class="hits">조회수 : 883</span>
+				<span class="date">등록일 : 2026-02-10</span>
+			</div>
+		</div>
+		
+
+		
+		
+			
+		
+			<div class="bbs_view_file">
+				<span class="tit">첨부파일 : </span>
+									
+					<span class="file">
+						<a class="file_link" href="/download?fileName=" >
+							
+						</a>
+					</span>					 
+				
+			</div>
+		
+		
+		<div class="bbs_view_cont">
+			<div style="margin: 0px; padding: 0px; color: #666666; font-family: Pretendard; font-size: 15px; letter-spacing: -0.9px;">복현네거리 부근 공사로 인해 CCTV 서비스가 일시중단될 예정이니 시민 여러분의 양해 바랍니다.</div>
+<div style="margin: 0px; padding: 0px; color: #666666; font-family: Pretendard; font-size: 15px; letter-spacing: -0.9px;">&nbsp;</div>
+<div style="margin: 0px; padding: 0px; color: #666666; font-family: Pretendard; font-size: 15px; letter-spacing: -0.9px;">&nbsp;1. 대&nbsp; 상 : 복현네거리 1개소</div>
+<div style="margin: 0px; padding: 0px; color: #666666; font-family: Pretendard; font-size: 15px; letter-spacing: -0.9px;">&nbsp;2. 일&nbsp; 시 : 2026. 02. 10.(화) ~ 3.31.(화) / 00:00 ~ 24:00</div>
+<div style="margin: 0px; padding: 0px; color: #666666; font-family: Pretendard; font-size: 15px; letter-spacing: -0.9px;">&nbsp; ※ 현장 및 작업여건에 따라 변동될 수 있음</div>
+<div style="margin: 0px; padding: 0px; color: #666666; font-family: Pretendard; font-size: 15px; letter-spacing: -0.9px;">&nbsp;3. 사&nbsp; 유 : 복현네거리 교통정보관제용 CCTV 지주 이설 및 광케이블 접속</div>
+		</div>
+	</div>
+	<div class="bbs_btn_wrap alignR">
+		<a href="/board/notice" class="list_btn"><span class="ico">목록</span></a>
+	</div>
+</div>
+						
+						
+					
+					
+				</div>
+			</div>
+			<!-- //contents -->
+		</div>	
+	</div>
+	<!-- //container -->
+	
+	
+
+
+<!-- footer -->
+<!-- //secondArea -->			
+			
+<div id="footer" style="height:73px;">
+	<div class="inner" style="white-space: nowrap;">				
+		<div class="footer_nav">
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00050250" target="_blank" title="새창열림" >개인정보처리방침</a>
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00937560" target="_blank" title="새창열림" class="last">영상처리기기운영·관리방침</a>
+			<a href="http://www.daegu.go.kr/index.do?menu_id=00050251" target="_blank" title="새창열림" class="last">저작권정책</a>
+		</div>
+
+		<p class="adress">대구광역시 수성구 무학로 227 대구경찰청 교통정보센터</p>
+		<p class="copy">Copyright by 대구광역시 교통종합정보 All Rights Reserved.</p>
+
+		
+		
+	</div>
+</div>
+<!-- //footer -->
+
+
+
+	
+</div>
+</body>
+</html>

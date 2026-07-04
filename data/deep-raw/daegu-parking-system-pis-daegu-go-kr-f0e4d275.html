@@ -1,0 +1,176 @@
+/** 
+ * 공통 함수들 
+ * 
+ * */
+
+// 테이블 마우스 이벤트
+function initTableEvent(el){
+				
+	// 클릭 이벤트
+	$(document).on("click", "#" + el + " tbody tr", function() {
+
+		$("#" + el + " tbody tr").removeClass("on");
+		$(this).addClass("on");
+	});
+
+	// 마우스 오버
+	$(document).on("mouseover", "#" + el + " tbody tr", function() {
+		$("#" + el + " tbody tr").removeClass("over");
+
+		if (($(this).hasClass('noneData')) == false) { // 조회 결과가 있을 때만
+			$(this).addClass("over");
+		}
+	});
+
+	// 마우스 아웃
+	$(document).on("mouseout", "#" + el + " tbody tr", function() {
+		$("#" + el + " tbody tr").removeClass("over");
+	});
+
+}
+
+// elemenet serialize
+jQuery.fn.serializeObject = function() {
+    var obj = null;
+    try {
+        if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+            var arr = this.serializeArray();
+            if (arr) {
+                obj = {};
+                jQuery.each(arr, function() {
+                    obj[this.name] = this.value;
+                });
+            }//if ( arr ) {
+        }
+    } catch (e) {
+        alert(e.message);
+    } finally {
+    }
+
+    return obj;
+};
+
+function aTagDisabled(id) {
+	$("#"+id+"").attr("onclick", "");
+	$("#"+id+"").removeClass("bg_purple");
+	$("#"+id+"").addClass("bg_LGray");
+}
+
+function aTagEnabled(id, func) {
+	$("#"+id+"").attr("onclick", func);
+	$("#"+id+"").removeClass("bg_LGray");
+	$("#"+id+"").addClass("bg_purple");
+}
+
+function addEmptyTrTd($table, tableLength, trCnt, tdCnt) {
+	if(Number(trCnt) < tableLength) {
+		var html = "";
+		if(Number(trCnt) == 0) {
+			html += "<tr><td class='noLLine' colspan='"+tdCnt+"'>조회 결과가 없습니다.</td></tr>";
+			length += 1;
+		}
+		
+		for(var i = 0; i < tableLength - Number(trCnt); i++) {
+			html += "<tr>";
+			for(var j = 0; j < tdCnt; j++) {
+				if(j == 0) {
+					html += "<td class='noLLine'>&nbsp</td>";
+				} else {
+					html += "<td>&nbsp</td>";
+				}
+			}
+			html += "</tr>";
+		}
+		$table.append(html);
+	}
+}
+function getTimeStamp() {
+	var d = new Date();
+	var s =
+	leadingZeros(d.getFullYear(), 4) + '' +
+    leadingZeros(d.getMonth() + 1, 2) + '' +
+    leadingZeros(d.getDate(), 2);
+	return s;
+}
+
+function leadingZeros(n, digits) {
+	var zero = '';
+	n = n.toString();
+
+ 	if (n.length < digits) {
+	for (i = 0; i < digits - n.length; i++)
+		zero += '0';
+	}
+	return zero + n;
+}
+
+//null 이니 ? 
+function isNullChk(obj){
+	var result = false;
+		
+	if(obj == null || obj == undefined || obj == ""){
+		//null이다 !
+		result = true;
+	}
+	
+	return result;
+}
+
+
+//테이블에 row 선택 
+function setTableSelected(id, sn){
+	$("#"+id+" tr").removeClass("on");
+	
+	$("#"+id).find(".sn").each(function(idx, obj){		
+		var text = $(obj).text();
+		
+		if(nullCheck(text)){
+			text = $(obj).val();
+		}
+		if(text == sn){
+			$(obj).parent().addClass("on");
+		}
+	});
+}
+
+function camelToUnderscore(key) {
+   var result = key.replace( /([A-Z])/g, " $1" );
+   return result.split(' ').join('_').toLowerCase();
+}
+
+function openScrollPop(url, width, height){
+	if(width == null || width == ""){
+		width = "900px";
+	}
+
+	if(height == null || height == ""){
+		height = "630px";
+	}
+	var win = window.open(url,'', 'scrollbars=yes,toolbar=no,resizable=yes,status=no,menubar=no,width=' + width + ',height=' +  height);
+	return false;
+}
+
+
+//공통 ajax 함수
+function commonAjaxSendJson(url, type, params, successCallback){
+	$.ajax({
+		url : url,
+		type : type,
+		data : params,
+		dataType : "json",
+		success : successCallback,
+		error : function(xhr, ajaxSettings, thrownError){
+			alert("(ajax 통신 실패) 오류가 발생하였습니다.");
+			console.log(xhr);
+		},
+		complete : function(data){
+			//console.log(data);
+		}
+	});
+	//processData ,traditional 옵션 처리 필요
+}
+
+//input 에 각각 항목별로 검사하는 함수를 미리 제작해두고 호출해서 써온다.
+function checkPhoneNumber(){
+	
+}
