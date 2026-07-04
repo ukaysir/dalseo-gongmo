@@ -42,6 +42,13 @@ export type ImpactItem = {
   urgency?: string;
   is_demo?: boolean;
   impact_radius_m?: number;
+  geometry?: {
+    type: "LineString";
+    coordinates: Array<{
+      lat: number;
+      lng: number;
+    }>;
+  };
   distance_m?: number;
   relevance_score?: number;
 };

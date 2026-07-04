@@ -540,7 +540,7 @@ await writeJson(path.join(dataDir, "collection-report.json"), {
   notes: [
     "공식 웹/공공데이터 메타데이터 원문은 data/raw에 저장했습니다.",
     "공공데이터포털 API/파일 원자료는 인증키 또는 다운로드 링크 처리가 필요한 경우가 있어 이번 수집에서는 메타데이터를 근거로 생활영향 레퍼런스 데이터를 정규화했습니다.",
-    "요약과 영향권은 주민 이해를 돕기 위한 MVP 데이터이며 최종 판단은 원문과 담당 부서 확인이 필요합니다.",
+    "목록 제목과 요약은 주민이 이해할 수 있는 생활 변화 언어로 정제했습니다. 최종 판단은 원문과 담당 부서 확인이 필요합니다.",
   ],
 });
 
@@ -636,10 +636,13 @@ function construction(id, title, address, dong, lat, lng, impacts, plainSummary)
 function reference(category, sourceId, id, title, address, dong, lat, lng, impacts, plainSummary, impactRadiusM) {
   const base = sourceDefaults(category);
   const idCategory = category.replace(/_/g, "-");
+  const residentTitle = buildResidentTitle(category, title);
+  const residentSummary = buildResidentSummary(category, residentTitle, impacts, plainSummary);
+
   return {
     id: `${idCategory}-${id}`,
     source_id: sourceId,
-    title,
+    title: residentTitle,
     category,
     source_name: base.source_name,
     source_url: base.source_url,
@@ -650,8 +653,8 @@ function reference(category, sourceId, id, title, address, dong, lat, lng, impac
     starts_at: null,
     ends_at: null,
     opinion_due_at: null,
-    summary: `${base.source_name}와 관련 공개데이터 메타데이터를 기반으로 ${dong} 생활권 영향을 정규화했습니다.`,
-    plain_summary: plainSummary,
+    summary: residentSummary,
+    plain_summary: residentSummary,
     impacts,
     action_guide: base.action_guide,
     department: base.department,
@@ -661,6 +664,94 @@ function reference(category, sourceId, id, title, address, dong, lat, lng, impac
     summary_confidence: "rule_based_reference",
     is_demo: false,
   };
+}
+
+function buildResidentTitle(category, title) {
+  const place = displayPlaceFromTitle(title);
+  const builders = {
+    traffic: () => `${place} 이동 지연 가능`,
+    construction: () => `${place} 공사·정비로 소음이나 통행 변화 가능`,
+    urban_plan: () => `${place} 개발·도시계획 변화 확인`,
+    council: () => `${place} 생활 민원·정책 논의 확인`,
+    public_notice: () => `${place} 행정 공고로 생활 변화 확인`,
+    event: () =>
+      place.includes("행사")
+        ? `${place}로 주차·소음·보행 혼잡 가능`
+        : `${place} 행사로 주차·소음·보행 혼잡 가능`,
+    safety: () => `${place} 보행 안전 확인 필요`,
+    parking: () => `${place} 주차 혼잡 가능`,
+    heat: () => `${place} 폭염 시 쉬어갈 곳 확인`,
+    facility: () => `${place} 방문객 증가로 주변 혼잡 가능`,
+    welfare: () => `${place} 복지·돌봄 이용 정보 확인`,
+    environment: () => `${place} 소음·악취 등 생활환경 확인`,
+  };
+
+  return (builders[category] ?? builders.public_notice)();
+}
+
+function buildResidentSummary(category, residentTitle, impacts, plainSummary) {
+  const impactText = impacts.slice(0, 3).join(", ");
+  const base = cleanupSentence(plainSummary);
+  const suffixByCategory = {
+    traffic: "차량 이동, 버스 이용, 출퇴근 시간이 영향을 받을 수 있어 출발 전 우회 경로를 확인하세요.",
+    construction: "실제 공사 일정에 따라 소음, 보행로 변경, 임시 통행 제한이 생길 수 있어 기간과 위치를 확인하세요.",
+    urban_plan: "주변 개발이나 토지 이용 변화가 생활도로, 상권, 보행 동선에 영향을 줄 수 있어 원문 절차를 확인하세요.",
+    council: "정책 논의가 실제 제도나 예산으로 이어질 수 있으므로 안건과 처리 단계를 확인하세요.",
+    public_notice: "행정 일정, 의견 제출, 담당 부서가 생활에 영향을 줄 수 있으므로 원문에서 적용 위치와 기간을 확인하세요.",
+    event: "행사일에는 방문객 증가로 주차, 소음, 보행 혼잡이 생길 수 있어 이동 시간과 귀가 동선을 미리 보세요.",
+    safety: "등하교, 야간 이동, 차량 진입 구간에서 보행 안전을 먼저 확인하세요.",
+    parking: "방문 전 공영주차장, 대체 주차, 혼잡 시간대를 확인하면 불필요한 이동을 줄일 수 있습니다.",
+    heat: "폭염특보나 장시간 보행 전 가까운 실내 쉼터와 운영 여부를 확인하세요.",
+    facility: "운영 시간, 행사 여부, 주차 가능 여부에 따라 방문 동선이 달라질 수 있습니다.",
+    welfare: "운영 시간, 대상 조건, 이동 부담을 확인하면 필요한 서비스를 더 빨리 찾을 수 있습니다.",
+    environment: "반복되는 시간과 위치를 기록해두면 악취, 소음, 보행환경 민원 확인에 도움이 됩니다.",
+  };
+  const suffix = suffixByCategory[category] ?? suffixByCategory.public_notice;
+
+  return `${base} 주요 확인 항목은 ${impactText || residentTitle}입니다. ${suffix}`;
+}
+
+function displayPlaceFromTitle(title) {
+  const clean = cleanupTitle(title);
+  const beforeAround = clean.split(/주변|일원|구간/)[0].trim();
+  const [firstToken] = beforeAround.split(/\s+/);
+  const trimmed = (firstToken || beforeAround)
+    .replace(/달서구청.*/g, "달서구청")
+    .replace(/[·/-]+$/g, "")
+    .trim();
+
+  if (trimmed.length < 2) {
+    return "이 위치 주변";
+  }
+
+  if (trimmed.endsWith("주변")) {
+    return trimmed;
+  }
+
+  if (trimmed.endsWith("권")) {
+    return trimmed;
+  }
+
+  if (trimmed.endsWith("동") || trimmed.endsWith("구청")) {
+    return `${trimmed} 주변`;
+  }
+
+  return trimmed;
+}
+
+function cleanupTitle(title) {
+  return title
+    .replace(/\s*영향권/g, "")
+    .replace(/\s*원문 수집/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function cleanupSentence(text) {
+  return text
+    .replace(/\s*영향권/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function finalizeItem(item, source) {

@@ -61,6 +61,35 @@ type DaeguLinkSpeedRow = {
   ATMS_TM?: string | number;
 };
 
+type RoadPoint = {
+  label: string;
+  lat: number;
+  lng: number;
+};
+
+const roadPoints: RoadPoint[] = [
+  { label: "상인역네거리", lat: 35.8181, lng: 128.5378 },
+  { label: "상인네거리", lat: 35.8181, lng: 128.5378 },
+  { label: "월촌역네거리", lat: 35.8222, lng: 128.5364 },
+  { label: "성당네거리", lat: 35.8398, lng: 128.5522 },
+  { label: "두류공원네거리", lat: 35.8487, lng: 128.5588 },
+  { label: "두류네거리", lat: 35.8561, lng: 128.5582 },
+  { label: "신평리네거리", lat: 35.8624, lng: 128.5591 },
+  { label: "평리네거리", lat: 35.8678, lng: 128.5598 },
+  { label: "만평네거리", lat: 35.8734, lng: 128.5608 },
+  { label: "죽전네거리", lat: 35.8506, lng: 128.5376 },
+  { label: "용산우체국네거리", lat: 35.8542, lng: 128.5286 },
+  { label: "서대구공단네거리", lat: 35.8674, lng: 128.5159 },
+  { label: "계명대역", lat: 35.8512, lng: 128.4911 },
+  { label: "성서산업단지역", lat: 35.85144, lng: 128.50621 },
+  { label: "용산역", lat: 35.8494, lng: 128.5284 },
+  { label: "죽전역", lat: 35.8506, lng: 128.5376 },
+  { label: "두류공원", lat: 35.85268, lng: 128.55819 },
+  { label: "월배역", lat: 35.8165, lng: 128.5302 },
+  { label: "진천역", lat: 35.8136, lng: 128.5228 },
+  { label: "대곡역", lat: 35.8092, lng: 128.5109 },
+];
+
 export async function readLiveImpactItems() {
   const serviceKey = process.env.DATA_GO_KR_SERVICE_KEY;
 
@@ -213,7 +242,10 @@ function toIncidentImpactItem(row: DaeguIncidentRow): ImpactItem {
 
 function toLinkSpeedImpactItem(row: DaeguLinkSpeedRow): ImpactItem | null {
   const section = row.SECTION_NM?.trim();
-  const anchor = findKnownAnchor(`${section ?? ""} ${row.ROAD_NM ?? ""} ${row.START_FAC_NM ?? ""} ${row.END_FAC_NM ?? ""}`);
+  const matchedSegment = section ? findRoadSegment(section) : null;
+  const anchor =
+    matchedSegment?.anchor ??
+    findKnownAnchor(`${section ?? ""} ${row.ROAD_NM ?? ""} ${row.START_FAC_NM ?? ""} ${row.END_FAC_NM ?? ""}`);
 
   if (!section || !anchor) {
     return null;
@@ -221,7 +253,10 @@ function toLinkSpeedImpactItem(row: DaeguLinkSpeedRow): ImpactItem | null {
 
   const speed = Number(row.LINK_SPEED);
   const linkTime = Number(row.LINK_TIME);
+  const distance = Number(row.DIST);
   const updatedAt = formatDaeguDate(row.ATMS_TM) ?? new Date().toISOString();
+  const lat = matchedSegment?.midpoint.lat ?? anchor.lat;
+  const lng = matchedSegment?.midpoint.lng ?? anchor.lng;
 
   return {
     id: `live-daegu-linkspeed-${stableId(section)}`,
@@ -234,8 +269,8 @@ function toLinkSpeedImpactItem(row: DaeguLinkSpeedRow): ImpactItem | null {
     source_status: "live_api",
     address: `${row.ROAD_NM ?? "대구 도로"} ${section}`,
     dong: extractDong(anchor.address),
-    lat: anchor.lat,
-    lng: anchor.lng,
+    lat,
+    lng,
     starts_at: null,
     ends_at: null,
     opinion_due_at: null,
@@ -249,11 +284,12 @@ function toLinkSpeedImpactItem(row: DaeguLinkSpeedRow): ImpactItem | null {
     contact: "053-803-6715",
     updated_at: updatedAt,
     collected_at: new Date().toISOString(),
-    location_confidence: "known_place_matched",
+    location_confidence: matchedSegment ? "road_segment_matched" : "known_place_matched",
     summary_confidence: "live_api",
     urgency: speed <= 15 ? "긴급" : "확인 필요",
     is_demo: false,
-    impact_radius_m: speed <= 15 ? 900 : 600,
+    impact_radius_m: Number.isFinite(distance) ? Math.min(1200, Math.max(350, Math.round(distance / 2))) : speed <= 15 ? 900 : 600,
+    geometry: matchedSegment?.geometry,
   };
 }
 
@@ -353,6 +389,60 @@ function findKnownAnchor(text: string) {
 
     return normalized.includes(label) || normalized.includes(shortLabel) || normalized.includes(address);
   });
+}
+
+function findRoadSegment(section: string) {
+  const names = section
+    .replace(/\([^)]*\)/g, "")
+    .split("-")
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (names.length < 2) {
+    return null;
+  }
+
+  const start = findRoadPoint(names[0]);
+  const end = findRoadPoint(names[names.length - 1]);
+
+  if (!start || !end) {
+    return null;
+  }
+
+  const coordinates = [
+    { lat: start.lat, lng: start.lng },
+    { lat: end.lat, lng: end.lng },
+  ];
+
+  return {
+    anchor: {
+      label: `${start.label}-${end.label}`,
+      address: `대구광역시 달서구 ${start.label}-${end.label}`,
+      lat: start.lat,
+      lng: start.lng,
+    },
+    midpoint: {
+      lat: (start.lat + end.lat) / 2,
+      lng: (start.lng + end.lng) / 2,
+    },
+    geometry: {
+      type: "LineString" as const,
+      coordinates,
+    },
+  };
+}
+
+function findRoadPoint(name: string) {
+  const normalized = normalizeRoadName(name);
+
+  return roadPoints.find((point) => {
+    const pointName = normalizeRoadName(point.label);
+    return normalized === pointName || normalized.includes(pointName) || pointName.includes(normalized);
+  });
+}
+
+function normalizeRoadName(name: string) {
+  return name.replace(/\s+/g, "").replace(/\([^)]*\)/g, "").trim();
 }
 
 function mergeLiveItems(items: ImpactItem[]) {

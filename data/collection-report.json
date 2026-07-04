@@ -1,27 +1,26 @@
 {
-  "collected_at": "2026-07-04T00:40:10.491Z",
+  "collected_at": "2026-07-04T07:04:45.401Z",
   "source_count": 42,
   "successful_source_count": 42,
-  "item_count": 77,
+  "item_count": 59,
   "category_counts": {
-    "public_notice": 9,
-    "event": 6,
-    "urban_plan": 5,
-    "parking": 10,
-    "welfare": 9,
-    "safety": 9,
-    "council": 1,
-    "traffic": 9,
-    "heat": 7,
+    "traffic": 8,
+    "parking": 8,
+    "safety": 8,
+    "heat": 6,
     "facility": 5,
+    "welfare": 5,
     "environment": 4,
-    "construction": 3
+    "public_notice": 4,
+    "urban_plan": 4,
+    "construction": 3,
+    "event": 4
   },
   "source_status_counts": {
     "collected": 42
   },
   "validation": {
-    "item_count": 77,
+    "item_count": 59,
     "error_count": 0,
     "warning_count": 0,
     "errors": [],
@@ -30,6 +29,6 @@
   "notes": [
     "공식 웹/공공데이터 메타데이터 원문은 data/raw에 저장했습니다.",
     "공공데이터포털 API/파일 원자료는 인증키 또는 다운로드 링크 처리가 필요한 경우가 있어 이번 수집에서는 메타데이터를 근거로 생활영향 레퍼런스 데이터를 정규화했습니다.",
-    "요약과 영향권은 주민 이해를 돕기 위한 MVP 데이터이며 최종 판단은 원문과 담당 부서 확인이 필요합니다."
+    "목록 제목과 요약은 주민이 이해할 수 있는 생활 변화 언어로 정제했습니다. 최종 판단은 원문과 담당 부서 확인이 필요합니다."
   ]
 }

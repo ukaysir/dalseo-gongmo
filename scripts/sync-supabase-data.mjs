@@ -34,6 +34,7 @@ const sources = Array.isArray(sourcesFile) ? sourcesFile : (sourcesFile.sources 
 
 try {
   await upsertRows("impact_items", impactItems.map(toImpactRow), "external_id");
+  await deleteStaleImpactItems(impactItems.map((item) => item.id));
 
   await upsertRows(
     "sources",
@@ -99,6 +100,7 @@ function toImpactRow(item) {
   const { id, ...row } = item;
   delete row.distance_m;
   delete row.relevance_score;
+  delete row.geometry;
 
   return {
     ...row,
@@ -121,6 +123,30 @@ async function upsertRows(table, rows, onConflict) {
       throw error;
     }
   }
+}
+
+async function deleteStaleImpactItems(activeIds) {
+  const activeIdSet = new Set(activeIds);
+  const { data, error } = await supabase.from("impact_items").select("external_id");
+
+  if (error) {
+    throw error;
+  }
+
+  const staleIds = (data ?? [])
+    .map((row) => row.external_id)
+    .filter((id) => id && !activeIdSet.has(id));
+
+  for (let index = 0; index < staleIds.length; index += 500) {
+    const batch = staleIds.slice(index, index + 500);
+    const { error: deleteError } = await supabase.from("impact_items").delete().in("external_id", batch);
+
+    if (deleteError) {
+      throw deleteError;
+    }
+  }
+
+  console.log(`Deleted ${staleIds.length} stale impact items`);
 }
 
 function formatError(error) {

@@ -75,6 +75,7 @@ Required behavior:
 - Show the selected search-radius circle.
 - Show issue markers.
 - Show each issue's expected impact radius using `impact_radius_m`.
+- Show live traffic segment geometry as a road line when `geometry.type === "LineString"` is available.
 - Selecting an issue in the list focuses or highlights the related marker.
 - Selecting a marker updates the selected issue detail.
 
@@ -300,6 +301,8 @@ Rules:
 - Do not commit secrets or local `.env*` files.
 - Supabase-backed runtime uses `NEXT_PUBLIC_SUPABASE_URL` and a server key. Local JSON fallback still works without them.
 - Do not expose source-collection placeholder records as resident results. Search results must describe the possible real-life impact, not the crawler state.
+- Generated local data titles and summaries must answer the resident question first: `Will this affect my movement, parking, safety, noise, construction, welfare access, or nearby environment?`
+- Keep source names and links as evidence metadata, but never make them the main card title unless the source itself is the resident-facing issue.
 
 ## Supabase Notes
 

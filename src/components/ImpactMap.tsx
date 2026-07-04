@@ -6,6 +6,7 @@ import {
   Circle,
   MapContainer,
   Marker,
+  Polyline,
   Popup,
   TileLayer,
   useMap,
@@ -169,8 +170,20 @@ function MarkerWithCircle({
   isSelected: boolean;
   onSelect: (id: string) => void;
 }) {
+  const line = linePositions(item);
+
   return (
     <>
+      {line ? (
+        <Polyline
+          positions={line}
+          pathOptions={{
+            color,
+            opacity: isSelected ? 0.9 : 0.58,
+            weight: isSelected ? 6 : 4,
+          }}
+        />
+      ) : null}
       <Circle
         center={[item.lat, item.lng]}
         radius={item.impact_radius_m ?? 350}
@@ -211,10 +224,12 @@ function MapViewport({
 
   useEffect(() => {
     if (selectedItem) {
-      const bounds = L.latLngBounds([
+      const positions = [
         center,
         [selectedItem.lat, selectedItem.lng],
-      ]).pad(0.45);
+        ...(linePositions(selectedItem) ?? []),
+      ] as [number, number][];
+      const bounds = L.latLngBounds(positions).pad(0.45);
       map.fitBounds(bounds, { animate: true, maxZoom: 15 });
       return;
     }
@@ -243,6 +258,20 @@ function createIcon(color: string, label: string, selected = false) {
 
 function isUsableCoordinate(lat: number, lng: number) {
   return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) > 1 && Math.abs(lng) > 1;
+}
+
+function linePositions(item: ImpactItem): [number, number][] | null {
+  const coordinates = item.geometry?.coordinates;
+
+  if (!coordinates || coordinates.length < 2) {
+    return null;
+  }
+
+  const positions = coordinates
+    .filter((coordinate) => isUsableCoordinate(coordinate.lat, coordinate.lng))
+    .map((coordinate) => [coordinate.lat, coordinate.lng] as [number, number]);
+
+  return positions.length >= 2 ? positions : null;
 }
 
 function formatRadius(value: number) {
