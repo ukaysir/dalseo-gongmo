@@ -30,6 +30,7 @@ const categoryColors: Record<ImpactItem["category"], string> = {
 };
 
 const fallbackCenter: [number, number] = [35.82982, 128.53273];
+const radiusOptions = [500, 1000, 2000];
 
 type ImpactMapProps = {
   center: AddressCandidate;
@@ -37,6 +38,7 @@ type ImpactMapProps = {
   radiusM: number;
   selectedId: string | null;
   onSelect: (id: string) => void;
+  onRadiusChange: (radiusM: number) => void;
   onPickLocation?: (lat: number, lng: number) => void;
 };
 
@@ -46,6 +48,7 @@ export default function ImpactMap({
   radiusM,
   selectedId,
   onSelect,
+  onRadiusChange,
   onPickLocation,
 }: ImpactMapProps) {
   const selectedItem = items.find((item) => item.id === selectedId) ?? items[0];
@@ -71,7 +74,25 @@ export default function ImpactMap({
         </div>
       </div>
 
-      <div className="h-[560px] w-full xl:h-[calc(100dvh-13rem)] xl:min-h-[560px] xl:max-h-[720px]">
+      <div className="relative h-[560px] w-full xl:h-[calc(100dvh-13rem)] xl:min-h-[560px] xl:max-h-[720px]">
+        <div className="absolute right-3 top-3 z-[500] rounded-dalseo border border-dalseo-border bg-white p-1 shadow-[var(--shadow)]">
+          <div className="grid grid-cols-3 gap-1">
+            {radiusOptions.map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => onRadiusChange(option)}
+                className={`h-9 rounded-[6px] px-3 text-xs font-extrabold transition ${
+                  radiusM === option
+                    ? "bg-dalseo-accent-strong text-white"
+                    : "text-dalseo-muted hover:bg-dalseo-soft hover:text-dalseo-ink"
+                }`}
+              >
+                {formatRadius(option)}
+              </button>
+            ))}
+          </div>
+        </div>
         <MapContainer
           center={centerPoint}
           zoom={14}
@@ -222,4 +243,8 @@ function createIcon(color: string, label: string, selected = false) {
 
 function isUsableCoordinate(lat: number, lng: number) {
   return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) > 1 && Math.abs(lng) > 1;
+}
+
+function formatRadius(value: number) {
+  return value >= 1000 ? `${value / 1000}km` : `${value}m`;
 }

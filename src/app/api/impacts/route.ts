@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resolveAddress, withDistanceAndScore } from "@/lib/geo";
 import { buildInsight } from "@/lib/insight";
-import { readLocalImpactItems } from "@/lib/local-data";
+import { readImpactItemsWithSource } from "@/lib/data-source";
+import { readLiveImpactItems } from "@/lib/live-impact-data";
 import { sampleImpactItems } from "@/lib/sample-data";
 import type { ImpactItem, ImpactSearchResponse } from "@/lib/types";
 
@@ -27,11 +28,19 @@ export async function GET(request: NextRequest) {
 
   let source: ImpactSearchResponse["source"] = "sample";
   let rows: ImpactItem[] = sampleImpactItems;
-  const localRows = await readLocalImpactItems();
+  const [dataSource, liveItems] = await Promise.all([
+    readImpactItemsWithSource(),
+    readLiveImpactItems(),
+  ]);
 
-  if (localRows.length > 0) {
-    source = "local_file";
-    rows = localRows;
+  if (dataSource.items.length > 0) {
+    source = dataSource.source;
+    rows = dataSource.items;
+  }
+
+  if (liveItems.length > 0) {
+    rows = mergeImpactItems(liveItems, rows);
+    source = source === "sample" ? "public_api" : `${source}+public_api`;
   }
 
   const items = withDistanceAndScore(rows, center, radiusM);
@@ -49,4 +58,20 @@ export async function GET(request: NextRequest) {
 
 function isUsableCoordinate(lat: number, lng: number) {
   return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) > 1 && Math.abs(lng) > 1;
+}
+
+function mergeImpactItems(primary: ImpactItem[], fallback: ImpactItem[]) {
+  const seen = new Set<string>();
+  const merged: ImpactItem[] = [];
+
+  for (const item of [...primary, ...fallback]) {
+    if (seen.has(item.id)) {
+      continue;
+    }
+
+    seen.add(item.id);
+    merged.push(item);
+  }
+
+  return merged;
 }

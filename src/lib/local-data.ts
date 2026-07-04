@@ -1,20 +1,10 @@
 import { promises as fs } from "fs";
 import path from "path";
-import type {
-  CollectionReport,
-  DeepCollectionReport,
-  ImpactItem,
-  SourceRecord,
-} from "@/lib/types";
+import type { CollectionReport, ImpactItem, SourceRecord } from "@/lib/types";
 
 const localDataPath = path.join(process.cwd(), "data", "impact-items.json");
 const localSourcesPath = path.join(process.cwd(), "data", "sources.json");
 const localCollectionReportPath = path.join(process.cwd(), "data", "collection-report.json");
-const localDeepCollectionReportPath = path.join(
-  process.cwd(),
-  "data",
-  "deep-collection-report.json",
-);
 
 export async function readLocalImpactItems() {
   try {
@@ -66,20 +56,6 @@ export async function readLocalCollectionReport() {
     }
 
     console.error("Failed to read local collection report", error);
-    return null;
-  }
-}
-
-export async function readLocalDeepCollectionReport() {
-  try {
-    const content = await fs.readFile(localDeepCollectionReportPath, "utf8");
-    return JSON.parse(content) as DeepCollectionReport;
-  } catch (error) {
-    if (isMissingFileError(error)) {
-      return null;
-    }
-
-    console.error("Failed to read local deep collection report", error);
     return null;
   }
 }

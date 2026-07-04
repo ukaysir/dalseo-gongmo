@@ -217,17 +217,18 @@ Do not add this to the MVP without also addressing privacy and data retention.
 
 ## Current Architecture
 
-The app currently uses local JSON data instead of Supabase.
+The app reads Supabase first and falls back to local JSON data.
 
 Runtime data flow:
 
 1. User searches from the dashboard.
 2. The client calls `/api/impacts`.
-3. The API reads `data/impact-items.json`.
-4. If local data is missing, the API falls back to sample data.
-5. Distance and relevance are calculated in `src/lib/geo.ts`.
-6. Search insight text is generated in `src/lib/insight.ts`.
-7. The dashboard renders summary, map, issue list, and detail panel.
+3. The API reads Supabase through `src/lib/data-source.ts`.
+4. If Supabase is unavailable or empty, the API reads `data/impact-items.json`.
+5. If local data is missing, the API falls back to sample data.
+6. Distance and relevance are calculated in `src/lib/geo.ts`.
+7. Search insight text is generated in `src/lib/insight.ts`.
+8. The dashboard renders summary, map, issue list, and detail panel.
 
 Important files:
 
@@ -240,11 +241,14 @@ Important files:
 - `src/lib/geo.ts`: address resolution, distance, relevance scoring.
 - `src/lib/insight.ts`: resident-facing result summary.
 - `src/lib/local-data.ts`: local JSON reader.
+- `src/lib/data-source.ts`: Supabase-first data access with local fallback.
+- `src/lib/supabase.ts`: server Supabase client.
 - `src/lib/sample-data.ts`: fallback sample data and known address candidates.
 - `data/impact-items.json`: normalized local MVP data.
 - `data/sources.json`: source metadata.
 - `scripts/collect-local-data.mjs`: local data collection/generation script.
-- `supabase/schema.sql`: future database reference only.
+- `scripts/sync-supabase-data.mjs`: uploads normalized local JSON to Supabase.
+- `supabase/schema.sql`: database schema.
 
 ## Commands
 
@@ -254,6 +258,7 @@ Use these commands from the repository root:
 npm run collect:data
 npm run collect:deep -- --minutes=20
 npm run validate:data
+node scripts/sync-supabase-data.mjs
 npm run dev
 npm run lint
 npm run build
@@ -261,7 +266,7 @@ npm run build
 
 Run `npm run collect:data` before demos when the local public-data snapshot should be refreshed.
 
-Run `npm run collect:deep -- --minutes=20` when a traceable long-form web collection inventory is needed. It writes `data/deep-collection-report.json`, `data/deep-links.json`, and `data/deep-raw/*.html` without replacing the normalized app data.
+Run `npm run collect:deep -- --minutes=20` when a traceable long-form web collection inventory is needed. It writes ignored raw/deep artifacts without replacing the normalized app data.
 
 Run `npm run validate:data` after collection to check item schema, source linkage, coordinates, dates, and source health.
 
@@ -269,17 +274,20 @@ Run `npm run lint` and `npm run build` after meaningful source changes.
 
 ## Data Guidelines
 
-Local data files:
+Data files:
 
-- `data/raw/*.html`: collected source HTML.
 - `data/sources.json`: source collection metadata.
 - `data/source-catalog.json`: source catalog, expected fields, and collection risks.
 - `data/collection-report.json`: collection counts and validation summary.
+- `data/impact-items.json`: normalized data consumed by `/api/impacts`.
+- `data/SOURCE_NOTES.md`: source notes and limitations.
+
+Ignored generated artifacts:
+
+- `data/raw/*.html`: collected source HTML.
 - `data/deep-collection-report.json`: long-form web collection timing and page/link counts.
 - `data/deep-links.json`: collected official/public link inventory.
 - `data/deep-raw/*.html`: long-form web collection raw HTML.
-- `data/impact-items.json`: normalized data consumed by `/api/impacts`.
-- `data/SOURCE_NOTES.md`: source notes and limitations.
 
 Rules:
 
@@ -288,17 +296,11 @@ Rules:
 - Preserve original source URLs.
 - Do not remove source transparency copy.
 - Do not commit secrets or local `.env*` files.
-- The current MVP does not require runtime environment variables.
+- Supabase-backed runtime uses `NEXT_PUBLIC_SUPABASE_URL` and a server key. Local JSON fallback still works without them.
 
 ## Supabase Notes
 
-Supabase is not currently used at runtime.
-
-If database storage is restored later:
-
-- Treat `supabase/schema.sql` as a starting reference, not a complete migration.
-- Update the category check constraint to include all current `ImpactCategory` values.
-- Decide whether `/api/impacts` reads Supabase, local JSON, or both with a clear fallback order.
+Supabase is used at runtime when configured. Keep the fallback path intact so demos work without remote credentials.
 
 ## UX And Design Direction
 

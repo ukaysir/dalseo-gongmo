@@ -46,8 +46,6 @@ const categoryFilterOptions: { key: FilterKey; label: string }[] = [
   { key: "opinion", label: "의견" },
 ];
 
-const radiusOptions = [500, 1000, 2000];
-
 const ImpactMap = dynamic(() => import("@/components/ImpactMap"), {
   ssr: false,
   loading: () => (
@@ -197,6 +195,22 @@ export default function ImpactPage() {
     setIssueAdvice(null);
   }
 
+  function changeRadius(nextRadius: number) {
+    setRadius(nextRadius);
+    if (pickedCoordinates) {
+      void loadImpactsByCoordinates(
+        pickedCoordinates.lat,
+        pickedCoordinates.lng,
+        nextRadius,
+        address,
+        locationStatus ?? "좌표 기준 위치",
+      );
+      return;
+    }
+
+    void loadImpacts(address, nextRadius);
+  }
+
   function useCurrentLocation() {
     if (typeof navigator === "undefined" || !navigator.geolocation) {
       setLocationStatus("이 브라우저에서는 현재 위치를 사용할 수 없습니다.");
@@ -240,9 +254,9 @@ export default function ImpactPage() {
     <main className="min-h-[100dvh] bg-dalseo-bg text-dalseo-ink">
       <AppHeader />
 
-      <div className="mx-auto w-full max-w-[1500px] px-4 py-4 sm:px-6 lg:px-8">
-        <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.12fr)_minmax(380px,0.88fr)]">
-          <section className="surface overflow-visible p-5 sm:p-6">
+      <div className="w-full px-4 py-4 sm:px-6 lg:px-8">
+        <section className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(420px,0.65fr)]">
+          <section className="surface overflow-visible p-5">
             <div className="max-w-2xl">
               <p className="flex items-center gap-2 text-sm font-bold text-dalseo-accent">
                 <LocateFixed aria-hidden="true" className="size-4" />
@@ -253,7 +267,7 @@ export default function ImpactPage() {
               </h1>
             </div>
 
-            <form onSubmit={submitSearch} className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_240px]">
+            <form onSubmit={submitSearch} className="mt-4 grid gap-3">
               <div className="block">
                 <label htmlFor="impact-location" className="mb-2 block text-sm font-bold">
                   위치
@@ -273,7 +287,7 @@ export default function ImpactPage() {
                     onFocus={() => setIsLocationPanelOpen(true)}
                     onBlur={() => setIsLocationPanelOpen(false)}
                     placeholder="주소나 장소명 입력"
-                    className="h-14 w-full rounded-dalseo border border-dalseo-border bg-white pl-10 pr-3 text-sm font-medium outline-none transition focus:border-dalseo-accent focus:ring-2 focus:ring-dalseo-ring"
+                    className="h-12 w-full rounded-dalseo border border-dalseo-border bg-white pl-10 pr-3 text-sm font-medium outline-none transition focus:border-dalseo-accent focus:ring-2 focus:ring-dalseo-ring"
                   />
                   {isLocationPanelOpen ? (
                     <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-40 rounded-dalseo border border-dalseo-border bg-white p-2 shadow-[var(--shadow)]">
@@ -305,40 +319,8 @@ export default function ImpactPage() {
                 </div>
               </div>
 
-              <div>
-                <div className="mb-2 text-sm font-bold">반경</div>
-                <div className="grid grid-cols-3 gap-2">
-                  {radiusOptions.map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => {
-                        setRadius(option);
-                        if (pickedCoordinates) {
-                          void loadImpactsByCoordinates(
-                            pickedCoordinates.lat,
-                            pickedCoordinates.lng,
-                            option,
-                            address,
-                            locationStatus ?? "좌표 기준 위치",
-                          );
-                          return;
-                        }
-
-                        void loadImpacts(address, option);
-                      }}
-                      className={`control-button h-14 ${
-                        radius === option ? "control-button-active" : ""
-                      }`}
-                    >
-                      {formatRadius(option)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-[160px_160px]">
-                <button type="submit" disabled={isLoading} className="primary-button h-12">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <button type="submit" disabled={isLoading} className="primary-button h-11">
                   <Navigation aria-hidden="true" className="size-4" />
                   {isLoading ? "검색 중" : "검색"}
                 </button>
@@ -347,16 +329,20 @@ export default function ImpactPage() {
                   type="button"
                   onClick={useCurrentLocation}
                   disabled={isLoading}
-                  className="secondary-button h-12 px-3 text-sm"
+                  className="secondary-button h-11 px-3 text-sm"
                 >
                   <LocateFixed aria-hidden="true" className="size-4" />
                   현재 위치
                 </button>
               </div>
             </form>
+
+            <div className="mt-5 border-t border-dalseo-border pt-5">
+              <LifeProfileSelector value={lifeProfile} onChange={setLifeProfile} />
+            </div>
           </section>
 
-          <LifeProfileSelector value={lifeProfile} onChange={setLifeProfile} />
+          <CoachPanel coach={coach} profileLabel={getLifeProfile(lifeProfile).label} />
         </section>
 
         {error ? (
@@ -365,8 +351,6 @@ export default function ImpactPage() {
             {error}
           </section>
         ) : null}
-
-        <CoachPanel coach={coach} profileLabel={getLifeProfile(lifeProfile).label} />
 
         <section className="mt-4 grid gap-3 lg:grid-cols-3">
           <InsightPanel
@@ -407,6 +391,7 @@ export default function ImpactPage() {
                 radiusM={radius}
                 selectedId={selectedItem?.id ?? null}
                 onSelect={selectIssue}
+                onRadiusChange={changeRadius}
                 onPickLocation={(lat, lng) => void loadImpactsByCoordinates(lat, lng)}
               />
             ) : null}
@@ -432,7 +417,7 @@ function LifeProfileSelector({
   onChange: (profile: LifeProfileKey) => void;
 }) {
   return (
-    <section className="surface p-5 sm:p-6">
+    <section>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="text-lg font-extrabold">생활 유형</h2>
@@ -443,13 +428,13 @@ function LifeProfileSelector({
         <span className="meta-badge self-start sm:self-auto">추천 기준</span>
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-2">
+      <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-3">
         {lifeProfiles.map((profile) => (
           <button
             key={profile.key}
             type="button"
             onClick={() => onChange(profile.key)}
-            className={`min-h-[74px] rounded-dalseo border px-3 py-3 text-left transition ${
+            className={`min-h-[66px] rounded-dalseo border px-3 py-2.5 text-left transition ${
               value === profile.key
                 ? "border-dalseo-accent bg-dalseo-soft text-dalseo-ink ring-2 ring-dalseo-ring"
                 : "border-dalseo-border bg-white text-dalseo-muted hover:border-dalseo-accent hover:text-dalseo-ink"
@@ -472,28 +457,31 @@ function CoachPanel({
   profileLabel: string;
 }) {
   return (
-    <section className="mt-4 surface overflow-hidden">
-      <div className="grid lg:grid-cols-[minmax(260px,0.85fr)_minmax(0,1.15fr)_minmax(260px,0.85fr)]">
-        <div className="border-b border-dalseo-border bg-dalseo-soft p-4 lg:border-b-0 lg:border-r">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h2 className="flex items-center gap-2 text-lg font-extrabold">
-                <ShieldCheck aria-hidden="true" className="size-5 text-dalseo-accent" />
-                생활영향 코치
-              </h2>
-              <p className="mt-1 text-sm leading-6 text-dalseo-muted">{profileLabel} 기준 추천</p>
-            </div>
-            <span className="meta-badge">기본 분석</span>
+    <section className="surface overflow-hidden">
+      <div className="border-b border-dalseo-border bg-dalseo-soft p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h2 className="flex items-center gap-2 text-lg font-extrabold">
+              <ShieldCheck aria-hidden="true" className="size-5 text-dalseo-accent" />
+              생활영향 코치
+            </h2>
+            <p className="mt-1 text-sm leading-6 text-dalseo-muted">{profileLabel} 기준 추천</p>
           </div>
-          <p className="mt-3 text-base font-extrabold leading-7 text-pretty">{coach.headline}</p>
-          <p className="mt-2 text-sm leading-6 text-dalseo-muted">{coach.priority}</p>
+          <span className="meta-badge">기본 분석</span>
         </div>
+        <p className="mt-3 text-base font-extrabold leading-7 text-pretty">{coach.headline}</p>
+        <p className="mt-2 text-sm leading-6 text-dalseo-muted">{coach.priority}</p>
+      </div>
 
-        <div className="border-b border-dalseo-border p-4 lg:border-b-0 lg:border-r">
+      <div className="space-y-4 p-5">
+        <section>
           <h3 className="text-sm font-extrabold">왜 이렇게 보나요</h3>
           <p className="mt-2 text-sm leading-6 text-dalseo-muted">{coach.reason}</p>
-          <h3 className="mt-4 text-sm font-extrabold">추천 행동</h3>
-          <ul className="mt-2 grid gap-2 text-sm leading-6 text-dalseo-muted md:grid-cols-3 lg:grid-cols-1">
+        </section>
+
+        <section>
+          <h3 className="text-sm font-extrabold">추천 행동</h3>
+          <ul className="mt-2 space-y-2 text-sm leading-6 text-dalseo-muted">
             {coach.actions.map((action) => (
               <li key={action} className="flex gap-2">
                 <span className="mt-2 size-1.5 shrink-0 rounded-full bg-dalseo-accent" />
@@ -501,9 +489,9 @@ function CoachPanel({
               </li>
             ))}
           </ul>
-        </div>
+        </section>
 
-        <section className="bg-white p-4">
+        <section className="rounded-dalseo bg-white p-3">
           <h3 className="text-sm font-extrabold">주의</h3>
           <ul className="mt-2 space-y-2 text-xs leading-5 text-dalseo-muted">
             {coach.watchouts.map((watchout) => (
@@ -737,10 +725,6 @@ function getTopImpacts(items: ImpactItem[]) {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
     .map(([impact]) => impact);
-}
-
-function formatRadius(value: number) {
-  return value >= 1000 ? `${value / 1000}km` : `${value}m`;
 }
 
 function formatPeriod(startsAt: string | null, endsAt: string | null) {

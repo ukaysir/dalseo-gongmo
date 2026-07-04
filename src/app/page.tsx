@@ -7,8 +7,14 @@ export default function LandingPage() {
     <main className="min-h-[100dvh] bg-dalseo-bg text-dalseo-ink">
       <AppHeader />
 
-      <section className="mx-auto grid min-h-[calc(100dvh-88px)] w-full max-w-[1180px] items-center gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8">
-        <div>
+      <section
+        className="grid min-h-[calc(100dvh-65px)] w-full items-center gap-6 overflow-hidden border-b border-dalseo-border bg-cover bg-center px-5 py-10 shadow-[var(--shadow)] sm:px-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:px-12 xl:px-16"
+        style={{
+          backgroundImage:
+            "linear-gradient(90deg, rgba(248,251,255,.96) 0%, rgba(248,251,255,.88) 45%, rgba(248,251,255,.42) 100%), url('/images/landing-hero.png')",
+        }}
+      >
+        <div className="relative z-10">
           <p className="flex items-center gap-2 text-sm font-bold text-dalseo-accent">
             <ShieldCheck aria-hidden="true" className="size-4" />
             달서구 생활권 확인
@@ -33,7 +39,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="surface p-5">
+        <div className="relative z-10 rounded-dalseo border border-dalseo-border bg-white/92 p-5 shadow-[var(--shadow)]">
           <div className="rounded-dalseo bg-dalseo-soft p-4">
             <MapPin aria-hidden="true" className="size-6 text-dalseo-accent" />
             <h2 className="mt-4 text-xl font-extrabold">주소로 보기</h2>

@@ -88,35 +88,18 @@ export type CollectionReport = {
   notes: string[];
 };
 
-export type DeepCollectionReport = {
-  started_at: string;
-  ended_at: string;
-  duration_ms: number;
-  requested_minutes: number;
-  max_depth: number;
-  delay_ms: number;
-  seed_count: number;
-  page_count: number;
-  link_count: number;
-  downloadable_link_count: number;
-  error_count: number;
-  host_counts: Record<string, number>;
-  rounds?: {
-    started_at: string;
-    ended_at: string;
-    processed: number;
-    queue_length: number;
-    visited_count: number;
-  }[];
-  errors?: string[];
-};
-
 export type ImpactSearchResponse = {
   query: string;
   center: AddressCandidate;
   radius_m: number;
   generated_at: string;
-  source: "local_file" | "sample";
+  source:
+    | "supabase"
+    | "local_file"
+    | "public_api"
+    | "supabase+public_api"
+    | "local_file+public_api"
+    | "sample";
   items: ImpactItem[];
   insight: {
     headline: string;

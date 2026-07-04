@@ -1,14 +1,15 @@
 # Local Data Source Notes
 
-이 MVP는 Supabase 업로드 없이 로컬 파일로 데이터를 수집·정규화한다. 현재 수집 방식은 **공식 웹/공공데이터 메타데이터 수집 + 달서구 생활권 레퍼런스 데이터 정규화** 구조다.
+이 MVP는 로컬 파일로 데이터를 수집·정규화한 뒤 Supabase에 동기화한다. 런타임은 Supabase를 먼저 읽고, 설정이 없으면 로컬 JSON으로 fallback한다.
 
 ## 수집 파일
 
-- `data/raw/*.html`: 공식 웹페이지 원문 HTML
 - `data/sources.json`: 수집 출처, HTTP 상태, 원문 파일 위치
 - `data/source-catalog.json`: 수집 대상 출처, 예상 필드, 수집 리스크
 - `data/collection-report.json`: 수집 결과, 카테고리별 건수, 검증 요약
 - `data/impact-items.json`: 앱 API가 읽는 정규화 생활영향 데이터
+
+재생성 가능한 원문 HTML과 심화 수집 산출물은 Git에 커밋하지 않는다.
 
 ## 활용 출처
 

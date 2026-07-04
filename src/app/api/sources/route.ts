@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { readLocalSources } from "@/lib/local-data";
+import { readSources } from "@/lib/data-source";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const sources = await readLocalSources();
+  const sources = await readSources();
 
   return NextResponse.json({
     generated_at: new Date().toISOString(),

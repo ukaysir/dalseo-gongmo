@@ -14,7 +14,7 @@ export function AppHeader() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-dalseo-border bg-dalseo-bg">
-      <div className="mx-auto flex min-h-16 w-full max-w-[1440px] flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <div className="flex min-h-16 w-full flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <Link href="/" className="flex min-w-0 items-center gap-3 text-dalseo-ink no-underline">
           <span className="flex size-10 shrink-0 items-center justify-center rounded-dalseo bg-dalseo-accent-strong text-white">
             <ShieldCheck aria-hidden="true" className="size-5" />

@@ -7,45 +7,55 @@ export default async function AboutPage() {
     <main className="min-h-[100dvh] bg-dalseo-bg text-dalseo-ink">
       <AppHeader />
 
-      <div className="mx-auto w-full max-w-[1120px] px-4 py-4 sm:px-6 lg:px-8">
-        <section className="surface p-5 sm:p-6">
-          <p className="text-sm font-semibold text-dalseo-accent">서비스 설명</p>
-          <h1 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight text-balance">
-            공공 문서를 주민 생활 언어로 다시 정리하는 주소 기반 도구
-          </h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-dalseo-muted">
-            달서 AI 내 주소 영향 요약은 달서구 주민이 주소를 입력하면 반경 내 행정,
-            교통, 안전, 복지, 환경 이슈를 지도에서 확인하고, 쉬운말 요약과 행동 가이드로
-            다음 판단을 돕는 서비스입니다.
-          </p>
+      <div className="w-full px-4 py-4 sm:px-6 lg:px-8">
+        <section
+          className="surface overflow-hidden bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, rgba(248,251,255,.98) 0%, rgba(248,251,255,.9) 43%, rgba(248,251,255,.44) 100%), url('/images/about-banner.png')",
+          }}
+        >
+          <div className="grid min-h-[420px] items-center gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_420px]">
+            <div>
+              <p className="text-sm font-semibold text-dalseo-accent">서비스 설명</p>
+              <h1 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight text-balance sm:text-4xl">
+                공공 문서를 주민 생활 언어로 다시 정리하는 주소 기반 도구
+              </h1>
+              <p className="mt-4 max-w-3xl text-base leading-7 text-dalseo-muted">
+                달서 AI 내 주소 영향 요약은 달서구 주민이 주소를 입력하면 반경 내 행정,
+                교통, 안전, 복지, 환경 이슈를 지도에서 확인하고, 쉬운말 요약과 행동 가이드로
+                다음 판단을 돕는 서비스입니다.
+              </p>
 
-          <div className="mt-5 flex flex-wrap gap-2">
-            <Link href="/" className="primary-button">
-              처음으로
-              <ArrowRight aria-hidden="true" className="size-4" />
-            </Link>
-            <Link href="/impact" className="secondary-button min-h-11 px-4 text-sm">
-              주소 영향 보기
-            </Link>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Link href="/" className="primary-button">
+                  처음으로
+                  <ArrowRight aria-hidden="true" className="size-4" />
+                </Link>
+                <Link href="/impact" className="secondary-button min-h-11 px-4 text-sm">
+                  주소 영향 보기
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid gap-3 rounded-dalseo border border-dalseo-border bg-white/92 p-4 shadow-[var(--shadow)]">
+              <HeroPoint
+                icon={<MapPin className="size-5" />}
+                title="주소 중심"
+                body="입력한 생활권 주변 이슈를 먼저 정렬합니다."
+              />
+              <HeroPoint
+                icon={<Database className="size-5" />}
+                title="출처 공개"
+                body="공식 웹, 공공데이터, 원문 링크를 함께 보여줍니다."
+              />
+              <HeroPoint
+                icon={<ShieldCheck className="size-5" />}
+                title="원문 확인"
+                body="요약 후 필요한 항목만 담당 부서까지 확인합니다."
+              />
+            </div>
           </div>
-        </section>
-
-        <section className="mt-4 grid gap-4 md:grid-cols-3">
-          <Principle
-            icon={<MapPin className="size-5" />}
-            title="주소 중심"
-            body="공고 목록을 먼저 보여주지 않고, 사용자가 입력한 생활권 주변 이슈를 먼저 정렬합니다."
-          />
-          <Principle
-            icon={<Database className="size-5" />}
-            title="출처 공개"
-            body="공식 웹, 공공데이터, API 메타데이터 등 근거 유형과 원문 링크를 함께 보여줍니다."
-          />
-          <Principle
-            icon={<ShieldCheck className="size-5" />}
-            title="원문 확인"
-            body="요약을 먼저 보고 필요한 경우 원문과 담당 부서를 확인합니다."
-          />
         </section>
 
         <section className="mt-4 grid gap-4 lg:grid-cols-[1fr_1fr]">
@@ -86,7 +96,7 @@ export default async function AboutPage() {
   );
 }
 
-function Principle({
+function HeroPoint({
   icon,
   title,
   body,
@@ -96,10 +106,10 @@ function Principle({
   body: string;
 }) {
   return (
-    <article className="surface p-5">
+    <article className="rounded-dalseo bg-dalseo-soft p-4">
       <div className="text-dalseo-accent">{icon}</div>
-      <h2 className="mt-3 text-lg font-semibold">{title}</h2>
-      <p className="mt-2 text-sm leading-6 text-dalseo-muted">{body}</p>
+      <h2 className="mt-2 text-base font-semibold">{title}</h2>
+      <p className="mt-1 text-sm leading-6 text-dalseo-muted">{body}</p>
     </article>
   );
 }

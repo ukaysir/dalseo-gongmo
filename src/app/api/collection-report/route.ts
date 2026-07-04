@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { readLocalCollectionReport } from "@/lib/local-data";
+import { readCollectionReport } from "@/lib/data-source";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const report = await readLocalCollectionReport();
+  const report = await readCollectionReport();
 
   if (!report) {
     return NextResponse.json(

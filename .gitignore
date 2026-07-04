@@ -34,6 +34,13 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# generated crawl artifacts
+/data/raw/
+/data/deep-raw/
+/data/deep-links.json
+/data/deep-collection-report.json
+/sample_image/
+
 # vercel
 
 # supabase
