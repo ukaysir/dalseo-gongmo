@@ -113,7 +113,7 @@ export function buildImpactCoach({
 
   return {
     headline: `${profile.label} 기준으로 ${mainConcern} 영향을 먼저 보세요.`,
-    priority: `${focusItem.title} 항목이 현재 조건에서 우선 확인 대상입니다.`,
+    priority: `${focusItem.title} 변화가 현재 조건에서 우선 확인 대상입니다.`,
     reason:
       profileMatches.length > 0
         ? `${profile.label} 관심사와 맞는 항목이 ${profileMatches.length}건이고, 기준 위치는 ${centerAddress}입니다.`
@@ -123,7 +123,7 @@ export function buildImpactCoach({
       `${profile.actionHint}`,
       nearestItem.id === focusItem.id
         ? "가장 가까운 항목이기도 하므로 실제 이동 전 원문을 열어 최신 여부를 확인하세요."
-        : `가장 가까운 항목은 ${nearestItem.title}입니다. 시간 여유가 없으면 가까운 항목부터 확인하세요.`,
+        : `가장 가까운 변화는 ${nearestItem.title}입니다. 시간 여유가 없으면 가까운 것부터 확인하세요.`,
     ],
     watchouts: [
       focusItem.opinion_due_at

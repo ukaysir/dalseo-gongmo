@@ -16,7 +16,6 @@ const sourceCatalog = [
     priority: "high",
     expected_fields: ["제목", "공고일", "담당부서", "첨부파일", "원문 URL"],
     collection_risk: "게시판 목록과 첨부파일 상세 파싱이 추가로 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-general-notices",
@@ -27,7 +26,6 @@ const sourceCatalog = [
     priority: "high",
     expected_fields: ["제목", "등록일", "담당부서", "첨부파일", "원문 URL"],
     collection_risk: "일반 공지에는 다양한 주제가 섞여 있어 위치·기간 추출 품질 검증이 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-participation",
@@ -38,7 +36,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["행사명", "접수기간", "장소", "담당부서"],
     collection_risk: "메뉴 통합 페이지라 세부 게시판 URL 분리가 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-events-classes",
@@ -49,7 +46,6 @@ const sourceCatalog = [
     priority: "high",
     expected_fields: ["행사명", "모집기간", "운영기간", "장소", "첨부파일"],
     collection_risk: "모집 공고와 실제 행사 일정이 분리될 수 있어 기간 필드 구분이 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-newsletter",
@@ -60,7 +56,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["발행월", "PDF", "전자책", "주요 소식"],
     collection_risk: "PDF/e-book에서 비정형 정책·행사 정보를 추출해야 합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-policy-research",
@@ -71,7 +66,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["연구명", "부서", "PDF/HWP", "공개일"],
     collection_risk: "연구보고서는 장문 PDF/HWP 파싱과 위치 추출이 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-audit-results",
@@ -82,7 +76,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["감사명", "대상기관", "PDF", "공개일"],
     collection_risk: "감사 결과는 생활영향보다는 행정 신뢰도 보조 데이터로 쓰는 편이 적절합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-official-parking",
@@ -93,7 +86,6 @@ const sourceCatalog = [
     priority: "high",
     expected_fields: ["주차장명", "주소", "면수", "운영시간", "요금", "개방구분"],
     collection_risk: "탭형 테이블 구조라 HTML 테이블 파싱이 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-health-notices",
@@ -104,7 +96,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["제목", "등록일", "의료기관/약국 파일", "첨부파일"],
     collection_risk: "명절 진료·약국 등 특정 시점 데이터는 유효기간 관리를 해야 합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-health-provider-notices",
@@ -115,7 +106,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["의료기관", "약국", "주소", "연락처", "첨부파일"],
     collection_risk: "XLSX/PDF 첨부 파싱이 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-health-infection-alerts",
@@ -126,7 +116,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["알림명", "등록일", "예방수칙", "이미지/첨부"],
     collection_risk: "이미지 중심 공지는 OCR 또는 대체 텍스트 확보가 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "dalseo-council-video",
@@ -137,7 +126,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["회의명", "안건명", "회의일", "발언 내용"],
     collection_risk: "영상/자막 구조가 동적이면 별도 회의록 페이지 연계가 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "daegu-traffic-home",
@@ -148,7 +136,6 @@ const sourceCatalog = [
     priority: "high",
     expected_fields: ["돌발유형", "주소", "좌표", "시작시간", "종료시간"],
     collection_risk: "실시간 상세 데이터는 공공데이터 API 활용신청이 필요할 수 있습니다.",
-    make_collected_item: true,
   },
   {
     id: "daegu-parking-system",
@@ -159,7 +146,6 @@ const sourceCatalog = [
     priority: "high",
     expected_fields: ["주차장명", "주소", "좌표", "잔여면수", "혼잡도"],
     collection_risk: "실시간 주차면수는 화면 내부 API 확인 또는 공식 API가 필요합니다.",
-    make_collected_item: true,
   },
   {
     id: "daegu-heat-shelter-page",
@@ -170,7 +156,6 @@ const sourceCatalog = [
     priority: "high",
     expected_fields: ["쉼터명", "주소", "운영시간", "수용인원", "다운로드"],
     collection_risk: "현황표 다운로드 파일을 별도로 받아 파싱해야 정확한 행 단위 데이터가 됩니다.",
-    make_collected_item: true,
   },
   {
     id: "data-go-kr-dalseo-public-parking",
@@ -411,7 +396,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["제목", "고시번호", "부서", "공고일", "첨부파일"],
     collection_risk: "대구시 전체 공고에서 달서구 관련 항목만 필터링해야 합니다.",
-    make_collected_item: true,
   },
   {
     id: "daegu-urban-management-plan",
@@ -432,7 +416,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["약국명", "주소", "전화번호", "운영시간"],
     collection_risk: "달서구 행만 필터링하고 운영시간 변경을 주기적으로 확인해야 합니다.",
-    make_collected_item: true,
   },
   {
     id: "daegu-pediatric-night-care",
@@ -443,7 +426,6 @@ const sourceCatalog = [
     priority: "medium",
     expected_fields: ["기관명", "주소", "운영시간", "전화번호"],
     collection_risk: "달서구 행만 필터링하고 명절/휴일 운영 변경을 확인해야 합니다.",
-    make_collected_item: true,
   },
 ];
 
@@ -523,13 +505,10 @@ await mkdir(rawDir, { recursive: true });
 
 const fetchedSources = await Promise.all(sourceCatalog.map(fetchSource));
 const sourceById = new Map(fetchedSources.map((source) => [source.id, source]));
-const collectedItems = fetchedSources
-  .filter((source) => source.make_collected_item && source.status >= 200 && source.status < 400)
-  .map((source) => buildCollectedItem(source));
 const normalizedReferenceItems = referenceItems.map((item) =>
   finalizeItem(item, sourceById.get(item.source_id)),
 );
-const items = dedupeItems([...collectedItems, ...normalizedReferenceItems]);
+const items = dedupeItems(normalizedReferenceItems);
 const validation = validateItems(items);
 
 await writeJson(path.join(dataDir, "impact-items.json"), {
@@ -547,11 +526,7 @@ await writeJson(path.join(dataDir, "sources.json"), {
 
 await writeJson(path.join(dataDir, "source-catalog.json"), {
   collected_at: collectedAt,
-  sources: sourceCatalog.map((source) => {
-    const catalogSource = { ...source };
-    delete catalogSource.make_collected_item;
-    return catalogSource;
-  }),
+  sources: sourceCatalog,
 });
 
 await writeJson(path.join(dataDir, "collection-report.json"), {
@@ -612,44 +587,6 @@ async function fetchSource(source) {
     text_preview: text.slice(0, 360),
     collected_at: collectedAt,
   };
-}
-
-function buildCollectedItem(source) {
-  const base = sourceDefaults(source.category);
-  const location = defaultLocationForCategory(source.category);
-  const statusSummary =
-    source.text_preview.length > 0
-      ? `${source.name} 원문을 수집했습니다. 원문 미리보기: ${source.text_preview.slice(0, 120)}`
-      : `${source.name} 원문을 수집했습니다.`;
-
-  return finalizeItem(
-    {
-      id: `web-${source.id}`,
-      source_id: source.id,
-      title: `${source.name} 원문 수집`,
-      category: source.category,
-      source_name: source.name,
-      source_url: source.url,
-      address: location.address,
-      dong: location.dong,
-      lat: location.lat,
-      lng: location.lng,
-      starts_at: null,
-      ends_at: null,
-      opinion_due_at: inferDate(source.text_preview),
-      summary: statusSummary,
-      plain_summary: `${source.name}에서 확인한 공식 또는 공공 원문입니다. 주민은 원문에서 세부 일정, 위치, 담당 부서, 제출 방법을 확인해야 합니다.`,
-      impacts: base.impacts,
-      action_guide: base.action_guide,
-      department: base.department,
-      contact: "원문 출처 확인",
-      impact_radius_m: base.impact_radius_m,
-      location_confidence: "source_default",
-      summary_confidence: "source_preview",
-      is_demo: false,
-    },
-    source,
-  );
 }
 
 function traffic(id, title, address, dong, lat, lng, impacts, plainSummary) {
@@ -837,42 +774,6 @@ function sourceDefaults(category) {
   return defaults[category] ?? defaults.public_notice;
 }
 
-function defaultLocationForCategory(category) {
-  if (category === "traffic") {
-    return {
-      address: "대구광역시 달서구 상인동 상인역네거리",
-      dong: "상인동",
-      lat: 35.8181,
-      lng: 128.5378,
-    };
-  }
-
-  if (category === "parking" || category === "event") {
-    return {
-      address: "대구광역시 달서구 공원순환로 36",
-      dong: "두류동",
-      lat: 35.85268,
-      lng: 128.55819,
-    };
-  }
-
-  if (category === "heat" || category === "welfare") {
-    return {
-      address: "대구광역시 달서구 학산로 45",
-      dong: "월성동",
-      lat: 35.82982,
-      lng: 128.53273,
-    };
-  }
-
-  return {
-    address: "대구광역시 달서구 학산로 45",
-    dong: "월성동",
-    lat: 35.82982,
-    lng: 128.53273,
-  };
-}
-
 function calculateUrgency(item) {
   if (item.opinion_due_at) {
     return "확인 필요";
@@ -1002,16 +903,6 @@ function decodeEntities(text) {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'");
-}
-
-function inferDate(text) {
-  const match = text.match(/(\d{4})[.\-/년]\s*(\d{1,2})[.\-/월]\s*(\d{1,2})/);
-  if (!match) {
-    return null;
-  }
-
-  const [, year, month, day] = match;
-  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 }
 
 function countBy(rows, key) {

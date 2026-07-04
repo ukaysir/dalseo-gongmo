@@ -299,6 +299,7 @@ Rules:
 - Do not remove source transparency copy.
 - Do not commit secrets or local `.env*` files.
 - Supabase-backed runtime uses `NEXT_PUBLIC_SUPABASE_URL` and a server key. Local JSON fallback still works without them.
+- Do not expose source-collection placeholder records as resident results. Search results must describe the possible real-life impact, not the crawler state.
 
 ## Supabase Notes
 

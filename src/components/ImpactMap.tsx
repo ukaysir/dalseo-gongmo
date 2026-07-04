@@ -191,7 +191,7 @@ function MarkerWithCircle({
           <br />
           {item.address}
           <br />
-          영향권 {(item.impact_radius_m ?? 350).toLocaleString()}m
+          예상 범위 {(item.impact_radius_m ?? 350).toLocaleString()}m
         </Popup>
       </Marker>
     </>

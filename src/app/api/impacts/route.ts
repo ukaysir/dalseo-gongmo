@@ -3,6 +3,7 @@ import { resolveAddress, withDistanceAndScore } from "@/lib/geo";
 import { buildInsight } from "@/lib/insight";
 import { readImpactItemsWithSource } from "@/lib/data-source";
 import { readLiveImpactItems } from "@/lib/live-impact-data";
+import { isResidentVisibleImpact, toResidentImpactItem } from "@/lib/resident-impact-copy";
 import { sampleImpactItems } from "@/lib/sample-data";
 import type { ImpactItem, ImpactSearchResponse } from "@/lib/types";
 
@@ -43,7 +44,8 @@ export async function GET(request: NextRequest) {
     source = source === "sample" ? "public_api" : `${source}+public_api`;
   }
 
-  const items = withDistanceAndScore(rows, center, radiusM);
+  const residentRows = rows.filter(isResidentVisibleImpact).map(toResidentImpactItem);
+  const items = withDistanceAndScore(residentRows, center, radiusM);
 
   return NextResponse.json({
     query,
