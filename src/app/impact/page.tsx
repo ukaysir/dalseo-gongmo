@@ -14,7 +14,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import dynamic from "next/dynamic";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { resolveAddress, withDistanceAndScore } from "@/lib/geo";
@@ -73,6 +73,9 @@ export default function ImpactPage() {
   const [locationStatus, setLocationStatus] = useState<string | null>(null);
   const [lifeProfile, setLifeProfile] = useState<LifeProfileKey>("resident");
   const [issueAdvice, setIssueAdvice] = useState<string | null>(null);
+  const [isCoachLoading, setIsCoachLoading] = useState(false);
+  const [coachError, setCoachError] = useState<string | null>(null);
+  const [aiCoach, setAiCoach] = useState<CoachOutput | null>(null);
 
   const displayedItems = useMemo(() => {
     return (data?.items ?? []).filter((item) =>
@@ -85,7 +88,7 @@ export default function ImpactPage() {
   }, [displayedItems, selectedId]);
 
   const topImpacts = useMemo(() => getTopImpacts(displayedItems), [displayedItems]);
-  const coach = useMemo(
+  const fallbackCoach = useMemo(
     () =>
       buildImpactCoach({
         items: displayedItems,
@@ -95,6 +98,7 @@ export default function ImpactPage() {
       }),
     [address, data?.center.address, displayedItems, lifeProfile, selectedItem],
   );
+  const coach = aiCoach ?? fallbackCoach;
   const locationOptions = useMemo(() => {
     const normalized = address.trim().toLowerCase();
 
@@ -129,6 +133,9 @@ export default function ImpactPage() {
       const payload = (await response.json()) as ImpactSearchResponse;
       setData(payload);
       setSelectedId(payload.items[0]?.id ?? null);
+      setIssueAdvice(null);
+      setAiCoach(null);
+      setCoachError(null);
     } catch (loadError) {
       setError(
         loadError instanceof Error ? loadError.message : "알 수 없는 오류가 발생했습니다.",
@@ -164,6 +171,9 @@ export default function ImpactPage() {
       const payload = (await response.json()) as ImpactSearchResponse;
       setData(payload);
       setSelectedId(payload.items[0]?.id ?? null);
+      setIssueAdvice(null);
+      setAiCoach(null);
+      setCoachError(null);
     } catch (loadError) {
       setError(
         loadError instanceof Error ? loadError.message : "알 수 없는 오류가 발생했습니다.",
@@ -193,7 +203,115 @@ export default function ImpactPage() {
   function selectIssue(id: string) {
     setSelectedId(id);
     setIssueAdvice(null);
+    setAiCoach(null);
+    setCoachError(null);
   }
+
+  async function loadAiCoach() {
+    if (displayedItems.length === 0) {
+      setAiCoach(null);
+      setCoachError(null);
+      return;
+    }
+
+    const profile = getLifeProfile(lifeProfile);
+    const mobilityMode = movementModePrompt(profile.key);
+    const nearbyItems = displayedItems.slice(0, 8).map((item) => ({
+      id: item.id,
+      title: item.title,
+      category: categoryLabels[item.category],
+      address: item.address,
+      distance_m: item.distance_m ?? null,
+      distance_context: movementHint(item),
+      urgency: item.urgency ?? null,
+      opinion_due_at: item.opinion_due_at ?? "해당 없음",
+      impacts: item.impacts.join(", "),
+      summary: item.plain_summary,
+      isSelected: item.id === selectedItem?.id,
+    }));
+
+    const systemPrompt =
+      "너는 '달서구 생활영향 코치'다. 입력된 사실 데이터만 근거로 판단하고, 단정적 추측은 피한다. " +
+      "출력은 오직 순수 JSON 객체만 허용한다. 코드블록/마크다운/설명문을 포함하면 안 된다. " +
+      "항상 한국어 존댓말로 답하며, 각 문장은 실무자가 바로 적용 가능한 수준으로 간결하게 작성한다.";
+
+    const userPrompt =
+      `아래 규칙으로 생활영향 코치를 작성해.\n` +
+      `기준 위치: ${data?.center.address ?? address} (반경 ${data?.radius_m ?? radius}m)\n` +
+      `기준 좌표: ${data?.center.lat ?? 0}, ${data?.center.lng ?? 0}\n` +
+      `생활유형: ${profile.label}\n` +
+      `이동성 우선순위: ${mobilityMode.mode}\n` +
+      `이동 가이드: ${mobilityMode.hint}\n` +
+      `관심사: ${profile.concerns.join(", ")}\n` +
+      `현재 선택 항목 ID: ${selectedItem?.id ?? "선택 없음"}\n` +
+      "출력 스키마:\n" +
+      `{"headline":"...","priority":"...","reason":"...","actions":["","",""],"watchouts":["",""]}\n` +
+      "요구:\n" +
+      "1) headline: 한 줄 요약\n" +
+      "2) priority: 지금 바로 확인할 핵심 한 줄\n" +
+      "3) reason: 이동성(차량/대중교통/도보) 관점에서 왜 우선인지 1~2문장\n" +
+      "4) actions: 지금 바로 실행 가능한 제안 3개\n" +
+      "5) watchouts: 유의점 2개\n" +
+      "데이터:\n" +
+      `${JSON.stringify(nearbyItems, null, 2)}`;
+
+    const messages = [
+      {
+        role: "system" as const,
+        content: systemPrompt,
+      },
+      {
+        role: "user" as const,
+        content: userPrompt,
+      },
+    ];
+
+    setAiCoach(null);
+    setCoachError(null);
+    setIsCoachLoading(true);
+
+    try {
+      const response = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          keyProfile: "user-default",
+          model: "deepseek-v4-flash-free",
+          messages,
+          stream: false,
+        }),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`생활영향 코치 생성 실패: ${response.status} ${response.statusText}${text ? ` / ${text}` : ""}`);
+      }
+
+      const responseText = await response.text();
+      if (!responseText.trim()) {
+        throw new Error("AI 응답이 비어있습니다.");
+      }
+
+      const chatData = safeJsonParse(responseText) as AIChatResponse | null;
+      const parsedText = chatData ? extractAiText(chatData) : null;
+      const payloadText = parsedText ?? responseText;
+      const parsedCoach = parseCoachPayload(payloadText, fallbackCoach);
+
+      if (!parsedCoach) {
+        throw new Error("AI 응답 포맷이 예상과 다릅니다.");
+      }
+
+      setAiCoach(parsedCoach);
+    } catch (coachError) {
+      setCoachError(coachError instanceof Error ? coachError.message : "AI 코치를 불러오지 못했습니다.");
+    } finally {
+      setIsCoachLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void loadAiCoach();
+  }, [address, data?.center.address, displayedItems, lifeProfile, selectedItem?.id]);
 
   function changeRadius(nextRadius: number) {
     setRadius(nextRadius);
@@ -342,7 +460,12 @@ export default function ImpactPage() {
             </div>
           </section>
 
-          <CoachPanel coach={coach} profileLabel={getLifeProfile(lifeProfile).label} />
+          <CoachPanel
+            coach={coach}
+            profileLabel={getLifeProfile(lifeProfile).label}
+            isLoading={isCoachLoading}
+            error={coachError}
+          />
         </section>
 
         {error ? (
@@ -379,6 +502,8 @@ export default function ImpactPage() {
               setCategoryFilter(filter);
               setSelectedId(null);
               setIssueAdvice(null);
+              setAiCoach(null);
+              setCoachError(null);
             }}
             onSelect={selectIssue}
           />
@@ -452,9 +577,13 @@ function LifeProfileSelector({
 function CoachPanel({
   coach,
   profileLabel,
+  isLoading,
+  error,
 }: {
   coach: CoachOutput;
   profileLabel: string;
+  isLoading: boolean;
+  error: string | null;
 }) {
   return (
     <section className="surface min-w-0 overflow-hidden">
@@ -465,10 +594,18 @@ function CoachPanel({
               <ShieldCheck aria-hidden="true" className="size-5 text-dalseo-accent" />
               생활영향 코치
             </h2>
-            <p className="mt-1 text-base leading-7 text-dalseo-muted">{profileLabel} 기준 추천</p>
+            <p className="mt-1 text-base leading-7 text-dalseo-muted">
+              {profileLabel} 기준 추천
+              {isLoading ? " (AI 분석 중)" : null}
+            </p>
           </div>
-          <span className="meta-badge">기본 분석</span>
+          <span className="meta-badge">{isLoading ? "AI 분석" : "AI 분석 완료"}</span>
         </div>
+        {error ? (
+          <p className="mt-3 rounded-dalseo border border-amber-200 bg-amber-50 p-2 text-xs leading-6 text-amber-800">
+            AI 응답을 불완전하게 받아 기본 분석으로 보강합니다.
+          </p>
+        ) : null}
         <p className="mt-4 text-lg font-extrabold leading-8 text-pretty">{coach.headline}</p>
         <p className="mt-2 text-base leading-7 text-dalseo-muted">{coach.priority}</p>
       </div>
@@ -767,6 +904,191 @@ function urgencyClassName(urgency?: string) {
   }
 
   return `${base} bg-dalseo-soft text-dalseo-muted`;
+}
+
+type AIChatChoice =
+  | {
+      message?: {
+        content?: string;
+      };
+      delta?: {
+        content?: string;
+      };
+    }
+  | {
+      message?: null;
+      delta?: null;
+      [key: string]: unknown;
+    };
+
+type AIChatResponse = {
+  choices?: AIChatChoice[];
+};
+
+function extractAiText(response: AIChatResponse) {
+  const raw = response.choices?.map((choice) => choice.message?.content ?? choice.delta?.content).join("");
+  return raw?.trim() || null;
+}
+
+function safeJsonParse(value: string) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
+function extractCoachPayloadText(value: string) {
+  const fenced = value.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fenced?.[1]) {
+    return fenced[1].trim();
+  }
+
+  const start = value.indexOf("{");
+  const end = value.lastIndexOf("}");
+  if (start >= 0 && end > start) {
+    return value.slice(start, end + 1).trim();
+  }
+
+  return value.trim();
+}
+
+function parseCoachPayload(value: string, fallback: CoachOutput) {
+  const jsonText = extractCoachPayloadText(value);
+  const parsed = safeJsonParse(jsonText);
+
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    return null;
+  }
+
+  const payload = parsed as Record<string, unknown>;
+  const headline = coerceText(payload.headline);
+  const priority = coerceText(payload.priority);
+  const reason = coerceText(payload.reason);
+  const actions = coerceTextList(payload.actions);
+  const watchouts = coerceTextList(payload.watchouts);
+
+  const normalized: CoachOutput = {
+    headline: headline ?? fallback.headline,
+    priority: priority ?? fallback.priority,
+    reason: reason ?? fallback.reason,
+    actions: mergeWithFallbackList(actions, fallback.actions, 3, "권장 행동"),
+    watchouts: mergeWithFallbackList(watchouts, fallback.watchouts, 2, "유의점"),
+  };
+
+  if (!headline || !priority || !reason) {
+    return normalized;
+  }
+
+  if (normalized.actions.length < 3 || normalized.watchouts.length < 2) {
+    return normalized;
+  }
+
+  return normalized;
+}
+
+function coerceText(value: unknown) {
+  return typeof value === "string" ? value.trim() : null;
+}
+
+function coerceTextList(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const compacted = value
+    .map((entry) => (typeof entry === "string" ? entry.trim() : null))
+    .filter((entry): entry is string => Boolean(entry))
+    .filter((entry, index, list) => list.indexOf(entry) === index)
+    .slice(0, 6);
+
+  return compacted;
+}
+
+function mergeWithFallbackList(
+  candidate: string[],
+  fallback: string[],
+  targetLength: number,
+  label: string,
+) {
+  const result = [...candidate];
+
+  for (const item of fallback) {
+    if (result.length >= targetLength) {
+      break;
+    }
+    if (typeof item === "string" && item.trim()) {
+      result.push(item);
+    }
+  }
+
+  if (result.length === 0) {
+    return [`${label}: 정보를 다시 확인하세요.`];
+  }
+
+  return result.slice(0, targetLength);
+}
+
+function movementModePrompt(profileKey: LifeProfileKey) {
+  if (profileKey === "resident") {
+    return {
+      mode: "도보 중심 + 대중교통 병행",
+      hint: "생활반경 동선(귀가/통학/외출), 보행 동선 안전성, 대중교통 정류장 접근성",
+    };
+  }
+
+  if (profileKey === "driver") {
+    return {
+      mode: "차량 이동 중심",
+      hint: "진입로·정체·우회로·임시통제 구간·주차 가능성 확보를 먼저 점검",
+    };
+  }
+
+  if (profileKey === "transit") {
+    return {
+      mode: "대중교통 우선",
+      hint: "정류장 접근성, 환승 시간, 대체 보행거리 증가를 중심으로 우선순위 판단",
+    };
+  }
+
+  if (profileKey === "business") {
+    return {
+      mode: "고객 접근성 우선",
+      hint: "가드레일, 진입 동선, 유동인구 유입·유출에 미치는 영향 중심으로 판단",
+    };
+  }
+
+  if (profileKey === "childcare") {
+    return {
+      mode: "보행+돌봄 동선 우선",
+      hint: "등하교·돌봄 이동 동선의 편의성, 통학 시간대 변화, 안전 조치 여부",
+    };
+  }
+
+  return {
+    mode: "저동력 이동성 우선",
+    hint: "복지 접근, 보행 구간 부담, 교통약자 동선 변화를 병행 점검",
+  };
+}
+
+function movementHint(item: ImpactItem) {
+  if (typeof item.distance_m !== "number") {
+    return "거리 정보 부족";
+  }
+
+  if (item.distance_m <= 300) {
+    return "도보 5분 내외 도달 구간";
+  }
+
+  if (item.distance_m <= 800) {
+    return "도보 이동 구간(약 10분) 영향 가능";
+  }
+
+  if (item.distance_m <= 1500) {
+    return "도보 부담 증가, 대중교통/차량 연계 고려";
+  }
+
+  return "대부분 차량 이동·대중교통 연계 필요";
 }
 
 function sourceTypeLabel(sourceType?: string) {

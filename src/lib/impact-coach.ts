@@ -30,8 +30,8 @@ export const lifeProfiles: LifeProfile[] = [
     key: "resident",
     label: "거주자",
     description: "소음, 보행, 주차, 생활편의",
-    concerns: ["소음", "보행", "안전", "주차", "생활편의"],
-    actionHint: "생활 동선과 주차 대안을 먼저 확인하세요.",
+    concerns: ["소음", "보행", "안전", "주차", "생활편의", "차량", "대중교통"],
+    actionHint: "생활 동선과 차량/대중교통 동선을 함께 확인하세요.",
   },
   {
     key: "driver",
