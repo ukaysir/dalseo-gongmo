@@ -29,6 +29,8 @@ const categoryColors: Record<ImpactItem["category"], string> = {
   environment: "#287a59",
 };
 
+const fallbackCenter: [number, number] = [35.82982, 128.53273];
+
 type ImpactMapProps = {
   center: AddressCandidate;
   items: ImpactItem[];
@@ -47,15 +49,17 @@ export default function ImpactMap({
   onPickLocation,
 }: ImpactMapProps) {
   const selectedItem = items.find((item) => item.id === selectedId) ?? items[0];
-  const userIcon = useMemo(() => createIcon("#172554", "내 위치"), []);
-  const centerPoint: [number, number] = [center.lat, center.lng];
+  const userIcon = useMemo(() => createIcon("#172554", "기준 위치"), []);
+  const centerPoint: [number, number] = isUsableCoordinate(center.lat, center.lng)
+    ? [center.lat, center.lng]
+    : fallbackCenter;
 
   return (
     <section className="surface overflow-hidden">
       <div className="flex flex-col gap-3 border-b border-dalseo-border p-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="text-lg font-semibold">지도 기반 영향 범위</h2>
-          <p className="mt-1 text-sm leading-6 text-dalseo-muted">지도를 눌러 기준 위치를 바꿀 수 있습니다.</p>
+          <p className="mt-1 text-sm leading-6 text-dalseo-muted">지도를 눌러 기준 위치를 변경할 수 있습니다.</p>
         </div>
         <div className="flex gap-2 text-xs font-semibold text-dalseo-muted">
           <span className="rounded-dalseo bg-dalseo-soft px-2.5 py-1">
@@ -67,11 +71,11 @@ export default function ImpactMap({
         </div>
       </div>
 
-      <div className="h-[520px] w-full xl:h-[620px]">
+      <div className="h-[560px] w-full xl:h-[calc(100dvh-13rem)] xl:min-h-[560px] xl:max-h-[720px]">
         <MapContainer
           center={centerPoint}
           zoom={14}
-          scrollWheelZoom={false}
+          scrollWheelZoom
           className="h-full w-full"
         >
           <MapClickPicker onPickLocation={onPickLocation} />
@@ -214,4 +218,8 @@ function createIcon(color: string, label: string, selected = false) {
     iconSize: [selected ? 22 : 18, selected ? 22 : 18],
     iconAnchor: [selected ? 11 : 9, selected ? 11 : 9],
   });
+}
+
+function isUsableCoordinate(lat: number, lng: number) {
+  return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) > 1 && Math.abs(lng) > 1;
 }

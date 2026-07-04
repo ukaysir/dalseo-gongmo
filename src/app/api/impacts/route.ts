@@ -11,9 +11,11 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const query = searchParams.get("address") ?? "달서구청";
   const radiusM = Number(searchParams.get("radius") ?? 1000);
-  const lat = Number(searchParams.get("lat"));
-  const lng = Number(searchParams.get("lng"));
-  const hasCoordinates = Number.isFinite(lat) && Number.isFinite(lng);
+  const latParam = searchParams.get("lat");
+  const lngParam = searchParams.get("lng");
+  const lat = latParam === null ? Number.NaN : Number(latParam);
+  const lng = lngParam === null ? Number.NaN : Number(lngParam);
+  const hasCoordinates = latParam !== null && lngParam !== null && isUsableCoordinate(lat, lng);
   const center = hasCoordinates
     ? {
         label: query,
@@ -43,4 +45,8 @@ export async function GET(request: NextRequest) {
     items,
     insight: buildInsight(items),
   } satisfies ImpactSearchResponse);
+}
+
+function isUsableCoordinate(lat: number, lng: number) {
+  return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) > 1 && Math.abs(lng) > 1;
 }

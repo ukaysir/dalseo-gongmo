@@ -3,7 +3,6 @@
 import {
   AlertCircle,
   CalendarClock,
-  ChevronDown,
   Database,
   ExternalLink,
   FileText,
@@ -19,6 +18,14 @@ import { FormEvent, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { resolveAddress, withDistanceAndScore } from "@/lib/geo";
+import {
+  buildImpactCoach,
+  explainIssueForProfile,
+  getLifeProfile,
+  lifeProfiles,
+  type CoachOutput,
+  type LifeProfileKey,
+} from "@/lib/impact-coach";
 import { buildInsight } from "@/lib/insight";
 import { categoryLabels } from "@/lib/labels";
 import { addressCandidates, sampleImpactItems } from "@/lib/sample-data";
@@ -59,14 +66,15 @@ export default function ImpactPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<FilterKey>("all");
   const [isLocationPanelOpen, setIsLocationPanelOpen] = useState(false);
-  const [customPlace, setCustomPlace] = useState("");
-  const [customPlaces, setCustomPlaces] = useState<AddressCandidate[]>([]);
   const [pickedCoordinates, setPickedCoordinates] = useState<{
     lat: number;
     lng: number;
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [locationStatus, setLocationStatus] = useState<string | null>(null);
+  const [lifeProfile, setLifeProfile] = useState<LifeProfileKey>("resident");
+  const [issueAdvice, setIssueAdvice] = useState<string | null>(null);
 
   const displayedItems = useMemo(() => {
     return (data?.items ?? []).filter((item) =>
@@ -79,10 +87,35 @@ export default function ImpactPage() {
   }, [displayedItems, selectedId]);
 
   const topImpacts = useMemo(() => getTopImpacts(displayedItems), [displayedItems]);
-  const locationOptions = [...customPlaces, ...addressCandidates];
+  const coach = useMemo(
+    () =>
+      buildImpactCoach({
+        items: displayedItems,
+        selectedItem,
+        profileKey: lifeProfile,
+        centerAddress: data?.center.address ?? address,
+      }),
+    [address, data?.center.address, displayedItems, lifeProfile, selectedItem],
+  );
+  const locationOptions = useMemo(() => {
+    const normalized = address.trim().toLowerCase();
+
+    if (!normalized) {
+      return addressCandidates;
+    }
+
+    const filtered = addressCandidates.filter((candidate) => {
+      const haystack = `${candidate.label} ${candidate.address}`.toLowerCase();
+      return haystack.includes(normalized) || normalized.includes(candidate.label.toLowerCase());
+    });
+
+    return filtered.length > 0 ? filtered : addressCandidates;
+  }, [address]);
 
   async function loadImpacts(nextAddress = address, nextRadius = radius) {
     setPickedCoordinates(null);
+    setLocationStatus(null);
+    setIssueAdvice(null);
     setIsLoading(true);
     setError(null);
 
@@ -107,10 +140,17 @@ export default function ImpactPage() {
     }
   }
 
-  async function loadImpactsByCoordinates(lat: number, lng: number, nextRadius = radius) {
-    const nextAddress = `지도 선택 위치`;
+  async function loadImpactsByCoordinates(
+    lat: number,
+    lng: number,
+    nextRadius = radius,
+    nextAddress = "지도 선택 위치",
+    nextLocationStatus = "지도 선택 위치 기준",
+  ) {
     setAddress(nextAddress);
     setPickedCoordinates({ lat, lng });
+    setLocationStatus(nextLocationStatus);
+    setIssueAdvice(null);
     setIsLoading(true);
     setError(null);
 
@@ -140,29 +180,60 @@ export default function ImpactPage() {
     void loadImpacts();
   }
 
-  function addCustomPlace() {
-    const label = customPlace.trim();
-    if (!label) {
+  function selectPlace(place: AddressCandidate) {
+    setIsLocationPanelOpen(false);
+    setIssueAdvice(null);
+    void loadImpactsByCoordinates(
+      place.lat,
+      place.lng,
+      radius,
+      place.label,
+      `${place.label} 기준`,
+    );
+  }
+
+  function selectIssue(id: string) {
+    setSelectedId(id);
+    setIssueAdvice(null);
+  }
+
+  function useCurrentLocation() {
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      setLocationStatus("이 브라우저에서는 현재 위치를 사용할 수 없습니다.");
       return;
     }
 
-    const resolved = resolveAddress(label);
-    setCustomPlaces((places) => [
-      {
-        ...resolved,
-        label,
-        address: resolved.address,
-      },
-      ...places.filter((place) => place.label !== label),
-    ]);
-    setCustomPlace("");
-  }
+    setLocationStatus("현재 위치 권한을 확인하는 중입니다.");
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude, accuracy } = position.coords;
+        const accuracyText = Number.isFinite(accuracy)
+          ? `오차 약 ${Math.round(accuracy).toLocaleString()}m`
+          : "오차 정보 없음";
 
-  function selectPlace(place: AddressCandidate) {
-    setAddress(place.label);
-    setIsLocationPanelOpen(false);
-    setPickedCoordinates(null);
-    void loadImpacts(place.label, radius);
+        void loadImpactsByCoordinates(
+          latitude,
+          longitude,
+          radius,
+          "현재 위치",
+          `현재 위치 기준 · ${accuracyText}`,
+        );
+      },
+      (geoError) => {
+        const messages: Record<number, string> = {
+          [geoError.PERMISSION_DENIED]: "위치 권한이 거부되었습니다. 브라우저 주소창에서 권한을 허용하거나 지도를 눌러 기준 위치를 선택하세요.",
+          [geoError.POSITION_UNAVAILABLE]: "현재 위치를 확인할 수 없습니다. 주소 검색이나 지도 선택을 사용하세요.",
+          [geoError.TIMEOUT]: "현재 위치 확인 시간이 초과되었습니다. 다시 시도하거나 주소를 입력하세요.",
+        };
+
+        setLocationStatus(messages[geoError.code] ?? "현재 위치 확인 중 오류가 발생했습니다.");
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000,
+      },
+    );
   }
 
   return (
@@ -170,49 +241,75 @@ export default function ImpactPage() {
       <AppHeader />
 
       <div className="mx-auto w-full max-w-[1500px] px-4 py-4 sm:px-6 lg:px-8">
-        <section className="surface overflow-visible">
-          <div className="grid gap-0 xl:grid-cols-[minmax(0,1fr)_300px]">
-            <div className="border-b border-dalseo-border p-4 sm:p-5 xl:border-b-0 xl:border-r">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                <div className="max-w-2xl">
-                  <p className="flex items-center gap-2 text-sm font-bold text-dalseo-accent">
-                    <LocateFixed aria-hidden="true" className="size-4" />
-                    주소 영향
-                  </p>
-                  <h1 className="mt-2 max-w-xl text-2xl font-extrabold leading-snug text-pretty sm:text-3xl">
-                    내 주변 변화를 빠르게 확인
-                  </h1>
-                </div>
+        <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.12fr)_minmax(380px,0.88fr)]">
+          <section className="surface overflow-visible p-5 sm:p-6">
+            <div className="max-w-2xl">
+              <p className="flex items-center gap-2 text-sm font-bold text-dalseo-accent">
+                <LocateFixed aria-hidden="true" className="size-4" />
+                주소 영향
+              </p>
+              <h1 className="mt-2 max-w-xl text-2xl font-extrabold leading-snug text-pretty sm:text-3xl">
+                내 주변 변화를 빠르게 확인
+              </h1>
+            </div>
 
-                <div className="grid grid-cols-3 gap-2 lg:min-w-[300px]">
-                  <Metric label="표시" value={`${displayedItems.length}건`} />
-                  <Metric label="전체" value={`${data?.items.length ?? 0}건`} />
-                  <Metric label="반경" value={formatRadius(radius)} />
+            <form onSubmit={submitSearch} className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_240px]">
+              <div className="block">
+                <label htmlFor="impact-location" className="mb-2 block text-sm font-bold">
+                  위치
+                </label>
+                <div className="relative">
+                  <Search
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-dalseo-muted"
+                  />
+                  <input
+                    id="impact-location"
+                    value={address}
+                    onChange={(event) => {
+                      setAddress(event.target.value);
+                      setIsLocationPanelOpen(true);
+                    }}
+                    onFocus={() => setIsLocationPanelOpen(true)}
+                    onBlur={() => setIsLocationPanelOpen(false)}
+                    placeholder="주소나 장소명 입력"
+                    className="h-14 w-full rounded-dalseo border border-dalseo-border bg-white pl-10 pr-3 text-sm font-medium outline-none transition focus:border-dalseo-accent focus:ring-2 focus:ring-dalseo-ring"
+                  />
+                  {isLocationPanelOpen ? (
+                    <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-40 rounded-dalseo border border-dalseo-border bg-white p-2 shadow-[var(--shadow)]">
+                      <div className="px-2 pb-2 text-xs font-bold text-dalseo-muted">
+                        위치 선택
+                      </div>
+                      <div className="grid max-h-72 gap-1 overflow-y-auto">
+                        {locationOptions.map((candidate) => (
+                          <button
+                            key={`${candidate.label}-${candidate.lat}-${candidate.lng}`}
+                            type="button"
+                            onMouseDown={(event) => {
+                              event.preventDefault();
+                              selectPlace(candidate);
+                            }}
+                            className="rounded-dalseo px-3 py-2 text-left text-sm transition hover:bg-dalseo-soft focus:bg-dalseo-soft focus:outline-none"
+                          >
+                            <span className="block font-extrabold text-dalseo-ink">
+                              {candidate.label}
+                            </span>
+                            <span className="mt-0.5 block text-xs leading-5 text-dalseo-muted">
+                              {candidate.address}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
 
-              <form onSubmit={submitSearch} className="mt-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_250px_130px_auto]">
-                <label className="block">
-                  <span className="mb-2 block text-sm font-bold">위치</span>
-                  <span className="relative block">
-                    <Search
-                      aria-hidden="true"
-                      className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-dalseo-muted"
-                    />
-                    <input
-                      value={address}
-                      onChange={(event) => setAddress(event.target.value)}
-                      placeholder="주소나 장소명 입력"
-                      className="h-12 w-full rounded-dalseo border border-dalseo-border bg-white pl-10 pr-3 text-sm font-medium outline-none transition focus:border-dalseo-accent focus:ring-2 focus:ring-dalseo-ring"
-                    />
-                  </span>
-                </label>
-
-                <div>
-                  <div className="mb-2 text-sm font-bold">반경</div>
-                  <div className="grid grid-cols-3 gap-2">
-                    {radiusOptions.map((option) => (
-                      <button
+              <div>
+                <div className="mb-2 text-sm font-bold">반경</div>
+                <div className="grid grid-cols-3 gap-2">
+                  {radiusOptions.map((option) => (
+                    <button
                       key={option}
                       type="button"
                       onClick={() => {
@@ -222,79 +319,44 @@ export default function ImpactPage() {
                             pickedCoordinates.lat,
                             pickedCoordinates.lng,
                             option,
+                            address,
+                            locationStatus ?? "좌표 기준 위치",
                           );
                           return;
                         }
 
                         void loadImpacts(address, option);
                       }}
-                        className={`control-button h-12 ${
-                          radius === option ? "control-button-active" : ""
-                        }`}
-                      >
-                        {formatRadius(option)}
-                      </button>
-                    ))}
-                  </div>
+                      className={`control-button h-14 ${
+                        radius === option ? "control-button-active" : ""
+                      }`}
+                    >
+                      {formatRadius(option)}
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                <button type="submit" disabled={isLoading} className="primary-button self-end">
+              <div className="grid gap-3 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-[160px_160px]">
+                <button type="submit" disabled={isLoading} className="primary-button h-12">
                   <Navigation aria-hidden="true" className="size-4" />
                   {isLoading ? "검색 중" : "검색"}
                 </button>
 
-                <div className="relative self-end">
-                  <button
-                    type="button"
-                    onClick={() => setIsLocationPanelOpen((open) => !open)}
-                    className="secondary-button h-12 px-3 text-sm"
-                  >
-                    더보기
-                    <ChevronDown aria-hidden="true" className="size-4" />
-                  </button>
+                <button
+                  type="button"
+                  onClick={useCurrentLocation}
+                  disabled={isLoading}
+                  className="secondary-button h-12 px-3 text-sm"
+                >
+                  <LocateFixed aria-hidden="true" className="size-4" />
+                  현재 위치
+                </button>
+              </div>
+            </form>
+          </section>
 
-                  {isLocationPanelOpen ? (
-                    <div className="absolute right-0 top-[calc(100%+8px)] z-40 w-[min(92vw,420px)] rounded-dalseo border border-dalseo-border bg-white p-3 shadow-[var(--shadow)]">
-                      <div className="flex gap-2">
-                        <input
-                          value={customPlace}
-                          onChange={(event) => setCustomPlace(event.target.value)}
-                          placeholder="자주 쓰는 장소 추가"
-                          className="h-10 min-w-0 flex-1 rounded-dalseo border border-dalseo-border px-3 text-sm outline-none focus:border-dalseo-accent focus:ring-2 focus:ring-dalseo-ring"
-                        />
-                        <button type="button" onClick={addCustomPlace} className="primary-button min-h-10 px-3">
-                          추가
-                        </button>
-                      </div>
-
-                      <div className="mt-3 grid max-h-72 grid-cols-2 gap-2 overflow-y-auto">
-                        {locationOptions.map((candidate) => (
-                          <button
-                            key={`${candidate.label}-${candidate.lat}-${candidate.lng}`}
-                            type="button"
-                            onClick={() => selectPlace(candidate)}
-                            className="secondary-button min-h-10 justify-start px-3 text-left text-xs"
-                          >
-                            {candidate.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-              </form>
-            </div>
-
-            <aside className="bg-dalseo-soft p-4 sm:p-5">
-              <h2 className="text-sm font-bold text-dalseo-muted">기준 위치</h2>
-              <p className="mt-2 text-base font-extrabold leading-6 text-pretty">
-                {data?.center.address ?? "위치 확인 중"}
-              </p>
-              <p className="mt-3 text-xs leading-5 text-dalseo-muted">
-                지도에서 원하는 지점을 눌러도 위치가 바뀝니다.
-              </p>
-            </aside>
-          </div>
+          <LifeProfileSelector value={lifeProfile} onChange={setLifeProfile} />
         </section>
 
         {error ? (
@@ -303,6 +365,8 @@ export default function ImpactPage() {
             {error}
           </section>
         ) : null}
+
+        <CoachPanel coach={coach} profileLabel={getLifeProfile(lifeProfile).label} />
 
         <section className="mt-4 grid gap-3 lg:grid-cols-3">
           <InsightPanel
@@ -322,7 +386,7 @@ export default function ImpactPage() {
           />
         </section>
 
-        <section className="mt-4 grid items-start gap-4 xl:grid-cols-[360px_minmax(0,1fr)_360px]">
+        <section className="mt-4 grid items-start gap-4 xl:grid-cols-[340px_minmax(540px,1fr)_380px]">
           <IssueQueue
             items={displayedItems}
             selectedId={selectedItem?.id ?? null}
@@ -330,8 +394,9 @@ export default function ImpactPage() {
             onFilterChange={(filter) => {
               setCategoryFilter(filter);
               setSelectedId(null);
+              setIssueAdvice(null);
             }}
-            onSelect={setSelectedId}
+            onSelect={selectIssue}
           />
 
           <div className="min-w-0">
@@ -341,16 +406,113 @@ export default function ImpactPage() {
                 items={displayedItems}
                 radiusM={radius}
                 selectedId={selectedItem?.id ?? null}
-                onSelect={setSelectedId}
+                onSelect={selectIssue}
                 onPickLocation={(lat, lng) => void loadImpactsByCoordinates(lat, lng)}
               />
             ) : null}
           </div>
 
-          <IssueDetail item={selectedItem} />
+          <IssueDetail
+            item={selectedItem}
+            profileKey={lifeProfile}
+            issueAdvice={issueAdvice}
+            onExplain={(item) => setIssueAdvice(explainIssueForProfile(item, lifeProfile))}
+          />
         </section>
       </div>
     </main>
+  );
+}
+
+function LifeProfileSelector({
+  value,
+  onChange,
+}: {
+  value: LifeProfileKey;
+  onChange: (profile: LifeProfileKey) => void;
+}) {
+  return (
+    <section className="surface p-5 sm:p-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h2 className="text-lg font-extrabold">생활 유형</h2>
+          <p className="mt-1 text-sm leading-6 text-dalseo-muted">
+            같은 이슈라도 생활 방식에 따라 먼저 봐야 할 영향이 달라집니다.
+          </p>
+        </div>
+        <span className="meta-badge self-start sm:self-auto">추천 기준</span>
+      </div>
+
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-2">
+        {lifeProfiles.map((profile) => (
+          <button
+            key={profile.key}
+            type="button"
+            onClick={() => onChange(profile.key)}
+            className={`min-h-[74px] rounded-dalseo border px-3 py-3 text-left transition ${
+              value === profile.key
+                ? "border-dalseo-accent bg-dalseo-soft text-dalseo-ink ring-2 ring-dalseo-ring"
+                : "border-dalseo-border bg-white text-dalseo-muted hover:border-dalseo-accent hover:text-dalseo-ink"
+            }`}
+          >
+            <span className="block text-sm font-extrabold">{profile.label}</span>
+            <span className="mt-1 block text-xs leading-5">{profile.description}</span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CoachPanel({
+  coach,
+  profileLabel,
+}: {
+  coach: CoachOutput;
+  profileLabel: string;
+}) {
+  return (
+    <section className="mt-4 surface overflow-hidden">
+      <div className="grid lg:grid-cols-[minmax(260px,0.85fr)_minmax(0,1.15fr)_minmax(260px,0.85fr)]">
+        <div className="border-b border-dalseo-border bg-dalseo-soft p-4 lg:border-b-0 lg:border-r">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h2 className="flex items-center gap-2 text-lg font-extrabold">
+                <ShieldCheck aria-hidden="true" className="size-5 text-dalseo-accent" />
+                생활영향 코치
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-dalseo-muted">{profileLabel} 기준 추천</p>
+            </div>
+            <span className="meta-badge">기본 분석</span>
+          </div>
+          <p className="mt-3 text-base font-extrabold leading-7 text-pretty">{coach.headline}</p>
+          <p className="mt-2 text-sm leading-6 text-dalseo-muted">{coach.priority}</p>
+        </div>
+
+        <div className="border-b border-dalseo-border p-4 lg:border-b-0 lg:border-r">
+          <h3 className="text-sm font-extrabold">왜 이렇게 보나요</h3>
+          <p className="mt-2 text-sm leading-6 text-dalseo-muted">{coach.reason}</p>
+          <h3 className="mt-4 text-sm font-extrabold">추천 행동</h3>
+          <ul className="mt-2 grid gap-2 text-sm leading-6 text-dalseo-muted md:grid-cols-3 lg:grid-cols-1">
+            {coach.actions.map((action) => (
+              <li key={action} className="flex gap-2">
+                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-dalseo-accent" />
+                <span>{action}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <section className="bg-white p-4">
+          <h3 className="text-sm font-extrabold">주의</h3>
+          <ul className="mt-2 space-y-2 text-xs leading-5 text-dalseo-muted">
+            {coach.watchouts.map((watchout) => (
+              <li key={watchout}>{watchout}</li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </section>
   );
 }
 
@@ -368,7 +530,7 @@ function IssueQueue({
   onSelect: (id: string) => void;
 }) {
   return (
-    <section className="surface min-w-0 overflow-hidden xl:sticky xl:top-24 xl:max-h-[calc(100dvh-7rem)]">
+    <section className="surface min-w-0 overflow-hidden">
       <div className="border-b border-dalseo-border p-4">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -396,7 +558,7 @@ function IssueQueue({
         </div>
       </div>
 
-      <div className="max-h-[620px] overflow-y-auto">
+      <div className="max-h-[560px] overflow-y-auto xl:max-h-[calc(100dvh-13rem)]">
         {items.length > 0 ? (
           items.map((item) => (
             <button
@@ -427,7 +589,17 @@ function IssueQueue({
   );
 }
 
-function IssueDetail({ item }: { item: ImpactItem | null }) {
+function IssueDetail({
+  item,
+  profileKey,
+  issueAdvice,
+  onExplain,
+}: {
+  item: ImpactItem | null;
+  profileKey: LifeProfileKey;
+  issueAdvice: string | null;
+  onExplain: (item: ImpactItem) => void;
+}) {
   if (!item) {
     return (
       <aside className="surface p-6 text-sm text-dalseo-muted">
@@ -437,7 +609,7 @@ function IssueDetail({ item }: { item: ImpactItem | null }) {
   }
 
   return (
-    <aside className="surface overflow-hidden xl:sticky xl:top-24 xl:self-start">
+    <aside className="surface overflow-hidden xl:self-start">
       <div className="bg-dalseo-soft p-4">
         <div className="flex flex-wrap gap-2">
           <span className="category-badge">{categoryLabels[item.category]}</span>
@@ -479,6 +651,25 @@ function IssueDetail({ item }: { item: ImpactItem | null }) {
           <p className="mt-2 text-sm leading-6 text-dalseo-muted">{item.action_guide}</p>
         </section>
 
+        <section className="rounded-dalseo border border-dalseo-border bg-white p-4">
+          <div className="flex flex-col gap-3">
+            <div>
+              <h3 className="text-sm font-extrabold">내 상황으로 다시 설명</h3>
+              <p className="mt-1 text-xs leading-5 text-dalseo-muted">
+                {getLifeProfile(profileKey).label} 기준으로 영향과 행동을 다시 정리합니다.
+              </p>
+            </div>
+            <button type="button" onClick={() => onExplain(item)} className="secondary-button min-h-10 justify-center px-3">
+              다시 설명
+            </button>
+          </div>
+          {issueAdvice ? (
+            <p className="mt-3 rounded-dalseo bg-dalseo-soft p-3 text-sm leading-6 text-dalseo-muted">
+              {issueAdvice}
+            </p>
+          ) : null}
+        </section>
+
         <section className="rounded-dalseo bg-dalseo-soft p-4">
           <h3 className="text-sm font-extrabold">담당</h3>
           <p className="mt-2 text-sm leading-6 text-dalseo-muted">
@@ -510,15 +701,6 @@ function InsightPanel({
       <p className="mt-2 text-lg font-extrabold leading-7 text-pretty">{value}</p>
       <p className="mt-2 text-sm leading-6 text-dalseo-muted">{body}</p>
     </article>
-  );
-}
-
-function Metric({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-dalseo border border-dalseo-border bg-white px-3 py-2">
-      <div className="text-xs font-bold text-dalseo-muted">{label}</div>
-      <div className="mt-1 text-lg font-extrabold">{value}</div>
-    </div>
   );
 }
 
