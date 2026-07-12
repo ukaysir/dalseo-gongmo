@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1600, initial-scale=1" />
+  <title>달서 길눈AI 현장촬영 및 AI 검수 화면</title>
+  <link rel="stylesheet" href="./design-system.css" />
+  <style>
+    html,
+    body {
+      width: 1600px;
+      height: 1000px;
+    }
+
+    #artboard {
+      width: 1600px;
+      height: 1000px;
+      padding: 34px 60px 18px;
+    }
+
+    .hero {
+      height: 150px;
+    }
+
+    .screens {
+      display: grid;
+      grid-template-columns: repeat(3, 440px);
+      justify-content: center;
+      gap: 40px;
+      width: 1480px;
+      height: 650px;
+      margin-top: 24px;
+    }
+
+    .phone {
+      position: relative;
+      height: 650px;
+      overflow: hidden;
+      border: 1.5px solid var(--line);
+      border-radius: 30px;
+      background: var(--white);
+      box-shadow: 0 8px 24px rgba(17, 46, 103, 0.06);
+    }
+
+    .phone-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      padding: 17px 22px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfdfe;
+    }
+
+    .screen-no {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      place-items: center;
+      border-radius: 12px;
+      color: var(--white);
+      background: var(--teal);
+      font-size: 17px;
+      font-weight: 850;
+    }
+
+    .screen-title {
+      flex: 1;
+      margin: 0 12px;
+      color: var(--navy);
+      font-size: 27px;
+      font-weight: 820;
+      letter-spacing: -0.035em;
+    }
+
+    .phone-body {
+      height: 574px;
+      padding: 20px 22px 22px;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .section-label strong {
+      color: var(--navy);
+      font-size: 23px;
+      font-weight: 780;
+    }
+
+    .map-box,
+    .camera-box,
+    .analysis-photo {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .map-box {
+      height: 300px;
+    }
+
+    .map-box svg,
+    .camera-box svg,
+    .analysis-photo svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .evidence-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .camera-overlay,
+    .analysis-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .legend {
+      position: absolute;
+      right: 12px;
+      bottom: 11px;
+      display: flex;
+      gap: 8px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      margin-right: 4px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .legend span:last-child i {
+      background: var(--blue);
+    }
+
+    .task-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      min-height: 58px;
+      padding: 10px 13px;
+      border: 1px solid #d9e9e5;
+      border-radius: 13px;
+      background: #f4fbf9;
+    }
+
+    .task b {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--white);
+      background: var(--teal);
+      font-size: 15px;
+    }
+
+    .task span {
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .phone-footnote {
+      position: absolute;
+      right: 22px;
+      bottom: 17px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 650;
+      text-align: right;
+    }
+
+    .phone-footnote::before {
+      margin-right: 4px;
+      content: "*";
+    }
+
+    .camera-box {
+      height: 310px;
+      background: #eaf1f5;
+    }
+
+    .camera-overlay-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      padding: 7px 10px;
+      border-radius: 9px;
+      color: var(--navy);
+      background: rgba(255, 255, 255, 0.92);
+      font-size: 16px;
+      font-weight: 720;
+    }
+
+    .gps-warning {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 43px;
+      margin-top: 11px;
+      padding: 8px 12px;
+      border-radius: 11px;
+      color: #8c580f;
+      background: var(--amber-soft);
+      font-size: 18px;
+      font-weight: 680;
+    }
+
+    .gps-warning svg {
+      width: 21px;
+      height: 21px;
+      flex: 0 0 21px;
+    }
+
+    .voice-guide {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 72px;
+      margin-top: 11px;
+      padding: 12px 14px;
+      border: 1px solid #cde8e2;
+      border-radius: 14px;
+      background: var(--mint-soft);
+    }
+
+    .voice-guide svg {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      color: var(--teal);
+    }
+
+    .voice-guide strong {
+      color: var(--navy);
+      font-size: 21px;
+      font-weight: 780;
+      line-height: 1.25;
+    }
+
+    .camera-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    .privacy-icon,
+    .gallery-icon {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--muted);
+      background: var(--white);
+    }
+
+    .privacy-icon svg,
+    .gallery-icon svg {
+      width: 23px;
+      height: 23px;
+    }
+
+    .shutter {
+      width: 64px;
+      height: 64px;
+      border: 6px solid #d8eee9;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .analysis-photo {
+      height: 238px;
+      background: #eaf1f5;
+    }
+
+    .detection-label {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      padding: 7px 10px;
+      border: 1px solid #e4aaaa;
+      border-radius: 9px;
+      color: #aa3f3f;
+      background: rgba(255, 240, 240, 0.94);
+      font-size: 16px;
+      font-weight: 750;
+    }
+
+    .analysis-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 13px;
+    }
+
+    .candidate {
+      margin-top: 13px;
+      padding: 15px 16px;
+      border-left: 6px solid var(--blue);
+      border-radius: 0 13px 13px 0;
+      background: var(--blue-soft);
+    }
+
+    .candidate span {
+      display: block;
+      color: #4a7193;
+      font-size: 17px;
+      font-weight: 650;
+    }
+
+    .candidate strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--navy);
+      font-size: 25px;
+      font-weight: 820;
+      letter-spacing: -0.03em;
+    }
+
+    .static-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.1fr;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .static-button {
+      display: grid;
+      min-height: 51px;
+      place-items: center;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      color: var(--navy);
+      background: var(--white);
+      font-size: 19px;
+      font-weight: 760;
+    }
+
+    .static-button.primary {
+      border-color: var(--teal);
+      color: var(--white);
+      background: var(--teal);
+    }
+
+    .bottom-message {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      width: 1480px;
+      height: 78px;
+      margin-top: 20px;
+      padding: 0 26px;
+    }
+
+    .bottom-message strong {
+      color: var(--white);
+      font-size: 27px;
+      font-weight: 820;
+      letter-spacing: -0.03em;
+    }
+
+    .bottom-message span {
+      justify-self: end;
+      color: #eef5fb;
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    .source-note {
+      width: 1480px;
+      height: 30px;
+      font-size: 17px;
+    }
+  </style>
+</head>
+<body>
+  <main id="artboard" class="artboard" aria-label="달서 길눈AI 현장촬영 및 AI 검수 화면">
+    <header class="hero">
+      <p class="eyebrow">현장 조사자 화면</p>
+      <h1>촬영은 쉽게, 재촬영은 같은 구도로</h1>
+      <p class="subtitle">큰 글씨·음성 품질안내와 이전 사진 오버레이로 현장전문가의 판단을 돕습니다.</p>
+    </header>
+
+    <section class="screens" aria-label="조사순서, 촬영가이드, AI 후보확인 세 화면">
+      <article class="phone" aria-label="오늘의 조사구역과 조사순서 화면">
+        <header class="phone-top">
+          <span class="screen-no">01</span>
+          <h2 class="screen-title">오늘의 조사</h2>
+          <span class="badge badge-mint">화면 예시</span>
+        </header>
+        <div class="phone-body">
+          <div class="section-label">
+            <strong>조사구역과 조사순서</strong>
+            <span class="badge badge-blue">달서구 예시지점 A</span>
+          </div>
+          <div class="map-box">
+            <svg viewBox="0 0 394 300" aria-hidden="true">
+              <rect width="394" height="300" fill="#f4f8fa" />
+              <path d="M-10 77C65 50 113 95 187 73S315 29 410 60" fill="none" stroke="#d8e3e9" stroke-width="26" />
+              <path d="M72-10c20 79-1 133 33 193s87 67 104 126" fill="none" stroke="#dde7ec" stroke-width="24" />
+              <path d="M259-10c-7 79 32 121 16 188s-55 84-46 132" fill="none" stroke="#d5e2e8" stroke-width="22" />
+              <path d="M-10 214c99-29 160 24 242 3s109-49 178-22" fill="none" stroke="#dce7ec" stroke-width="24" />
+              <path d="M34 70c65-15 105 21 161 7s94-35 153-26" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+              <path d="M79 7c12 61 3 106 26 151s57 48 80 91" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+              <path d="M264 2c2 59 25 92 12 145s-35 72-42 126" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+              <path d="M17 211c78-17 136 20 202 6s102-39 162-28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+
+              <rect x="24" y="112" width="54" height="44" rx="8" fill="#dceefa" stroke="#9bc6e7" />
+              <path d="M41 143v-17h20v17M46 126v-7h10v7" fill="none" stroke="#4f9fdc" stroke-width="3" />
+              <rect x="300" y="104" width="58" height="47" rx="8" fill="#e5f5f2" stroke="#9dd9ce" />
+              <path d="M318 139v-18h22v18M323 121v-7h12v7" fill="none" stroke="#008b77" stroke-width="3" />
+              <circle cx="329" cy="235" r="22" fill="#fff5e7" stroke="#e7bf86" />
+              <path d="M318 235h22M322 228h14M322 242h14" fill="none" stroke="#bd7a19" stroke-width="3" />
+
+              <path d="M67 183c34-34 84-35 119-10s57 40 95 29" fill="none" stroke="#63c7b5" stroke-width="5" stroke-linecap="round" stroke-dasharray="8 8" />
+              <g font-family="Pretendard" font-weight="800" text-anchor="middle">
+                <circle cx="67" cy="183" r="18" fill="#008b77" /><text x="67" y="190" font-size="19" fill="white">1</text>
+                <circle cx="186" cy="173" r="18" fill="#008b77" /><text x="186" y="180" font-size="19" fill="white">2</text>
+                <circle cx="281" cy="202" r="18" fill="#008b77" /><text x="281" y="209" font-size="19" fill="white">3</text>
+              </g>
+            </svg>
+            <div class="legend"><span><i></i>조사 후보</span><span><i></i>기수집</span></div>
+          </div>
+          <div class="task-list">
+            <div class="task"><b>1</b><span>시설 인접구간 확인</span></div>
+            <div class="task"><b>2</b><span>정류장 주변 조사</span></div>
+          </div>
+        </div>
+        <p class="phone-footnote">안전경로가 아닌 조사순서 예시</p>
+      </article>
+
+      <article class="phone" aria-label="같은 구도 재촬영 가이드 화면">
+        <header class="phone-top">
+          <span class="screen-no">02</span>
+          <h2 class="screen-title">촬영 가이드</h2>
+          <span class="badge badge-amber">재촬영 필요</span>
+        </header>
+        <div class="phone-body">
+          <div class="camera-box">
+            <img class="evidence-photo" src="./assets/길눈AI_점자블록_파손_조치전.png" alt="점자블록 세 장이 크게 파손되고 일부가 탈락한 현장 예시 사진" />
+            <svg class="camera-overlay" viewBox="0 0 394 310" aria-hidden="true">
+              <path d="M42 86h310v170H42z" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="10 8" opacity="0.78" />
+              <path d="M197 48v42M181 72l16 18 16-18" fill="none" stroke="#008b77" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M55 101h32M55 101v32M339 101h-32M339 101v32M55 241h32M55 241v-32M339 241h-32M339 241v-32" fill="none" stroke="#ffffff" stroke-width="4" opacity="0.9" />
+            </svg>
+            <span class="camera-overlay-label">이전 사진 반투명 윤곽</span>
+          </div>
+          <div class="gps-warning">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.1 7-12a7 7 0 1 0-14 0c0 6.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            GPS 오차가 큽니다 · 위치를 확인해 주세요
+          </div>
+          <div class="voice-guide">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13h5l6-6v18l-6-6H6zM22 12c2 2 2 6 0 8M25 9c4 4 4 10 0 14"/></svg>
+            <strong>한 걸음 가까이,<br />점자블록 전체가 보이게 촬영해 주세요.</strong>
+          </div>
+          <div class="camera-actions">
+            <span class="privacy-icon" aria-label="얼굴과 번호판 흐림">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6Z"/><circle cx="12" cy="12" r="2.5"/><path d="M4 4l16 16"/></svg>
+            </span>
+            <span class="shutter" aria-label="촬영 버튼"></span>
+            <span class="gallery-icon" aria-label="이전 사진">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 15-5-5L5 20"/></svg>
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <article class="phone" aria-label="AI 보행장벽 유형 후보 확인 화면">
+        <header class="phone-top">
+          <span class="screen-no">03</span>
+          <h2 class="screen-title">AI 후보 확인</h2>
+          <span class="badge badge-blue">AI 분석 예시</span>
+        </header>
+        <div class="phone-body">
+          <div class="analysis-photo">
+            <img class="evidence-photo" src="./assets/길눈AI_점자블록_파손_조치전.png" alt="AI가 점자블록 파손과 단차 후보를 표시한 현장 예시 사진" />
+            <svg class="analysis-overlay" viewBox="0 0 394 238" aria-hidden="true">
+              <rect x="112" y="77" width="170" height="104" rx="10" fill="rgba(214,88,88,.08)" stroke="#d65858" stroke-width="4" stroke-dasharray="9 7" />
+              <path d="M282 78h72v34" fill="none" stroke="#d65858" stroke-width="3" />
+            </svg>
+            <span class="detection-label">파손·침하 후보</span>
+          </div>
+          <div class="analysis-badges">
+            <span class="badge badge-blue">AI 분석 예시</span>
+            <span class="badge badge-amber">담당자 확인 전</span>
+            <span class="badge badge-mint">가상 데이터</span>
+          </div>
+          <div class="candidate">
+            <span>보행장벽 유형 후보</span>
+            <strong>점자블록 파손·침하</strong>
+          </div>
+          <div class="static-buttons" aria-label="정적 버튼 예시">
+            <span class="static-button primary">맞아요</span>
+            <span class="static-button">수정</span>
+            <span class="static-button">재촬영</span>
+          </div>
+        </div>
+        <p class="phone-footnote">법정치수 판단 아님</p>
+      </article>
+    </section>
+
+    <section class="takeaway bottom-message" aria-label="현장화면 핵심 메시지">
+      <strong>AI가 안내하고, 현장전문가가 확인·수정합니다.</strong>
+      <span>가상 데이터 기반 화면 예시 · 실제 구현 화면 아님</span>
+    </section>
+    <footer class="source-note">* 모든 위치·사건·상태는 기능 설명을 위한 가상 예시입니다.</footer>
+  </main>
+
+  <script>
+    document.fonts.ready.then(() => {
+      document.documentElement.dataset.fonts = "ready";
+    });
+  </script>
+</body>
+</html>

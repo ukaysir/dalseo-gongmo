@@ -4,132 +4,35 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1600, initial-scale=1" />
   <title>달서 길눈AI 전체 운영 흐름</title>
+  <link rel="stylesheet" href="./design-system.css" />
   <style>
-    @font-face {
-      font-family: "Pretendard";
-      src: url("./assets/PretendardVariable.woff2") format("woff2-variations");
-      font-style: normal;
-      font-weight: 100 900;
-      font-display: block;
-    }
-
-    :root {
-      --navy: #112e67;
-      --navy-2: #1a3d79;
-      --teal: #008b77;
-      --mint: #63c7b5;
-      --blue: #6baee6;
-      --indigo: #596ab8;
-      --ink: #193451;
-      --muted: #587087;
-      --surface: #f6f9fb;
-      --pale: #edf3f7;
-      --line: #dbe5ec;
-      --white: #ffffff;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
     html,
     body {
       width: 1600px;
       height: 820px;
-      margin: 0;
-      overflow: hidden;
-      background: var(--white);
-    }
-
-    body {
-      font-family: "Pretendard", sans-serif;
-      color: var(--ink);
-      word-break: keep-all;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: geometricPrecision;
     }
 
     #artboard {
-      position: relative;
       width: 1600px;
       height: 820px;
       padding: 34px 60px 22px;
-      background: var(--white);
     }
 
     .hero {
       height: 145px;
-      border-bottom: 3px solid var(--navy);
-    }
-
-    .eyebrow {
-      margin: 0 0 5px;
-      color: var(--teal);
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: 0.09em;
-    }
-
-    h1 {
-      margin: 0;
-      color: var(--navy);
-      font-size: 52px;
-      font-weight: 850;
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-    }
-
-    .subtitle {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 25px;
-      font-weight: 520;
-      line-height: 1.3;
-      letter-spacing: -0.018em;
     }
 
     .flow {
       display: grid;
-      grid-template-columns: 252px 44px 484px 44px 284px 44px 328px;
-      align-items: stretch;
+      grid-template-columns: 240px 44px 420px 44px 380px 44px 308px;
       width: 1480px;
       height: 400px;
       margin-top: 22px;
     }
 
     .stage {
-      position: relative;
-      min-width: 0;
-      overflow: hidden;
+      height: 400px;
       padding: 25px 22px 22px;
-      border: 1.5px solid var(--line);
-      border-radius: 22px;
-      background: var(--white);
-      box-shadow: 0 6px 18px rgba(17, 46, 103, 0.045);
-    }
-
-    .stage::before {
-      display: none;
-    }
-
-    .stage-field {
-      --stage-color: var(--mint);
-      background: var(--white);
-    }
-
-    .stage-ai {
-      --stage-color: var(--blue);
-      background: var(--white);
-    }
-
-    .stage-human {
-      --stage-color: var(--indigo);
-      background: var(--white);
-    }
-
-    .stage-result {
-      --stage-color: var(--teal);
-      background: var(--white);
     }
 
     .stage-head {
@@ -139,40 +42,10 @@
       min-height: 67px;
     }
 
-    .stage-kicker {
-      display: block;
-      margin-bottom: 3px;
-      color: var(--stage-color);
-      font-size: 19px;
-      font-weight: 820;
-      letter-spacing: 0.035em;
-    }
-
-    .stage-title {
-      margin: 0;
-      color: var(--navy);
-      font-size: 30px;
-      font-weight: 820;
-      line-height: 1.15;
-      letter-spacing: -0.035em;
-    }
-
-    .icon-wrap {
-      display: grid;
-      flex: 0 0 54px;
-      width: 54px;
-      height: 54px;
-      margin-top: 1px;
-      place-items: center;
-      border-radius: 50%;
-      color: var(--stage-color);
-      background: color-mix(in srgb, var(--stage-color) 12%, white);
-    }
-
-    .icon-wrap svg {
-      width: 31px;
-      height: 31px;
-    }
+    .stage-field .kicker { color: var(--teal); }
+    .stage-ai .kicker { color: #4f9fdc; }
+    .stage-decision .kicker { color: var(--indigo); }
+    .stage-result .kicker { color: var(--teal); }
 
     .local-base {
       display: flex;
@@ -183,7 +56,7 @@
       padding: 11px 12px;
       border-left: 6px solid var(--mint);
       border-radius: 0 13px 13px 0;
-      background: #eaf8f5;
+      background: var(--mint-soft);
     }
 
     .local-base strong {
@@ -196,7 +69,6 @@
     }
 
     .local-base span {
-      min-width: 0;
       color: #356c67;
       font-size: 17px;
       font-weight: 720;
@@ -212,16 +84,15 @@
 
     .step-no {
       display: grid;
-      flex: 0 0 40px;
       width: 40px;
       height: 40px;
+      flex: 0 0 40px;
       place-items: center;
       border-radius: 50%;
       color: var(--white);
       background: var(--teal);
       font-size: 17px;
       font-weight: 850;
-      font-variant-numeric: tabular-nums;
     }
 
     .main-step strong {
@@ -241,39 +112,10 @@
       font-weight: 560;
     }
 
-    .person-chip,
-    .status-chip {
-      position: absolute;
-      right: 22px;
-      bottom: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 5px;
-      min-height: 0;
-      margin: 0;
-      padding: 0;
-      border-radius: 0;
-      color: var(--teal);
-      background: transparent;
-      font-size: 17px;
-      font-weight: 720;
-      line-height: 1.2;
-      text-align: right;
-    }
-
-    .person-chip::before,
-    .status-chip::before {
-      width: auto;
-      height: auto;
-      border-radius: 0;
-      background: transparent;
-      content: "*";
-    }
-
-    .stage-field .person-chip {
-      font-size: 17px;
-    }
+    .stage-field .card-note { color: var(--teal); }
+    .stage-ai .card-note { color: #376b9c; }
+    .stage-decision .card-note { color: var(--indigo); }
+    .stage-result .card-note { color: var(--teal); }
 
     .ai-grid {
       display: grid;
@@ -286,7 +128,7 @@
       display: flex;
       align-items: center;
       min-height: 92px;
-      padding: 11px 13px;
+      padding: 11px 12px;
       border: 1px solid #d9e9f5;
       border-radius: 13px;
       background: #f1f7fc;
@@ -294,9 +136,9 @@
 
     .ai-step b {
       display: grid;
-      flex: 0 0 35px;
       width: 35px;
       height: 35px;
+      flex: 0 0 35px;
       margin-right: 10px;
       place-items: center;
       border-radius: 10px;
@@ -304,156 +146,104 @@
       background: #dceefa;
       font-size: 16px;
       font-weight: 850;
-      font-variant-numeric: tabular-nums;
     }
 
     .ai-step span {
       color: var(--navy);
-      font-size: 23px;
+      font-size: 22px;
+      font-weight: 760;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    .route-tree {
+      position: relative;
+      height: 238px;
+      margin-top: 11px;
+    }
+
+    .route-lines {
+      position: absolute;
+      top: 6px;
+      left: 0;
+      width: 100%;
+      height: 77px;
+      color: #c8cdea;
+      z-index: 0;
+    }
+
+    .route-grid {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .route-item {
+      display: flex;
+      align-items: center;
+      min-height: 76px;
+      padding: 10px 12px;
+      border: 1px solid #e1e3f2;
+      border-radius: 13px;
+      background: #f5f5fb;
+    }
+
+    .route-item b {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      margin-right: 9px;
+      place-items: center;
+      border-radius: 9px;
+      color: var(--indigo);
+      background: #e7e9f7;
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .route-item span {
+      color: var(--navy);
+      font-size: 20px;
       font-weight: 760;
       line-height: 1.17;
       letter-spacing: -0.03em;
     }
 
-    .ai-foot {
-      display: block;
-      margin-top: 14px;
-    }
-
-    .ai-foot p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 18px;
-      font-weight: 570;
-    }
-
-    .ai-badge {
-      position: absolute;
-      right: 22px;
-      bottom: 22px;
-      padding: 0;
-      border-radius: 0;
-      color: #376b9c;
-      background: transparent;
-      font-size: 17px;
-      font-weight: 720;
-      line-height: 1.2;
-      text-align: right;
-    }
-
-    .ai-badge::before {
-      margin-right: 5px;
-      content: "*";
-    }
-
-    .decision-list,
     .result-list {
       display: grid;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 24px;
     }
 
-    .decision-row,
     .result-row {
       display: flex;
       align-items: center;
-      min-height: 88px;
-      padding: 10px 12px;
-      border: 1px solid #e1e3f2;
+      min-height: 92px;
+      padding: 12px;
+      border: 1px solid #d5ebe6;
       border-radius: 13px;
-      background: #f4f4fb;
-    }
-
-    .decision-row b,
-    .result-row b {
-      margin-right: 10px;
-      color: var(--indigo);
-      font-size: 17px;
-      font-weight: 850;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .decision-row span,
-    .result-row span {
-      color: var(--navy);
-      font-size: 24px;
-      font-weight: 780;
-      line-height: 1.17;
-      letter-spacing: -0.03em;
-    }
-
-    .status-chip {
-      color: var(--indigo);
-      background: transparent;
-    }
-
-    .result-row {
-      border-color: #d5ebe6;
       background: #eef8f6;
     }
 
     .result-row b {
+      margin-right: 10px;
       color: var(--teal);
+      font-size: 17px;
+      font-weight: 850;
     }
 
     .result-row span {
-      font-size: 23px;
-    }
-
-    .result-note {
-      position: absolute;
-      right: 22px;
-      bottom: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 5px;
-      margin: 0;
-      color: var(--teal);
-      font-size: 17px;
-      font-weight: 720;
-      line-height: 1.2;
-      text-align: right;
-    }
-
-    .result-note svg {
-      display: none;
-    }
-
-    .result-note::before {
-      content: "*";
-    }
-
-    .connector {
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-
-    .connector::before {
-      position: absolute;
-      right: 0;
-      left: 0;
-      height: 2px;
-      background: #b9c9d6;
-      content: "";
-    }
-
-    .connector span {
-      z-index: 1;
-      display: grid;
-      width: 36px;
-      height: 36px;
-      place-items: center;
-      border: 2px solid #c8d6e0;
-      border-radius: 50%;
       color: var(--navy);
-      background: var(--white);
-    }
-
-    .connector svg {
-      width: 19px;
-      height: 19px;
+      font-size: 23px;
+      font-weight: 780;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
     }
 
     .takeaway {
@@ -463,28 +253,16 @@
       width: 1480px;
       height: 112px;
       margin-top: 20px;
-      overflow: hidden;
-      border-radius: 17px;
-      background: var(--navy);
     }
 
     .takeaway-left,
     .takeaway-right {
       min-width: 0;
-      padding: 17px 27px;
+      padding: 18px 27px;
     }
 
     .takeaway-left {
       border-right: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .takeaway-label {
-      display: block;
-      margin-bottom: 3px;
-      color: var(--mint);
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.07em;
     }
 
     .takeaway strong {
@@ -509,34 +287,27 @@
     }
 
     .source-note {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
+      width: 1480px;
       height: 40px;
-      color: #6b7f91;
-      font-size: 18px;
-      font-weight: 520;
-      line-height: 1;
-      text-align: right;
     }
   </style>
 </head>
 <body>
-  <main id="artboard" aria-label="달서 길눈AI 전체 운영 흐름도">
+  <main id="artboard" class="artboard" aria-label="달서 길눈AI 전체 운영 흐름도">
     <header class="hero">
       <p class="eyebrow">달서 길눈AI 운영 흐름</p>
-      <h1>발견에서 보수 확인까지, 하나의 사건으로</h1>
-      <p class="subtitle">현장수집 기반에 AI의 빠른 검수·정리와 담당자의 최종 판단을 연결합니다.</p>
+      <h1>발견부터 조치 결과까지, 하나의 사건으로</h1>
+      <p class="subtitle">현장사진을 사건으로 정리하고, 관리주체 분기와 전후검증까지 연결합니다.</p>
     </header>
 
-    <section class="flow" aria-label="9단계 서비스 흐름">
-      <article class="stage stage-field">
+    <section class="flow" aria-label="현장수집부터 전후검증까지의 흐름">
+      <article class="card stage stage-field">
         <div class="stage-head">
           <div>
-            <span class="stage-kicker">현장의 눈</span>
-            <h2 class="stage-title">현장수집 기반</h2>
+            <span class="kicker">현장의 눈</span>
+            <h2 class="card-title">현장수집<br />기반</h2>
           </div>
-          <span class="icon-wrap" aria-hidden="true">
+          <span class="icon-circle icon-mint" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M15 15.5 18.5 10h11l3.5 5.5h5.5a4 4 0 0 1 4 4v17a4 4 0 0 1-4 4h-29a4 4 0 0 1-4-4v-17a4 4 0 0 1 4-4H15Z" />
               <circle cx="24" cy="28" r="8" />
@@ -557,113 +328,88 @@
             <small>보행장벽 사진 · 위치</small>
           </div>
         </div>
-        <span class="person-chip">현장 전문가가 확인</span>
+        <p class="card-note">현장전문가가 확인</p>
       </article>
 
       <div class="connector" aria-hidden="true">
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h13" />
-            <path d="m13 7 5 5-5 5" />
-          </svg>
-        </span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m13 7 5 5-5 5"/></svg></span>
       </div>
 
-      <article class="stage stage-ai">
+      <article class="card stage stage-ai">
         <div class="stage-head">
           <div>
-            <span class="stage-kicker">AI의 속도</span>
-            <h2 class="stage-title">4단계 AI 보조</h2>
+            <span class="kicker">AI의 속도</span>
+            <h2 class="card-title">사진을 사건으로</h2>
           </div>
-          <span class="icon-wrap" aria-hidden="true">
+          <span class="icon-circle icon-blue" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
               <rect x="12" y="12" width="24" height="24" rx="5" />
-              <path d="M19 20h10M19 28h6" />
-              <path d="M18 6v6M30 6v6M18 36v6M30 36v6M6 18h6M6 30h6M36 18h6M36 30h6" />
+              <path d="M19 20h10M19 28h6M18 6v6M30 6v6M18 36v6M30 36v6M6 18h6M6 30h6M36 18h6M36 30h6" />
             </svg>
           </span>
         </div>
-
         <div class="ai-grid">
           <div class="ai-step"><b>02</b><span>사진 품질검수</span></div>
-          <div class="ai-step"><b>03</b><span>장애유형 후보 분류</span></div>
-          <div class="ai-step"><b>04</b><span>동일지점 중복통합</span></div>
-          <div class="ai-step"><b>05</b><span>우선순위 근거 제시</span></div>
+          <div class="ai-step"><b>03</b><span>장애유형 후보</span></div>
+          <div class="ai-step"><b>04</b><span>동일지점 통합</span></div>
+          <div class="ai-step"><b>05</b><span>조치 우선순위</span></div>
         </div>
-
-        <div class="ai-foot">
-          <p>위치 · 이미지 · 시설 맥락 분석</p>
-          <span class="ai-badge">자동 확정 아님</span>
-        </div>
+        <p class="card-note">AI 자동 확정 아님</p>
       </article>
 
       <div class="connector" aria-hidden="true">
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h13" />
-            <path d="m13 7 5 5-5 5" />
-          </svg>
-        </span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m13 7 5 5-5 5"/></svg></span>
       </div>
 
-      <article class="stage stage-human">
+      <article class="card stage stage-decision">
         <div class="stage-head">
           <div>
-            <span class="stage-kicker">사람의 판단</span>
-            <h2 class="stage-title">행정 실행</h2>
+            <span class="kicker">사람의 판단</span>
+            <h2 class="card-title">관리주체·처리경로</h2>
           </div>
-          <span class="icon-wrap" aria-hidden="true">
+          <span class="icon-circle icon-indigo" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
               <path d="M16 9h16a4 4 0 0 1 4 4v28H12V13a4 4 0 0 1 4-4Z" />
-              <path d="M19 9V6h10v3" />
-              <path d="m18 26 4 4 9-10" />
+              <path d="M19 9V6h10v3M18 26l4 4 9-10" />
             </svg>
           </span>
         </div>
 
-        <div class="decision-list">
-          <div class="decision-row"><b>06</b><span>담당자 확인</span></div>
-          <div class="decision-row"><b>07</b><span>작업카드 · 조치</span></div>
+        <div class="route-tree" aria-label="관리주체 확인 후 네 처리경로로 분기">
+          <svg class="route-lines" viewBox="0 0 336 77" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M168 0v24M168 24H82v53M168 24h86v53M82 49H40v28M82 49h42v28M254 49h-42v28M254 49h42v28" />
+          </svg>
+          <div class="route-grid">
+            <div class="route-item"><b>A</b><span>직접 조치</span></div>
+            <div class="route-item"><b>B</b><span>현장 실측</span></div>
+            <div class="route-item"><b>C</b><span>타기관 이첩</span></div>
+            <div class="route-item"><b>D</b><span>장기검토</span></div>
+          </div>
         </div>
-        <span class="status-chip">담당자 최종 승인</span>
+        <p class="card-note">규칙 기반 후보 · 담당자 확정</p>
       </article>
 
       <div class="connector" aria-hidden="true">
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h13" />
-            <path d="m13 7 5 5-5 5" />
-          </svg>
-        </span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m13 7 5 5-5 5"/></svg></span>
       </div>
 
-      <article class="stage stage-result">
+      <article class="card stage stage-result">
         <div class="stage-head">
           <div>
-            <span class="stage-kicker">결과까지 확인</span>
-            <h2 class="stage-title">처리결과 검증</h2>
+            <span class="kicker">결과까지 확인</span>
+            <h2 class="card-title">처리 결과 검증</h2>
           </div>
-          <span class="icon-wrap" aria-hidden="true">
+          <span class="icon-circle icon-mint" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M37 17a15 15 0 0 0-25-4l-3 4" />
-              <path d="M9 9v8h8" />
-              <path d="M11 31a15 15 0 0 0 25 4l3-4" />
-              <path d="M39 39v-8h-8" />
-              <path d="m18 25 4 4 8-10" />
+              <path d="M37 17a15 15 0 0 0-25-4l-3 4M9 9v8h8M11 31a15 15 0 0 0 25 4l3-4M39 39v-8h-8M18 25l4 4 8-10" />
             </svg>
           </span>
         </div>
-
         <div class="result-list">
-          <div class="result-row"><b>08</b><span>동일지점 재촬영</span></div>
-          <div class="result-row"><b>09</b><span>보수 전후검증</span></div>
+          <div class="result-row"><b>06</b><span>동일지점 재촬영</span></div>
+          <div class="result-row"><b>07</b><span>조치 전후검증</span></div>
         </div>
-        <div class="result-note">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m5 12 4 4L19 6" />
-          </svg>
-          완료 또는 재조치 결정
-        </div>
+        <p class="card-note">완료 · 재조치 결정</p>
       </article>
     </section>
 
@@ -673,12 +419,12 @@
         <strong>수집에서 끝나는 데이터를, 보수까지 이어지는 행정으로</strong>
       </div>
       <div class="takeaway-right">
-        <p><b>AI는 후보와 근거를 제시</b>하고,<br />법적 판단 · 보수 결정 · 사건 종결은 사람이 승인합니다.</p>
+        <p><b>AI는 후보와 근거를 제시</b>하고,<br />관리주체 · 처리경로 · 사건 종결은 사람이 승인합니다.</p>
       </div>
     </section>
 
     <footer class="source-note">
-      <span>* 자료: 대구광역시 달서구 노인일자리사업현황(2026.01.07.) · 4개 수행기관 배치 인원 합계</span>
+      <span>* 177명: 2026년 사업자료상 4개 수행기관 배치 인원 합계 · 자료: 달서구 노인일자리사업현황(2026.01.07.)</span>
     </footer>
   </main>
 

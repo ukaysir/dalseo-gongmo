@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1600, initial-scale=1" />
+  <title>달서 길눈AI 행정 작업카드 및 전후검증 화면</title>
+  <link rel="stylesheet" href="./design-system.css" />
+  <style>
+    html,
+    body {
+      width: 1600px;
+      height: 1100px;
+    }
+
+    #artboard {
+      width: 1600px;
+      height: 1100px;
+      padding: 34px 60px 20px;
+    }
+
+    .hero {
+      height: 145px;
+    }
+
+    .event-summary {
+      display: grid;
+      grid-template-columns: 1.2fr 0.75fr 0.9fr;
+      align-items: center;
+      width: 1480px;
+      height: 130px;
+      margin-top: 22px;
+      padding: 17px 22px;
+    }
+
+    .summary-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+      height: 94px;
+      padding: 3px 22px;
+      border-right: 1px solid var(--line);
+    }
+
+    .summary-cell:first-child { padding-left: 4px; }
+    .summary-cell:last-child { border-right: 0; }
+
+    .summary-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 17px;
+      font-weight: 650;
+    }
+
+    .summary-value {
+      display: block;
+      color: var(--navy);
+      font-size: 27px;
+      font-weight: 820;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .summary-sub {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 17px;
+      font-weight: 570;
+    }
+
+    .summary-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 500px 950px;
+      gap: 30px;
+      width: 1480px;
+      height: 520px;
+      margin-top: 18px;
+    }
+
+    .left-stack {
+      display: grid;
+      grid-template-rows: 216px 288px;
+      gap: 16px;
+    }
+
+    .panel {
+      padding: 20px 22px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 27px;
+      font-weight: 820;
+      letter-spacing: -0.035em;
+    }
+
+    .evidence-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .evidence-item {
+      min-height: 63px;
+      padding: 10px 12px;
+      border: 1px solid #dbe7ee;
+      border-radius: 12px;
+      background: var(--surface);
+    }
+
+    .evidence-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .evidence-item strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--navy);
+      font-size: 19px;
+      font-weight: 760;
+      line-height: 1.18;
+    }
+
+    .rule-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 3px;
+    }
+
+    .rule-chip {
+      padding: 7px 10px;
+      border: 1px solid #dfe2f2;
+      border-radius: 10px;
+      color: var(--indigo);
+      background: #f6f6fc;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .rule-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 29px;
+      color: var(--indigo);
+    }
+
+    .rule-arrow svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .route-output {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .route-box {
+      min-height: 65px;
+      padding: 10px 12px;
+      border: 1px solid #d9ddef;
+      border-radius: 12px;
+      background: var(--indigo-soft);
+    }
+
+    .route-box span {
+      display: block;
+      color: #6973aa;
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .route-box strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--navy);
+      font-size: 20px;
+      font-weight: 790;
+    }
+
+    .gen-note {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 43px;
+      margin-top: 10px;
+      padding: 8px 11px;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 9px 9px 0;
+      color: #456d8e;
+      background: var(--blue-soft);
+      font-size: 16px;
+      font-weight: 670;
+    }
+
+    .gen-note svg {
+      width: 21px;
+      height: 21px;
+      flex: 0 0 21px;
+    }
+
+    .comparison {
+      height: 520px;
+      padding: 20px 22px 18px;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .photo-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .photo-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      padding: 7px 11px;
+      border-radius: 9px;
+      color: var(--white);
+      background: rgba(17, 46, 103, 0.92);
+      font-size: 17px;
+      font-weight: 760;
+    }
+
+    .photo-card.after .photo-label {
+      background: rgba(0, 139, 119, 0.94);
+    }
+
+    .photo-card svg {
+      display: block;
+      width: 100%;
+      height: 326px;
+    }
+
+    .photo-card .evidence-photo {
+      display: block;
+      width: 100%;
+      height: 326px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .photo-card .photo-overlay {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .photo-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 48px;
+      padding: 8px 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: var(--white);
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .verification-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 14px;
+      margin-top: 13px;
+    }
+
+    .verification-copy {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--teal);
+      font-size: 18px;
+      font-weight: 730;
+    }
+
+    .verification-copy svg {
+      width: 23px;
+      height: 23px;
+    }
+
+    .decision-buttons {
+      display: flex;
+      gap: 7px;
+    }
+
+    .decision-button {
+      display: grid;
+      min-height: 40px;
+      padding: 0 13px;
+      place-items: center;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      color: var(--navy);
+      background: var(--white);
+      font-size: 17px;
+      font-weight: 730;
+    }
+
+    .decision-button.primary {
+      border-color: var(--teal);
+      color: var(--white);
+      background: var(--teal);
+    }
+
+    .timeline {
+      width: 1480px;
+      height: 150px;
+      margin-top: 18px;
+      padding: 18px 22px 16px;
+    }
+
+    .timeline-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .timeline-head h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 25px;
+      font-weight: 810;
+    }
+
+    .timeline-steps {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      margin-top: 15px;
+    }
+
+    .timeline-step {
+      position: relative;
+      text-align: center;
+    }
+
+    .timeline-step::after {
+      position: absolute;
+      top: 15px;
+      left: calc(50% + 18px);
+      width: calc(100% - 36px);
+      height: 2px;
+      background: #cbd8e2;
+      content: "";
+    }
+
+    .timeline-step:last-child::after { display: none; }
+
+    .timeline-dot {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 8px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--white);
+      background: var(--teal);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .timeline-step:nth-child(4) .timeline-dot,
+    .timeline-step:nth-child(5) .timeline-dot {
+      background: var(--indigo);
+    }
+
+    .timeline-step strong {
+      display: block;
+      color: var(--navy);
+      font-size: 17px;
+      font-weight: 760;
+    }
+
+    .timeline-step span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .source-note {
+      width: 1480px;
+      height: 30px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <main id="artboard" class="artboard" aria-label="달서 길눈AI 행정 작업카드와 전후검증 화면">
+    <header class="hero">
+      <p class="eyebrow">행정 담당자 화면</p>
+      <h1>사진 목록이 아니라, 처리 가능한 사건으로</h1>
+      <p class="subtitle">관리주체·처리경로·조치이력과 동일지점 전후검증을 한 화면에서 확인합니다.</p>
+    </header>
+
+    <section class="card event-summary" aria-label="가상 사건 요약">
+      <div class="summary-cell">
+        <span class="summary-label">사건번호 · 위치</span>
+        <strong class="summary-value">GN-EX-001 · 달서구 예시지점 A</strong>
+        <span class="summary-sub">동일지점 사진 묶음 · 가상 사건</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">장벽유형 후보</span>
+        <strong class="summary-value">점자블록 파손·침하</strong>
+        <div class="summary-badges"><span class="badge badge-blue">AI 분석 예시</span></div>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">현재 상태</span>
+        <strong class="summary-value">관리주체 확인</strong>
+        <div class="summary-badges">
+          <span class="badge badge-amber">담당자 확인 전</span>
+          <span class="badge badge-mint">가상 데이터</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="main-grid">
+      <div class="left-stack">
+        <article class="card panel" aria-label="조치 우선순위 근거">
+          <div class="panel-head">
+            <h2>조치 우선순위 근거</h2>
+            <span class="badge badge-mint">가상 근거</span>
+          </div>
+          <div class="evidence-list">
+            <div class="evidence-item"><span>장벽 위험도</span><strong>파손·단차 위험 후보</strong></div>
+            <div class="evidence-item"><span>시설 인접성</span><strong>복지시설 인접 예시</strong></div>
+            <div class="evidence-item"><span>반복성</span><strong>반복 확인 예시</strong></div>
+            <div class="evidence-item"><span>지속성</span><strong>다른 날짜 발견 예시</strong></div>
+          </div>
+        </article>
+
+        <article class="card panel" aria-label="규칙 기반 관리주체와 처리경로 후보">
+          <div class="panel-head">
+            <h2>관리주체·처리경로</h2>
+            <span class="badge badge-indigo">규칙 기반 후보</span>
+          </div>
+          <div class="rule-inputs">
+            <span class="rule-chip">위치</span>
+            <span class="rule-chip">시설유형</span>
+            <span class="rule-chip">관리대장</span>
+            <span class="rule-chip">업무규칙</span>
+          </div>
+          <div class="rule-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M7 14l5 5 5-5"/></svg>
+          </div>
+          <div class="route-output">
+            <div class="route-box"><span>관리주체 후보</span><strong>구청 관리 가능성</strong></div>
+            <div class="route-box"><span>처리경로 후보</span><strong>직접 조치</strong></div>
+          </div>
+          <div class="gen-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg>
+            생성형 AI: 확정된 정보로 조치요청문 초안만 작성
+          </div>
+          <p class="card-note" style="bottom: 13px; color: var(--indigo);">담당자가 처리경로 확정</p>
+        </article>
+      </div>
+
+      <article class="card comparison" aria-label="동일지점 조치 전후검증">
+        <div class="panel-head">
+          <h2>동일지점 조치 전후검증</h2>
+          <div style="display:flex; gap:7px;"><span class="badge badge-blue">이미지 정합 예시</span><span class="badge badge-amber">담당자 확인 전</span></div>
+        </div>
+        <div class="photo-grid">
+          <div class="photo-card before">
+            <span class="photo-label">조치 전</span>
+            <img class="evidence-photo" src="./assets/길눈AI_점자블록_파손_조치전.png" alt="점자블록 세 장이 크게 파손되고 일부가 탈락한 조치 전 예시 사진" />
+            <svg class="photo-overlay" viewBox="0 0 440 326" aria-hidden="true">
+              <rect x="126" y="116" width="188" height="112" rx="11" fill="rgba(214,88,88,.08)" stroke="#d65858" stroke-width="4" stroke-dasharray="10 8" />
+            </svg>
+            <div class="photo-meta"><span>파손·침하 영역 후보</span><span class="badge badge-red">보수 필요 예시</span></div>
+          </div>
+
+          <div class="photo-card after">
+            <span class="photo-label">조치 후</span>
+            <img class="evidence-photo" src="./assets/길눈AI_점자블록_보수_조치후.png" alt="파손된 점자블록을 평탄하게 교체한 조치 후 예시 사진" />
+            <svg class="photo-overlay" viewBox="0 0 440 326" aria-hidden="true">
+              <rect x="126" y="116" width="188" height="112" rx="11" fill="rgba(99,199,181,.12)" stroke="#008b77" stroke-width="4" stroke-dasharray="10 8" />
+              <path d="M177 171l28 28 57-67" fill="none" stroke="#008b77" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="photo-meta"><span>복구영역 변화 후보</span><span class="badge badge-mint">보수 완료 예시</span></div>
+          </div>
+        </div>
+        <div class="verification-row">
+          <div class="verification-copy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
+            같은 지점·유사 구도 후보 · 최종 종결은 담당자 승인
+          </div>
+          <div class="decision-buttons" aria-label="정적 상태 선택 예시">
+            <span class="decision-button primary">완료</span>
+            <span class="decision-button">재조치</span>
+            <span class="decision-button">타기관 확인</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="card timeline" aria-label="가상 처리이력 타임라인">
+      <div class="timeline-head">
+        <h2>접수부터 재확인까지의 처리이력</h2>
+        <span class="badge badge-mint">가상 처리이력</span>
+      </div>
+      <div class="timeline-steps">
+        <div class="timeline-step"><span class="timeline-dot">1</span><strong>접수</strong><span>D+0 예시</span></div>
+        <div class="timeline-step"><span class="timeline-dot">2</span><strong>담당자 검토</strong><span>D+1 예시</span></div>
+        <div class="timeline-step"><span class="timeline-dot">3</span><strong>관리주체 확정</strong><span>D+1 예시</span></div>
+        <div class="timeline-step"><span class="timeline-dot">4</span><strong>타기관 이첩</strong><span>D+2 예시</span></div>
+        <div class="timeline-step"><span class="timeline-dot">5</span><strong>조치 확인</strong><span>D+5 예시</span></div>
+        <div class="timeline-step"><span class="timeline-dot">6</span><strong>재확인</strong><span>D+6 예시</span></div>
+      </div>
+    </section>
+
+    <footer class="source-note">* 연계 후보자료: 달서구 장애인 관련시설·노인복지시설 현황, 대구버스정보시스템 · 화면 내용은 가상 예시</footer>
+  </main>
+
+  <script>
+    document.fonts.ready.then(() => {
+      document.documentElement.dataset.fonts = "ready";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/PretendardVariable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+}
+
+:root {
+  --navy: #112e67;
+  --navy-2: #1a3d79;
+  --teal: #008b77;
+  --mint: #63c7b5;
+  --mint-soft: #e9f7f4;
+  --blue: #6baee6;
+  --blue-soft: #edf6fc;
+  --indigo: #596ab8;
+  --indigo-soft: #f0f1fa;
+  --amber: #d88922;
+  --amber-soft: #fff5e7;
+  --red: #d65858;
+  --red-soft: #fff0f0;
+  --ink: #193451;
+  --muted: #587087;
+  --surface: #f6f9fb;
+  --pale: #edf3f7;
+  --line: #dbe5ec;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--white);
+}
+
+body {
+  font-family: "Pretendard", sans-serif;
+  color: var(--ink);
+  word-break: keep-all;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.artboard {
+  position: relative;
+  overflow: hidden;
+  background: var(--white);
+}
+
+.hero {
+  border-bottom: 3px solid var(--navy);
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--teal);
+  font-size: 20px;
+  font-weight: 820;
+  letter-spacing: 0.07em;
+}
+
+.hero h1 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 52px;
+  font-weight: 850;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 25px;
+  font-weight: 540;
+  line-height: 1.35;
+  letter-spacing: -0.018em;
+}
+
+.card {
+  position: relative;
+  min-width: 0;
+  border: 1.5px solid var(--line);
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: 0 6px 18px rgba(17, 46, 103, 0.045);
+}
+
+.kicker {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--teal);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.card-title {
+  margin: 0;
+  color: var(--navy);
+  font-size: 30px;
+  font-weight: 820;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.icon-circle {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.icon-circle svg {
+  width: 31px;
+  height: 31px;
+}
+
+.icon-mint {
+  color: var(--teal);
+  background: var(--mint-soft);
+}
+
+.icon-blue {
+  color: #4f9fdc;
+  background: var(--blue-soft);
+}
+
+.icon-indigo {
+  color: var(--indigo);
+  background: var(--indigo-soft);
+}
+
+.pill,
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 720;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pill {
+  min-height: 34px;
+  padding: 7px 13px;
+  font-size: 18px;
+}
+
+.badge {
+  min-height: 31px;
+  padding: 6px 11px;
+  font-size: 17px;
+}
+
+.badge-mint {
+  color: var(--teal);
+  background: var(--mint-soft);
+}
+
+.badge-blue {
+  color: #376b9c;
+  background: var(--blue-soft);
+}
+
+.badge-indigo {
+  color: var(--indigo);
+  background: var(--indigo-soft);
+}
+
+.badge-amber {
+  color: #9b5e0a;
+  background: var(--amber-soft);
+}
+
+.badge-red {
+  color: #aa3f3f;
+  background: var(--red-soft);
+}
+
+.card-note {
+  position: absolute;
+  right: 22px;
+  bottom: 20px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.card-note::before {
+  margin-right: 5px;
+  content: "*";
+}
+
+.source-note {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #6b7f91;
+  font-size: 18px;
+  font-weight: 520;
+  text-align: right;
+}
+
+.takeaway {
+  overflow: hidden;
+  border-radius: 17px;
+  background: var(--navy);
+}
+
+.takeaway-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--mint);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.connector {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.connector::before {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: #b9c9d6;
+  content: "";
+}
+
+.connector span {
+  z-index: 1;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 2px solid #c8d6e0;
+  border-radius: 50%;
+  color: var(--navy);
+  background: var(--white);
+}
+
+.connector svg {
+  width: 19px;
+  height: 19px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media print {
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
